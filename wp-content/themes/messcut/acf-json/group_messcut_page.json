@@ -1,0 +1,47 @@
+{
+    "key": "group_messcut_page",
+    "title": "Сторінка MESSCUT",
+    "fields": [
+        {
+            "key": "field_page_approach_content",
+            "label": "Блок «Наш підхід»",
+            "name": "approach_content",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_page_values_override",
+            "label": "Цінності (перевизначення)",
+            "name": "values_override",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати цінність",
+            "sub_fields": [
+                {
+                    "key": "field_page_value_text",
+                    "label": "Текст",
+                    "name": "text",
+                    "type": "text",
+                    "parent_repeater": "field_page_values_override"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-approach.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true
+}

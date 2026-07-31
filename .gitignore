@@ -1,0 +1,51 @@
+# macOS
+.DS_Store
+
+# Environment overrides (keep .env tracked for local dev defaults)
+.env.local
+.env.*.local
+
+# Docker named volume bind-mount artifacts
+mysql_data/
+.docker/
+
+# Logs
+*.log
+
+# Node / UI experiments (not part of the WP theme)
+node_modules/
+ui/
+awesome-design-md/
+pnpm-lock.yaml
+package.json
+package-lock.yaml
+
+# Cursor local state (keep plans out of noise; docs live in CLAUDE/README)
+.cursor/
+
+# ---------------------------------------------------------------------------
+# WordPress core & runtime — do NOT version these
+# ---------------------------------------------------------------------------
+
+# Full WP install used by Docker (generated / synced at runtime)
+wordpress/
+
+# Accidental WP core at repo root (if present beside the theme source)
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
+/wp-config.php
+/wp-config-sample.php
+
+# Plugins & default themes — install via WP admin / WP-CLI
+wp-content/plugins/
+wp-content/themes/twenty*/
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/mu-plugins/
+wp-content/upgrade-temp-backup/

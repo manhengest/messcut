@@ -1,0 +1,272 @@
+{
+    "key": "group_case_study",
+    "title": "Кейс",
+    "fields": [
+        {
+            "key": "field_case_hero_subtitle",
+            "label": "Підзаголовок hero",
+            "name": "hero_subtitle",
+            "type": "text"
+        },
+        {
+            "key": "field_case_intro",
+            "label": "Вступ",
+            "name": "intro",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_results",
+            "label": "Результати",
+            "name": "results",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати результат",
+            "sub_fields": [
+                {
+                    "key": "field_case_result_text",
+                    "label": "Текст",
+                    "name": "text",
+                    "type": "text",
+                    "parent_repeater": "field_case_results"
+                }
+            ]
+        },
+        {
+            "key": "field_case_client_task",
+            "label": "Завдання від замовника",
+            "name": "client_task",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_collaboration_process",
+            "label": "Процес співпраці",
+            "name": "collaboration_process",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_difficulties",
+            "label": "Складнощі проєкту",
+            "name": "difficulties",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_challenge",
+            "label": "Виклик",
+            "name": "challenge",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_research",
+            "label": "Дослідження",
+            "name": "research",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_insight",
+            "label": "Ключовий інсайт",
+            "name": "insight",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_brand_strategy",
+            "label": "Стратегія бренду",
+            "name": "brand_strategy",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_brand_mission",
+            "label": "Місія бренду",
+            "name": "brand_mission",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_positioning",
+            "label": "Позиціонування",
+            "name": "positioning",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_brand_message",
+            "label": "Меседж бренду",
+            "name": "brand_message",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_visual_identity",
+            "label": "Візуальна складова бренду",
+            "name": "visual_identity",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_demonstrates",
+            "label": "Що демонструє цей кейс",
+            "name": "case_demonstrates",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0
+        },
+        {
+            "key": "field_case_sections",
+            "label": "Додаткові секції",
+            "name": "case_sections",
+            "type": "flexible_content",
+            "button_label": "Додати секцію",
+            "layouts": {
+                "layout_text_section": {
+                    "key": "layout_text_section",
+                    "name": "text_section",
+                    "label": "Текстова секція",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_case_section_title",
+                            "label": "Заголовок",
+                            "name": "title",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_case_section_content",
+                            "label": "Контент",
+                            "name": "content",
+                            "type": "wysiwyg",
+                            "tabs": "all",
+                            "toolbar": "basic",
+                            "media_upload": 0
+                        }
+                    ]
+                },
+                "layout_list_section": {
+                    "key": "layout_list_section",
+                    "name": "list_section",
+                    "label": "Список",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_case_list_title",
+                            "label": "Заголовок",
+                            "name": "title",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_case_list_items",
+                            "label": "Пункти",
+                            "name": "items",
+                            "type": "repeater",
+                            "layout": "table",
+                            "button_label": "Додати пункт",
+                            "sub_fields": [
+                                {
+                                    "key": "field_case_list_item",
+                                    "label": "Пункт",
+                                    "name": "item",
+                                    "type": "text",
+                                    "parent_repeater": "field_case_list_items"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "key": "field_case_specialist_name",
+            "label": "Спеціаліст: імʼя",
+            "name": "specialist_name",
+            "type": "text"
+        },
+        {
+            "key": "field_case_specialist_role",
+            "label": "Спеціаліст: роль",
+            "name": "specialist_role",
+            "type": "text"
+        },
+        {
+            "key": "field_case_services_used",
+            "label": "Послуги",
+            "name": "services_used",
+            "type": "relationship",
+            "post_type": ["service"],
+            "filters": ["search"],
+            "return_format": "object",
+            "min": 0,
+            "max": 0
+        },
+        {
+            "key": "field_case_insights_types",
+            "label": "Типи інсайтів для блоку",
+            "name": "insights_article_types",
+            "type": "taxonomy",
+            "taxonomy": "article_type",
+            "field_type": "multi_select",
+            "add_term": 1,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "id"
+        },
+        {
+            "key": "field_case_cta_title",
+            "label": "CTA заголовок",
+            "name": "cta_title",
+            "type": "text"
+        },
+        {
+            "key": "field_case_cta_text",
+            "label": "CTA текст",
+            "name": "cta_text",
+            "type": "textarea",
+            "rows": 3
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "case_study"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true
+}

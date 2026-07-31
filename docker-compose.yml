@@ -1,0 +1,92 @@
+# Local WordPress development stack.
+# Start everything:  docker compose up -d
+# Stop:              docker compose down
+# Full reset:        docker compose down -v
+
+services:
+  # ---------------------------------------------------------------------------
+  # MySQL 8.4 — primary database
+  # ---------------------------------------------------------------------------
+  mysql:
+    image: mysql:8.4
+    container_name: messcut-mysql
+    restart: unless-stopped
+    # mysql_native_password keeps compatibility with WordPress and phpMyAdmin.
+    command: --mysql-native-password=ON
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # WordPress — waits for MySQL to be healthy before starting
+  # ---------------------------------------------------------------------------
+  wordpress:
+    image: wordpress:php8.3-apache
+    container_name: messcut-wordpress
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    volumes:
+      - ./wordpress:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # phpMyAdmin — web UI for database management
+  # ---------------------------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: messcut-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      UPLOAD_LIMIT: 256M
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # WP-CLI — on-demand only (profile prevents auto-start on `compose up`)
+  # Usage: docker compose run --rm wpcli <command>
+  # ---------------------------------------------------------------------------
+  wpcli:
+    image: wordpress:cli-php8.3
+    container_name: messcut-wpcli
+    profiles:
+      - tools
+    entrypoint: wp
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    volumes:
+      - ./wordpress:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+    name: messcut_mysql_data

@@ -1,0 +1,187 @@
+{
+    "key": "group_messcut_options",
+    "title": "Налаштування MESSCUT",
+    "fields": [
+        {
+            "key": "field_messcut_phone",
+            "label": "Телефон",
+            "name": "phone",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_telegram",
+            "label": "Telegram",
+            "name": "telegram",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_whatsapp",
+            "label": "WhatsApp",
+            "name": "whatsapp",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_email",
+            "label": "Email",
+            "name": "email",
+            "type": "email"
+        },
+        {
+            "key": "field_messcut_instagram_1",
+            "label": "Instagram 1",
+            "name": "instagram_1",
+            "type": "url"
+        },
+        {
+            "key": "field_messcut_instagram_2",
+            "label": "Instagram 2",
+            "name": "instagram_2",
+            "type": "url"
+        },
+        {
+            "key": "field_messcut_footer_tagline",
+            "label": "Підпис у підвалі",
+            "name": "footer_tagline",
+            "type": "textarea",
+            "rows": 2
+        },
+        {
+            "key": "field_messcut_footer_about",
+            "label": "Опис у підвалі",
+            "name": "footer_about",
+            "type": "textarea",
+            "rows": 4
+        },
+        {
+            "key": "field_messcut_form_recipient",
+            "label": "Email для заявок",
+            "name": "form_recipient_email",
+            "type": "email"
+        },
+        {
+            "key": "field_messcut_cta_discuss",
+            "label": "CTA: Обговорити проєкт",
+            "name": "cta_discuss_label",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_cta_consult",
+            "label": "CTA: Консультація",
+            "name": "cta_consult_label",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_home_hero_title",
+            "label": "Hero заголовок",
+            "name": "home_hero_title",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_home_hero_subtitle",
+            "label": "Hero підзаголовок",
+            "name": "home_hero_subtitle",
+            "type": "textarea",
+            "rows": 2
+        },
+        {
+            "key": "field_messcut_home_tagline",
+            "label": "Теглайн",
+            "name": "home_tagline",
+            "type": "textarea",
+            "rows": 3
+        },
+        {
+            "key": "field_messcut_stats",
+            "label": "Статистика",
+            "name": "stats",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати показник",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_stat_value",
+                    "label": "Значення",
+                    "name": "value",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_stats"
+                },
+                {
+                    "key": "field_messcut_stat_label",
+                    "label": "Підпис",
+                    "name": "label",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_stats"
+                }
+            ]
+        },
+        {
+            "key": "field_messcut_home_values",
+            "label": "Цінності (рядок)",
+            "name": "home_values",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати цінність",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_value_text",
+                    "label": "Текст",
+                    "name": "text",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_home_values"
+                }
+            ]
+        },
+        {
+            "key": "field_messcut_services_comparison",
+            "label": "Порівняльна таблиця послуг",
+            "name": "services_comparison",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "Додати колонку",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_comparison_service",
+                    "label": "Послуга",
+                    "name": "service",
+                    "type": "post_object",
+                    "post_type": ["service"],
+                    "return_format": "object",
+                    "parent_repeater": "field_messcut_services_comparison"
+                },
+                {
+                    "key": "field_messcut_comparison_bullets",
+                    "label": "Пункти",
+                    "name": "bullets",
+                    "type": "repeater",
+                    "layout": "table",
+                    "button_label": "Додати пункт",
+                    "sub_fields": [
+                        {
+                            "key": "field_messcut_comparison_bullet_text",
+                            "label": "Текст",
+                            "name": "text",
+                            "type": "text",
+                            "parent_repeater": "field_messcut_comparison_bullets"
+                        }
+                    ],
+                    "parent_repeater": "field_messcut_services_comparison"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "messcut-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true
+}

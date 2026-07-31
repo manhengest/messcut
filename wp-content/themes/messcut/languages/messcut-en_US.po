@@ -1,0 +1,28 @@
+# Copyright (C) 2026 MESSCUT
+# This file is distributed under the same license as the Messcut theme.
+msgid ""
+msgstr ""
+"Project-Id-Version: Messcut 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Theme UI strings — see messcut-en_US.l10n.php for the canonical set.
+# Regenerate with: wp i18n make-pot wp-content/themes/messcut
+
+msgid "Головна"
+msgstr "Home"
+
+msgid "Послуги"
+msgstr "Services"
+
+msgid "Досвід"
+msgstr "Experience"
+
+msgid "Звʼяжемось з вами найближчим часом"
+msgstr "We will contact you shortly"
