@@ -218,4 +218,45 @@
 		el.classList.remove('is-success', 'is-error');
 		el.classList.add(type === 'success' ? 'is-success' : 'is-error');
 	}
+
+	document.querySelectorAll('[data-service-excerpt]').forEach(function (wrap) {
+		var toggle = wrap.querySelector('[data-service-excerpt-toggle]');
+		var moreLabel = wrap.querySelector('.card__excerpt-toggle-more');
+		var lessLabel = wrap.querySelector('.card__excerpt-toggle-less');
+
+		if (!toggle) {
+			return;
+		}
+
+		toggle.addEventListener('click', function () {
+			var isExpanded = wrap.classList.toggle('is-expanded');
+			toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+
+			if (moreLabel) {
+				moreLabel.hidden = isExpanded;
+			}
+
+			if (lessLabel) {
+				lessLabel.hidden = !isExpanded;
+			}
+		});
+	});
+
+	document.querySelectorAll('[data-faq-accordion]').forEach(function (list) {
+		var items = list.querySelectorAll('.faq__item');
+
+		items.forEach(function (item) {
+			item.addEventListener('toggle', function () {
+				if (!item.open) {
+					return;
+				}
+
+				items.forEach(function (other) {
+					if (other !== item) {
+						other.open = false;
+					}
+				});
+			});
+		});
+	});
 })();

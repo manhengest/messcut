@@ -1,0 +1,16 @@
+{
+  "name": "messcut-theme",
+  "private": true,
+  "description": "MESSCUT WordPress theme — SCSS build + BrowserSync dev server",
+  "scripts": {
+    "build": "sass assets/scss/main.scss:assets/css/main.css --style=compressed --no-source-map",
+    "watch:css": "sass --watch assets/scss:assets/css --style=expanded --source-map",
+    "watch:sync": "browser-sync start --config browser-sync.config.js",
+    "dev": "npm-run-all --parallel watch:css watch:sync"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.3",
+    "npm-run-all2": "^7.0.2",
+    "sass": "^1.83.0"
+  }
+}

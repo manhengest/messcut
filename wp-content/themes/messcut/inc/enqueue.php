@@ -78,3 +78,56 @@ function messcut_enqueue_assets(): void {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'messcut_enqueue_assets' );
+
+/**
+ * Whether the local BrowserSync server is reachable from this PHP process.
+ *
+ * Inside Docker, BrowserSync runs on the host (:3000), so we probe
+ * host.docker.internal as well as loopback.
+ */
+function messcut_browsersync_is_running( int $port = 3000 ): bool {
+	$hosts = array( 'host.docker.internal', '127.0.0.1', 'localhost' );
+
+	foreach ( $hosts as $host ) {
+		$socket = @fsockopen( $host, $port, $errno, $errstr, 0.2 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( $socket ) {
+			fclose( $socket );
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Inject BrowserSync client so CSS hot-reload works on :8080 and :3000.
+ * Only when site URL is local and `npm run dev` is up.
+ */
+function messcut_browsersync_client(): void {
+	if ( is_admin() ) {
+		return;
+	}
+
+	if ( defined( 'MESSCUT_BROWSER_SYNC' ) && ! MESSCUT_BROWSER_SYNC ) {
+		return;
+	}
+
+	$host = wp_parse_url( home_url(), PHP_URL_HOST );
+	if ( ! in_array( $host, array( 'localhost', '127.0.0.1' ), true ) ) {
+		return;
+	}
+
+	$port = defined( 'MESSCUT_BROWSER_SYNC_PORT' ) ? (int) MESSCUT_BROWSER_SYNC_PORT : 3000;
+
+	if ( ! defined( 'MESSCUT_BROWSER_SYNC' ) || ! MESSCUT_BROWSER_SYNC ) {
+		if ( ! messcut_browsersync_is_running( $port ) ) {
+			return;
+		}
+	}
+
+	printf(
+		'<script id="__bs_script__" async src="%s"></script>' . "\n",
+		esc_url( sprintf( 'http://%s:%d/browser-sync/browser-sync-client.js', $host, $port ) )
+	);
+}
+add_action( 'wp_footer', 'messcut_browsersync_client', 99 );

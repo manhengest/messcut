@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="container container--narrow">
 		<p>
 			<a class="button button--secondary" href="<?php echo esc_url( messcut_approach_url() ); ?>">
-				<?php esc_html_e( 'Дізнатись більше про наш підхід', 'messcut' ); ?> →
+				<?php esc_html_e( 'Дізнатись більше про наш підхід', 'messcut' ); ?>
 			</a>
 		</p>
 	</div>

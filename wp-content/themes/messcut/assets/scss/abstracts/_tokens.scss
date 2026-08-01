@@ -1,0 +1,88 @@
+:root {
+	/* Messcut brand palette */
+	--color-black: #000000;
+	--color-white: #ffffff;
+	--color-brown: #3a261f;
+	--color-accent: #c7f2e1;
+	--color-accent-soft: rgba(199, 242, 225, 0.45);
+	--color-accent-strong: #9ee5c9;
+	--color-accent-dim: rgba(58, 38, 31, 0.35);
+
+	/* Light canvas (default page) */
+	--canvas-light: #ffffff;
+	--canvas-light-soft: #f5f5f5;
+	--canvas-light-muted: #ebebeb;
+
+	/* Brown substrates */
+	--substrate-brown: #3a261f;
+	--substrate-brown-deep: #2a1a15;
+
+	/* Ink on light surfaces */
+	--ink: #000000;
+	--ink-mute: #5c5c62;
+	--hairline-on-light: #e0e0e8;
+	--hairline-accent: rgba(199, 242, 225, 0.55);
+
+	/* Light text on brown / dark substrates */
+	--on-primary: #ffffff;
+	--on-primary-mute: rgba(255, 255, 255, 0.78);
+	--hairline-on-dark: rgba(255, 255, 255, 0.18);
+
+	/* Semantic (light default) */
+	--color-primary: var(--ink);
+	--color-secondary: var(--color-brown);
+	--color-bg: var(--canvas-light);
+	--color-surface: var(--canvas-light-soft);
+	--color-text: var(--ink);
+	--color-text-muted: var(--ink-mute);
+	--color-border: var(--hairline-on-light);
+
+	/* Legacy aliases → light canvas */
+	--canvas-night: var(--canvas-light);
+	--canvas-night-soft: var(--canvas-light-soft);
+	--canvas-brown: var(--substrate-brown-deep);
+
+	--gradient-brand: linear-gradient(135deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
+	--gradient-accent: linear-gradient(160deg, rgba(199, 242, 225, 0.28) 0%, var(--canvas-light) 55%, rgba(199, 242, 225, 0.12) 100%);
+	--gradient-backdrop: linear-gradient(180deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
+	--gradient-band-soft: linear-gradient(180deg, var(--canvas-light) 0%, var(--canvas-light-soft) 100%);
+	--gradient-band-brown: linear-gradient(180deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
+	--gradient-hero: linear-gradient(165deg, var(--canvas-light-soft) 0%, var(--canvas-light) 48%, rgba(199, 242, 225, 0.28) 100%);
+
+	--font-display: "Oswald", "Arial Narrow", sans-serif;
+	--font-ui: "Montserrat", "Helvetica Neue", Helvetica, sans-serif;
+	--font-body: "Source Sans 3", "Helvetica Neue", Helvetica, sans-serif;
+
+	/* Spacing scale */
+	--space-xxs: 0.25rem;
+	--space-xs: 0.5rem;
+	--space-sm: 0.75rem;
+	--space-md: 1rem;
+	--space-lg: 1.125rem;
+	--space-xl: 1.5rem;
+	--space-xxl: 2rem;
+	--space-huge: 3rem;
+	--space-band: clamp(4rem, 10vw, 6rem);
+
+	--radius-xs: 4px;
+	--radius-sm: 8px;
+	--radius-md: 16px;
+	--radius-pill: 32px;
+
+	--container: 1200px;
+	--container-narrow: 720px;
+
+	--header-height: 4.5625rem;
+	--focus-ring: 0 0 0 3px rgba(199, 242, 225, 0.55);
+
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--duration-fast: 180ms;
+	--duration-med: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--duration-fast: 0ms;
+		--duration-med: 0ms;
+	}
+}

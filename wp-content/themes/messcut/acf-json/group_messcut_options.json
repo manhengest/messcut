@@ -91,6 +91,49 @@
             "rows": 3
         },
         {
+            "key": "field_messcut_audience_text",
+            "label": "Для кого наші послуги",
+            "name": "audience_text",
+            "type": "textarea",
+            "rows": 4
+        },
+        {
+            "key": "field_messcut_home_faq_title",
+            "label": "FAQ: заголовок (головна)",
+            "name": "home_faq_title",
+            "type": "text",
+            "default_value": "FAQ"
+        },
+        {
+            "key": "field_messcut_home_faq",
+            "label": "FAQ (головна)",
+            "name": "home_faq",
+            "type": "repeater",
+            "layout": "block",
+            "min": 0,
+            "max": 10,
+            "button_label": "Додати питання",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_home_faq_question",
+                    "label": "Питання",
+                    "name": "question",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_home_faq"
+                },
+                {
+                    "key": "field_messcut_home_faq_answer",
+                    "label": "Відповідь",
+                    "name": "answer",
+                    "type": "wysiwyg",
+                    "tabs": "all",
+                    "toolbar": "basic",
+                    "media_upload": 0,
+                    "parent_repeater": "field_messcut_home_faq"
+                }
+            ]
+        },
+        {
             "key": "field_messcut_stats",
             "label": "Статистика",
             "name": "stats",

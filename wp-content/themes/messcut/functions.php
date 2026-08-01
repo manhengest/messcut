@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'MESSCUT_VERSION', '1.1.0' );
-define( 'MESSCUT_CONTENT_VERSION', 2 );
+define( 'MESSCUT_CONTENT_VERSION', 6 );
 define( 'MESSCUT_DIR', get_template_directory() );
 define( 'MESSCUT_URI', get_template_directory_uri() );
 

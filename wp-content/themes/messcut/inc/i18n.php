@@ -91,12 +91,13 @@ function messcut_pll_register_strings(): void {
 		'cta_consult_label'  => messcut_get_option( 'cta_consult_label', '' ),
 		'home_hero_title'    => messcut_get_option( 'home_hero_title', '' ),
 		'home_hero_subtitle' => messcut_get_option( 'home_hero_subtitle', '' ),
-		'home_tagline'       => messcut_get_option( 'home_tagline', '' ),
+		'audience_text'      => messcut_get_option( 'audience_text', '' ),
+		'home_faq_title'     => messcut_get_option( 'home_faq_title', '' ),
 	);
 
 	foreach ( $strings as $name => $string ) {
 		if ( '' !== (string) $string ) {
-			pll_register_string( $name, (string) $string, 'messcut', 'home_tagline' === $name );
+			pll_register_string( $name, (string) $string, 'messcut', in_array( $name, array( 'home_hero_subtitle', 'audience_text' ), true ) );
 		}
 	}
 }
@@ -282,8 +283,22 @@ function messcut_assign_uk_language( array $post_types ): void {
 }
 
 /**
- * Render language switcher markup.
+ * Short display label for a Polylang language slug (e.g. uk → UA).
  */
-function messcut_render_language_switcher(): void {
-	get_template_part( 'template-parts/header/language-switcher' );
+function messcut_language_code_label( string $slug ): string {
+	$labels = array(
+		'uk' => 'UA',
+		'en' => 'EN',
+	);
+
+	return $labels[ $slug ] ?? strtoupper( $slug );
+}
+
+/**
+ * Render language switcher markup.
+ *
+ * @param array<string, mixed> $args Optional: variant (default|compact).
+ */
+function messcut_render_language_switcher( array $args = array() ): void {
+	get_template_part( 'template-parts/header/language-switcher', null, $args );
 }

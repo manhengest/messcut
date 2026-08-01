@@ -12,13 +12,18 @@ mysql_data/
 # Logs
 *.log
 
-# Node / UI experiments (not part of the WP theme)
-node_modules/
+# Node / UI experiments at repo root (not part of the WP theme)
+/node_modules/
 ui/
 awesome-design-md/
-pnpm-lock.yaml
-package.json
-package-lock.yaml
+/pnpm-lock.yaml
+/package.json
+/package-lock.json
+
+# Theme build deps (package.json + lockfile are tracked)
+wp-content/themes/messcut/node_modules/
+
+Project Requirements.md
 
 # Cursor local state (keep plans out of noise; docs live in CLAUDE/README)
 .cursor/

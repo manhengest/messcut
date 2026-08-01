@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</label>
 				</div>
 			</fieldset>
-			<button class="button button--primary" type="button" data-lead-next><?php esc_html_e( 'Далі', 'messcut' ); ?> →</button>
+			<button class="button button--primary" type="button" data-lead-next><?php esc_html_e( 'Далі', 'messcut' ); ?></button>
 		</div>
 
 		<div class="lead-form__step" data-lead-step="2" hidden>
@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</fieldset>
 			<div class="lead-form__nav">
 				<button class="button button--secondary" type="button" data-lead-prev><?php esc_html_e( 'Назад', 'messcut' ); ?></button>
-				<button class="button button--primary" type="button" data-lead-next><?php esc_html_e( 'Далі', 'messcut' ); ?> →</button>
+				<button class="button button--primary" type="button" data-lead-next><?php esc_html_e( 'Далі', 'messcut' ); ?></button>
 			</div>
 		</div>
 
@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<div class="lead-form__nav">
 				<button class="button button--secondary" type="button" data-lead-prev><?php esc_html_e( 'Назад', 'messcut' ); ?></button>
-				<button class="button button--accent" type="submit"><?php esc_html_e( 'Надіслати', 'messcut' ); ?> →</button>
+				<button class="button button--accent" type="submit"><?php esc_html_e( 'Надіслати', 'messcut' ); ?></button>
 			</div>
 		</div>
 

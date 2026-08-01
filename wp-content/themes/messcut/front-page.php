@@ -7,26 +7,31 @@
 
 get_header();
 
-$tagline = messcut_get_localized_option( 'home_tagline', '' );
-?>
-<?php get_template_part( 'template-parts/sections/hero' ); ?>
+get_template_part( 'template-parts/sections/hero', null, array(
+	'cta_label' => __( 'Обговорити ваш проєкт', 'messcut' ),
+) );
 
-<?php messcut_render_stats(); ?>
+messcut_render_stats( array(
+	'title' => __( 'Чому бізнес обирає Messcut?', 'messcut' ),
+) );
 
-<?php if ( $tagline ) : ?>
-<section class="section tagline">
-	<div class="container">
-		<p class="tagline__text"><?php echo esc_html( $tagline ); ?></p>
-		<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( messcut_cta_label( 'discuss' ) ); ?> →</a></p>
-	</div>
-</section>
-<?php endif; ?>
+get_template_part( 'template-parts/sections/services-grid', null, array(
+	'title' => __( 'Послуги стратегічного маркетингу', 'messcut' ),
+) );
 
-<?php get_template_part( 'template-parts/sections/services-grid' ); ?>
+get_template_part( 'template-parts/sections/cta', null, array(
+	'title' => __( 'Отримайте конструктивні рекомендації щодо подальшого розвитку вашого бізнесу', 'messcut' ),
+) );
 
-<?php get_template_part( 'template-parts/sections/cta', null, array(
-	'title' => __( 'Отримайте конструктивні рекомендації щодо подальшого розвитку вашого проєкту', 'messcut' ),
-) ); ?>
+get_template_part( 'template-parts/sections/audience' );
 
-<?php
+get_template_part( 'template-parts/sections/cases-grid', null, array(
+	'limit'      => 6,
+	'show_more'  => true,
+) );
+
+messcut_render_insights_tiles();
+
+messcut_render_faq( array( 'source' => 'home' ) );
+
 get_footer();

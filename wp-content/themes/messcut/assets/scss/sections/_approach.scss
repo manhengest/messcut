@@ -1,0 +1,82 @@
+/* ——— Approach & misc sections ——— */
+
+.approach,
+.content-block,
+.page-content,
+.articles-archive,
+.article-single,
+.not-found,
+.service-single__header,
+.case-single__header,
+.case-results,
+.specialist-badge,
+.service-links,
+.faq {
+	color: var(--ink);
+}
+
+.approach {
+	background: var(--canvas-light-soft);
+}
+
+.approach-cta {
+	background: var(--gradient-band-brown);
+	color: var(--on-primary);
+}
+
+.mid-cta {
+	background: var(--gradient-band-brown);
+	color: var(--on-primary);
+}
+
+.page-content,
+.articles-archive,
+.article-single {
+	background: var(--canvas-light);
+}
+
+.not-found {
+	min-height: 60vh;
+	display: flex;
+	align-items: center;
+	background: var(--gradient-accent);
+}
+
+.specialist-badge__inner {
+	display: inline-flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: var(--space-md) var(--space-xl);
+	border: 1px solid var(--hairline-on-light);
+	border-radius: var(--radius-sm);
+	background: var(--canvas-light-soft);
+}
+
+.entry-content {
+	color: var(--ink-mute);
+	line-height: 1.7;
+
+	> *:first-child {
+		margin-top: 0;
+	}
+
+	> *:last-child {
+		margin-bottom: 0;
+	}
+
+	a {
+		color: var(--color-brown);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+
+		&:hover {
+			color: var(--ink);
+		}
+	}
+}
+
+.service-stage + .service-stage {
+	margin-top: var(--space-xxl);
+	padding-top: var(--space-xxl);
+	border-top: 1px solid var(--hairline-on-light);
+}

@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$title    = $args['title'] ?? messcut_get_localized_option( 'home_hero_title', __( 'Розвиваємо бренди з науковим підходом', 'messcut' ) );
-$subtitle = $args['subtitle'] ?? messcut_get_localized_option( 'home_hero_subtitle', __( 'ефективність в цифрах з чіткою стратегією', 'messcut' ) );
+$title    = $args['title'] ?? messcut_get_localized_option( 'home_hero_title', __( 'Бренд-стратегія та науковий маркетинг для розвитку бізнесу', 'messcut' ) );
+$subtitle = $args['subtitle'] ?? messcut_get_localized_option( 'home_hero_subtitle', __( 'Messcut – boutique-агенція стратегічного маркетингу. Розробляємо бренд-стратегії, будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень і даних.', 'messcut' ) );
 $cta      = $args['cta_label'] ?? messcut_cta_label( 'discuss' );
 ?>
 <section class="section hero hero--band">
@@ -21,6 +21,6 @@ $cta      = $args['cta_label'] ?? messcut_cta_label( 'discuss' );
 		<?php if ( $subtitle ) : ?>
 			<p class="hero__subtitle"><?php echo esc_html( $subtitle ); ?></p>
 		<?php endif; ?>
-		<a class="button button--accent" href="#lead-form"><?php echo esc_html( $cta ); ?> →</a>
+		<a class="button button--accent" href="#lead-form"><?php echo esc_html( $cta ); ?></a>
 	</div>
 </section>

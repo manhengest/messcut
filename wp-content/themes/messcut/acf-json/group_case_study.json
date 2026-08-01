@@ -252,6 +252,42 @@
             "name": "cta_text",
             "type": "textarea",
             "rows": 3
+        },
+        {
+            "key": "field_case_faq_title",
+            "label": "FAQ: заголовок",
+            "name": "faq_title",
+            "type": "text",
+            "instructions": "За замовчуванням — FAQ"
+        },
+        {
+            "key": "field_case_faq_items",
+            "label": "FAQ",
+            "name": "faq_items",
+            "type": "repeater",
+            "layout": "block",
+            "min": 0,
+            "max": 10,
+            "button_label": "Додати питання",
+            "sub_fields": [
+                {
+                    "key": "field_case_faq_question",
+                    "label": "Питання",
+                    "name": "question",
+                    "type": "text",
+                    "parent_repeater": "field_case_faq_items"
+                },
+                {
+                    "key": "field_case_faq_answer",
+                    "label": "Відповідь",
+                    "name": "answer",
+                    "type": "wysiwyg",
+                    "tabs": "all",
+                    "toolbar": "basic",
+                    "media_upload": 0,
+                    "parent_repeater": "field_case_faq_items"
+                }
+            ]
         }
     ],
     "location": [

@@ -6,7 +6,7 @@ WordPress marketing site for **MESSCUT** (brand strategy agency). Hybrid classic
 
 Theme source lives at **`wp-content/themes/messcut/`**.
 
-Docker mounts **`./wordpress`** → container `/var/www/html`. After theme edits, sync before testing in the browser:
+Docker bind-mounts the theme into the container (`./wp-content/themes/messcut` → `/var/www/html/wp-content/themes/messcut`), so PHP and compiled CSS edits are live without copying. If the theme folder is missing inside `./wordpress` on first setup, bootstrap once:
 
 ```bash
 cp -R wp-content/themes/messcut wordpress/wp-content/themes/
@@ -14,12 +14,15 @@ cp -R wp-content/themes/messcut wordpress/wp-content/themes/
 
 Do **not** edit only `wordpress/wp-content/themes/messcut/` and forget the repo source — those changes are easy to lose.
 
+**Styles:** edit `assets/scss/`; run `npm run dev` in the theme for SCSS watch + BrowserSync hot reload (http://localhost:3000). Commit compiled `assets/css/main.css` via `npm run build`.
+
 ## Stack
 
 | Area | Choice |
 |------|--------|
 | Runtime | Docker: WordPress PHP 8.3 + Apache, MySQL 8.4, phpMyAdmin |
 | Theme | Classic PHP templates + `theme.json` v3 (not FSE / Site Editor) |
+| Styles | SCSS (`assets/scss/`) → compiled `assets/css/main.css` (Dart Sass + BrowserSync) |
 | Fields | ACF Pro + Local JSON (`acf-json/`) |
 | i18n | gettext text domain `messcut` + Polylang (UK/EN content) |
 | Forms | REST `POST /wp-json/messcut/v1/lead` (nonce + honeypot) |
@@ -32,6 +35,8 @@ Requires PHP **8.2+**, WP **6.7+** (tested up to 7.0). Prefix: `messcut_`. Text 
 ```bash
 docker compose up -d          # WP http://localhost:8080 — phpMyAdmin :8081
 docker compose down
+cd wp-content/themes/messcut && npm run dev   # SCSS watch + BrowserSync :3000
+cd wp-content/themes/messcut && npm run build # compile CSS before commit
 docker compose run --rm wpcli plugin list
 docker compose run --rm wpcli rewrite flush
 docker compose run --rm wpcli theme activate messcut
@@ -43,7 +48,8 @@ Env defaults: see `.env` (`wordpress` / `wordpress` / DB `wordpress`).
 
 ```
 wp-content/themes/messcut/     # THEME SOURCE (edit here)
-  assets/css/main.css          # Design tokens + layout
+  assets/scss/                 # SCSS source (edit styles here)
+  assets/css/main.css          # Compiled CSS (enqueue target; run npm run build)
   assets/img/logo-*.svg|png    # Black (header) / white (footer)
   acf-json/                    # ACF field group sync
   inc/                         # setup, enqueue, cpt, acf, forms, i18n, helpers, seed*
@@ -95,6 +101,7 @@ Gradients: `--gradient-brand`, `--gradient-accent`, `--gradient-backdrop`. Mint 
 - **No page builders.** Templates + ACF + small JS.
 - Escape output (`esc_html`, `esc_url`, `esc_attr`); sanitize REST input.
 - Enqueue only via `wp_enqueue_scripts`; version with `filemtime()`.
+- Edit SCSS in `assets/scss/`; do not hand-edit `assets/css/main.css`.
 - `load_theme_textdomain( 'messcut', … )` on **`init`** (WP 6.7+), not `after_setup_theme`.
 - UI strings: Ukrainian msgid + `__()` / `esc_html_e()`; content translation via Polylang.
 - ACF field groups: edit in WP, save to `acf-json/` — commit JSON.

@@ -44,7 +44,7 @@ if ( empty( $rows ) || ! is_array( $rows ) ) {
 			<?php endforeach; ?>
 		</div>
 		<p class="services-comparison__help">
-			<a class="button button--primary" href="#lead-form"><?php esc_html_e( 'Або звʼяжіться з нами і ми допоможемо', 'messcut' ); ?> →</a>
+			<a class="button button--primary" href="#lead-form"><?php esc_html_e( 'Або звʼяжіться з нами і ми допоможемо', 'messcut' ); ?></a>
 		</p>
 	</div>
 </section>

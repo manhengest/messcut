@@ -36,7 +36,7 @@ while ( have_posts() ) :
 				<?php if ( $short ) : ?>
 					<p class="service-single__lead"><?php echo esc_html( $short ); ?></p>
 				<?php endif; ?>
-				<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( messcut_cta_label( 'discuss' ) ); ?> →</a></p>
+				<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( messcut_cta_label( 'discuss' ) ); ?></a></p>
 			</div>
 		</header>
 
@@ -95,7 +95,7 @@ while ( have_posts() ) :
 			<div class="container container--narrow">
 				<p>
 					<a class="button button--secondary" href="<?php echo esc_url( messcut_cases_archive_url() ); ?>">
-						<?php esc_html_e( 'Переглянути кейси', 'messcut' ); ?> →
+						<?php esc_html_e( 'Переглянути кейси', 'messcut' ); ?>
 					</a>
 				</p>
 			</div>
@@ -103,6 +103,7 @@ while ( have_posts() ) :
 
 		<?php messcut_render_approach_cta(); ?>
 		<?php messcut_render_insights_tiles(); ?>
+		<?php messcut_render_faq(); ?>
 	</article>
 	<?php
 endwhile;

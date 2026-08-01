@@ -83,18 +83,21 @@ function messcut_cta_label( string $type = 'discuss' ): string {
 
 /**
  * Render stats section from options.
+ *
+ * @param array<string, mixed> $args Template args (stats, title).
  */
-function messcut_render_stats(): void {
-	$stats = messcut_get_localized_option( 'stats', array() );
+function messcut_render_stats( array $args = array() ): void {
+	$stats = $args['stats'] ?? messcut_get_localized_option( 'stats', array() );
 	if ( empty( $stats ) || ! is_array( $stats ) ) {
 		$stats = array(
-			array( 'value' => '6 років', 'label' => __( 'практичного досвіду', 'messcut' ) ),
-			array( 'value' => '30+', 'label' => __( 'розроблених бренд-стратегій', 'messcut' ) ),
-			array( 'value' => '50+', 'label' => __( 'проконсультованих брендів', 'messcut' ) ),
+			array( 'value' => '', 'label' => __( 'роки практик та нескінченних навчань для підвищення кваліфікації', 'messcut' ) ),
+			array( 'value' => '30+', 'label' => __( 'бренд-стратегій', 'messcut' ) ),
+			array( 'value' => '50+', 'label' => __( 'співпраць', 'messcut' ) ),
 			array( 'value' => '85%', 'label' => __( 'клієнтів приходять за рекомендацією', 'messcut' ) ),
 		);
 	}
-	get_template_part( 'template-parts/sections/stats', null, array( 'stats' => $stats ) );
+	$args['stats'] = $stats;
+	get_template_part( 'template-parts/sections/stats', null, $args );
 }
 
 /**
@@ -126,6 +129,30 @@ function messcut_render_case_sections(): void {
 		$layout = get_row_layout();
 		get_template_part( 'template-parts/sections/case', $layout );
 	}
+}
+
+/**
+ * Service card description for grid listings.
+ *
+ * @param int $post_id Post ID.
+ */
+function messcut_get_service_card_description( int $post_id = 0 ): string {
+	$post_id = $post_id ?: get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+
+	$short = function_exists( 'get_field' ) ? get_field( 'short_description', $post_id ) : '';
+	if ( is_string( $short ) && '' !== trim( $short ) ) {
+		return trim( $short );
+	}
+
+	$excerpt = get_post_field( 'post_excerpt', $post_id );
+	if ( is_string( $excerpt ) && '' !== trim( $excerpt ) ) {
+		return trim( $excerpt );
+	}
+
+	return '';
 }
 
 /**
@@ -269,7 +296,7 @@ function messcut_render_mid_cta( string $label = '' ): void {
 	?>
 	<section class="section mid-cta">
 		<div class="container container--narrow">
-			<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( $label ); ?> →</a></p>
+			<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( $label ); ?></a></p>
 		</div>
 	</section>
 	<?php
@@ -310,6 +337,127 @@ function messcut_render_contact_channels(): void {
  */
 function messcut_render_services_comparison(): void {
 	get_template_part( 'template-parts/sections/services-comparison' );
+}
+
+/**
+ * Normalize FAQ repeater rows.
+ *
+ * @param mixed $items Raw repeater rows.
+ * @return array<int, array{question: string, answer: string}>
+ */
+function messcut_normalize_faq_items( mixed $items ): array {
+	if ( empty( $items ) || ! is_array( $items ) ) {
+		return array();
+	}
+
+	$normalized = array();
+
+	foreach ( $items as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$question = trim( (string) ( $row['question'] ?? '' ) );
+		$answer   = (string) ( $row['answer'] ?? '' );
+
+		if ( '' === $question ) {
+			continue;
+		}
+
+		$normalized[] = array(
+			'question' => $question,
+			'answer'   => $answer,
+		);
+	}
+
+	return $normalized;
+}
+
+/**
+ * Get FAQ items for the current context.
+ *
+ * @param array<string, mixed> $args Args: source (home|post|auto), post_id.
+ * @return array<int, array{question: string, answer: string}>
+ */
+function messcut_get_faq_items( array $args = array() ): array {
+	$source  = $args['source'] ?? 'auto';
+	$post_id = isset( $args['post_id'] ) ? (int) $args['post_id'] : 0;
+
+	if ( 'home' === $source || ( 'auto' === $source && is_front_page() ) ) {
+		$items = messcut_normalize_faq_items( messcut_get_localized_option( 'home_faq', array() ) );
+		if ( empty( $items ) ) {
+			$items = messcut_get_faq_seed_data( messcut_is_english() ? 'en' : 'uk' );
+		}
+		return $items;
+	}
+
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	if ( $post_id ) {
+		$items = messcut_normalize_faq_items( messcut_get_acf( 'faq_items', $post_id ) );
+		if ( ! empty( $items ) ) {
+			return $items;
+		}
+	}
+
+	return array();
+}
+
+/**
+ * Get FAQ section title for the current context.
+ *
+ * @param array<string, mixed> $args Args: source (home|post|auto), post_id, title.
+ */
+function messcut_get_faq_title( array $args = array() ): string {
+	$default = __( 'FAQ', 'messcut' );
+
+	if ( ! empty( $args['title'] ) ) {
+		return (string) $args['title'];
+	}
+
+	$source  = $args['source'] ?? 'auto';
+	$post_id = isset( $args['post_id'] ) ? (int) $args['post_id'] : 0;
+
+	if ( 'home' === $source || ( 'auto' === $source && is_front_page() ) ) {
+		$title = messcut_get_localized_option( 'home_faq_title', $default );
+		return is_string( $title ) && '' !== trim( $title ) ? $title : $default;
+	}
+
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	if ( $post_id ) {
+		$title = messcut_get_acf( 'faq_title', $post_id );
+		if ( is_string( $title ) && '' !== trim( $title ) ) {
+			return $title;
+		}
+	}
+
+	return $default;
+}
+
+/**
+ * Render FAQ accordion (hidden when no items).
+ *
+ * @param array<string, mixed> $args Args: source, post_id, title, items.
+ */
+function messcut_render_faq( array $args = array() ): void {
+	$items = $args['items'] ?? messcut_get_faq_items( $args );
+	if ( empty( $items ) ) {
+		return;
+	}
+
+	get_template_part(
+		'template-parts/sections/faq',
+		null,
+		array(
+			'items' => $items,
+			'title' => messcut_get_faq_title( $args ),
+		)
+	);
 }
 
 /**

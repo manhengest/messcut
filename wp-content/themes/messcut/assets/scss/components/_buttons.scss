@@ -1,0 +1,105 @@
+/* ——— Buttons ——— */
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 2.75rem;
+	padding: var(--space-lg) var(--space-xl);
+	border: 1px solid var(--ink);
+	border-radius: 0;
+	background: transparent;
+	color: var(--ink);
+	text-decoration: none;
+	font-family: var(--font-display);
+	font-size: 0.875rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	line-height: 0.94;
+	cursor: pointer;
+	transition:
+		background var(--duration-fast) var(--ease-out),
+		border-color var(--duration-fast) var(--ease-out),
+		color var(--duration-fast) var(--ease-out),
+		box-shadow var(--duration-fast) var(--ease-out);
+
+	&:hover {
+		background: var(--color-accent-soft);
+		border-color: var(--color-accent-strong);
+		color: var(--color-brown);
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+	}
+
+	&--primary {
+		background: var(--color-accent);
+		color: var(--color-black);
+		border-color: var(--color-accent);
+
+		&:hover {
+			background: var(--color-accent-strong);
+			border-color: var(--color-accent-strong);
+			color: var(--color-black);
+		}
+	}
+
+	&--secondary {
+		background: transparent;
+		color: var(--ink-mute);
+		border-color: var(--hairline-on-light);
+
+		&:hover {
+			background: var(--color-accent-soft);
+			border-color: var(--color-accent);
+			color: var(--color-brown);
+		}
+	}
+
+	&--outline {
+		background: transparent;
+		color: var(--ink);
+		border-color: var(--ink);
+
+		&:hover {
+			background: var(--color-accent-soft);
+			border-color: var(--color-accent-strong);
+			color: var(--color-brown);
+		}
+	}
+
+	&--accent {
+		background: var(--color-accent);
+		color: var(--color-black);
+		border-color: var(--color-accent);
+
+		&:hover {
+			background: var(--color-accent-strong);
+			border-color: var(--color-accent-strong);
+			color: var(--color-black);
+		}
+	}
+}
+
+/* Light buttons on brown substrates */
+.tagline,
+.services-comparison,
+.insights-tiles,
+.mid-cta,
+.approach-cta,
+.site-footer {
+	.button:not(.button--primary):not(.button--accent) {
+		border-color: var(--on-primary);
+		color: var(--on-primary);
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.1);
+			border-color: var(--color-accent);
+			color: var(--color-accent);
+		}
+	}
+}

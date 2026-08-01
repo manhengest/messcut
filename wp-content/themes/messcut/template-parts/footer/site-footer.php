@@ -24,18 +24,6 @@ $instagram_2 = messcut_get_option( 'instagram_2', '' );
 			<?php endif; ?>
 		</div>
 
-		<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Меню в підвалі', 'messcut' ); ?>">
-			<?php
-			wp_nav_menu( array(
-				'theme_location' => 'footer',
-				'container'      => false,
-				'menu_class'     => 'footer-menu',
-				'depth'          => 1,
-				'fallback_cb'    => false,
-			) );
-			?>
-		</nav>
-
 		<div class="site-footer__contacts">
 			<h3 class="site-footer__contacts-title"><?php esc_html_e( 'Контакти', 'messcut' ); ?></h3>
 			<?php if ( messcut_telegram() ) : ?>
@@ -64,5 +52,17 @@ $instagram_2 = messcut_get_option( 'instagram_2', '' );
 				</p>
 			<?php endif; ?>
 		</div>
+
+		<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Меню в підвалі', 'messcut' ); ?>">
+			<?php
+			wp_nav_menu( array(
+				'theme_location' => 'footer',
+				'container'      => false,
+				'menu_class'     => 'footer-menu',
+				'depth'          => 1,
+				'fallback_cb'    => false,
+			) );
+			?>
+		</nav>
 	</div>
 </footer>

@@ -1,0 +1,35 @@
+/* ——— Comparison ——— */
+
+.services-comparison {
+	background: var(--gradient-band-brown);
+	color: var(--on-primary);
+}
+
+.comparison-grid {
+	display: grid;
+	gap: var(--space-md);
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.comparison-column {
+	padding: var(--space-xl);
+	border: 1px solid var(--hairline-on-dark);
+	border-radius: var(--radius-sm);
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--on-primary);
+
+	&__title {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-display);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	&__list {
+		margin: 0;
+		padding-left: 1.25rem;
+		color: var(--on-primary-mute);
+		line-height: 1.7;
+	}
+}

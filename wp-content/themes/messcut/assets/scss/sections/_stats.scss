@@ -1,0 +1,158 @@
+/* ——— Stats ——— */
+
+.stats {
+	position: relative;
+	background-color: var(--canvas-light);
+	background-image: radial-gradient(circle, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+	background-size: 14px 14px;
+	overflow: hidden;
+
+	&__layout {
+		position: relative;
+		min-height: 560px;
+	}
+
+	&__header {
+		position: relative;
+		z-index: 2;
+		max-width: 500px;
+	}
+
+	&__title {
+		margin: 0 0 50px;
+		font-family: var(--font-display);
+		font-size: clamp(1.625rem, 5.5vw, 3.25rem);
+		font-weight: 700;
+		line-height: 1.05;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	&__visual {
+		position: absolute;
+		inset: 50% auto auto 50%;
+		z-index: 1;
+		width: min(88vw, 22rem);
+		transform: translate(-50%, -46%);
+		pointer-events: none;
+	}
+
+	&__tore {
+		display: block;
+		width: 100%;
+		height: auto;
+		mix-blend-mode: lighten;
+	}
+
+	&__item {
+		position: absolute;
+		z-index: 2;
+		max-width: min(46%, 14rem);
+
+		&--featured {
+			top: 70px;
+    		left: 20px;
+		}
+
+		&--tr {
+			top: 70px;
+			right: 0;
+			text-align: right;
+		}
+
+		&--bl {
+			bottom: clamp(4.5rem, 18vw, 7rem);
+			left: 0;
+		}
+
+		&--br {
+			right: 0;
+			bottom: 30px;
+			max-width: min(52%, 16rem);
+			text-align: right;
+		}
+	}
+
+	&__value {
+		display: inline;
+		font-family: var(--font-display);
+		font-size: clamp(1.125rem, 3.2vw, 1.5rem);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	&__label {
+		font-family: var(--font-ui);
+		font-size: clamp(0.6875rem, 2vw, 0.8125rem);
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	&__value + &__label::before {
+		content: " ";
+	}
+
+	&__narrative {
+		margin: 0;
+		font-family: var(--font-ui);
+		font-size: clamp(0.6875rem, 2vw, 0.8125rem);
+		font-weight: 600;
+		line-height: 1.45;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+}
+
+@media (min-width: 48rem) {
+	.stats {
+		&__layout {
+			min-height: 700px;
+		}
+
+		&__visual {
+			width: min(46vw, 28rem);
+		}
+
+		&__item {
+			max-width: min(36%, 16rem);
+
+			&--featured {
+				top: 150px;
+				left: 110px;
+			}
+
+			&--tr {
+				top: 110px;
+				right: 160px;
+			}
+
+			&--bl {
+				bottom: 90px;
+				left: 200px;
+			}
+
+			&--br {
+				right: 110px;
+				max-width: min(30%, 18rem);
+			}
+		}
+
+		&__value {
+			font-size: clamp(1.25rem, 2vw, 1.625rem);
+		}
+	}
+}
+
+@media (min-width: 64rem) {
+	.stats {
+		&__visual {
+			width: min(38vw, 32rem);
+		}
+	}
+}

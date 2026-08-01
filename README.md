@@ -8,6 +8,7 @@ Works on Apple Silicon (M1/M2/M3/M4) and Intel Macs.
 
 - [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/) (includes Docker Compose V2)
 - Docker Desktop running before you start the stack
+- [Node.js](https://nodejs.org/) 18+ (for theme SCSS build and hot reload)
 
 Verify your setup:
 
@@ -35,6 +36,7 @@ From the project root:
 
 ```bash
 docker compose up -d
+cd wp-content/themes/messcut && npm run dev
 ```
 
 First startup may take a minute while MySQL initializes and becomes healthy.
@@ -70,7 +72,42 @@ rm -rf wordpress/*
 | Service     | URL                        |
 |-------------|----------------------------|
 | WordPress   | http://localhost:8080      |
+| BrowserSync | http://localhost:3000      |
 | phpMyAdmin  | http://localhost:8081      |
+
+## Theme development (SCSS + hot reload)
+
+Theme source lives at `wp-content/themes/messcut/`. Docker bind-mounts that folder into the container, so PHP and compiled CSS changes appear without manual copying.
+
+**Edit styles in** `assets/scss/` (not `assets/css/main.css` directly). Compiled output is `assets/css/main.css`, which WordPress enqueues.
+
+```bash
+# Terminal 1 — WordPress stack
+docker compose up -d
+
+# Terminal 2 — SCSS watch + BrowserSync
+cd wp-content/themes/messcut
+npm install
+npm run dev
+```
+
+Open **http://localhost:3000** (or :8080 — the theme injects the BrowserSync client when `npm run dev` is running):
+
+- Edit `assets/scss/**` → CSS injects without full page reload
+- Edit `**/*.php` or `theme.json` → full page reload
+
+Production build (commit compiled CSS):
+
+```bash
+cd wp-content/themes/messcut
+npm run build
+```
+
+If the theme folder is missing inside `./wordpress` on first setup, bootstrap once:
+
+```bash
+cp -R wp-content/themes/messcut wordpress/wp-content/themes/
+```
 
 ## Default credentials
 
@@ -203,10 +240,10 @@ docker compose run --rm wpcli search-replace 'https://old-site.com' 'http://loca
 ## Export a database
 
 ```bash
-# Export to a file
-docker compose exec -T mysql mysqldump -u wordpress -pwordpress wordpress > backup.sql
+# Export to a file (wordpress user needs --no-tablespaces on MySQL 8+)
+docker compose exec -T mysql mysqldump -u wordpress -pwordpress --no-tablespaces wordpress > backup.sql
 
-# Or with root
+# Or with root (no extra flags needed)
 docker compose exec -T mysql mysqldump -u root -proot wordpress > backup.sql
 ```
 
@@ -264,7 +301,7 @@ docker compose up -d
 
 | Service    | Image                      | Port  | Notes                          |
 |------------|----------------------------|-------|--------------------------------|
-| wordpress  | `wordpress:php8.3-apache`  | 8080  | Mounts `./wordpress`           |
+| wordpress  | `wordpress:php8.3-apache`  | 8080  | Mounts `./wordpress` + theme bind-mount |
 | mysql      | `mysql:8.4`                | —     | Data in `messcut_mysql_data`   |
 | phpmyadmin | `phpmyadmin:latest`        | 8081  | Auto-connects to MySQL         |
 | wpcli      | `wordpress:cli-php8.3`     | —     | On-demand via `compose run`  |

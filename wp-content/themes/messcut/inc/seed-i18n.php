@@ -59,9 +59,9 @@ function messcut_seed_en_options(): void {
 			'en_footer_tagline'     => 'We build brands with a scientific approach',
 			'en_cta_discuss_label'  => 'Discuss your project',
 			'en_cta_consult_label'  => 'Get an introductory consultation',
-			'en_home_hero_title'    => 'We build brands with a scientific approach',
-			'en_home_hero_subtitle' => 'Structured, inspiring, and free of manipulation',
-			'en_home_tagline'       => 'We launch brands from scratch — from positioning to first sales — and grow existing brands by improving measurable performance.',
+			'en_home_hero_title'    => 'Brand strategy and scientific marketing for business growth',
+			'en_home_hero_subtitle' => 'Messcut is a boutique strategic marketing agency. We develop brand strategies, build marketing systems, and help businesses scale based on research and data.',
+			'en_audience_text'      => 'For entrepreneurs who choose effective brand development while reducing the risk of investing time and money in tactics that do not work — with a clear strategy grounded in scientific principles.',
 			'en_stats'              => array(
 				array( 'value' => '6 years', 'label' => 'of hands-on experience' ),
 				array( 'value' => '30+', 'label' => 'brand strategies developed' ),
@@ -74,6 +74,8 @@ function messcut_seed_en_options(): void {
 				array( 'text' => 'structure' ),
 				array( 'text' => 'passion for the craft' ),
 			),
+			'en_home_faq_title'     => 'FAQ',
+			'en_home_faq'           => messcut_get_faq_seed_data( 'en' ),
 		)
 	);
 }
@@ -404,15 +406,16 @@ function messcut_get_en_case_translations(): array {
 	return array(
 		'choozy'    => array(
 			'title'    => 'Choozy',
-			'excerpt'  => 'How we built a children’s brand in a category where everyone says the same thing',
+			'excerpt'  => 'How we built the CHOOZY brand in a category where everyone says the same thing',
 			'services' => array( 'brand-strategy', 'marketing-support' ),
 			'fields'   => array(
-				'hero_subtitle' => 'How we built a children’s brand in a category where everyone says the same thing',
-				'intro'         => '<p>CHOOZY came to us at the idea stage. There was no brand, positioning, communication platform, or marketing system yet.</p>',
+				'hero_subtitle' => 'How we built the CHOOZY brand in a category where everyone says the same thing',
+				'intro'         => '<p>CHOOZY came to us before the business launched. There was no brand, positioning, marketing strategy, or communication system yet — only an idea to create a modern children’s goods space for parents who value quality, aesthetics, and mindful parenting.</p>',
 				'results'       => array(
-					array( 'text' => '30% increase in marketing ROI over 6 months' ),
+					array( 'text' => '+250% growth in marketing ROI over the first 6 months' ),
 					array( 'text' => 'Improved LTV:CAC ratio' ),
-					array( 'text' => 'Higher average order value and repeat purchase rate' ),
+					array( 'text' => 'Growing repeat purchase rate' ),
+					array( 'text' => 'Earned media mentions from influencers' ),
 					array( 'text' => 'Brand platform ready for scaling' ),
 				),
 				'challenge'     => '<p>The market did not need another children’s brand. We had to find new value for parents and children.</p>',
@@ -513,7 +516,7 @@ function messcut_get_en_page_translations(): array {
 			'content'  => '',
 			'template' => 'page-approach.php',
 			'fields'   => array(
-				'approach_content' => '<p>Our work is grounded in science-based marketing. We help brands grow through real value for people, a systematic approach, and strategies built for the long term.</p>',
+				'approach_content' => '<p>Our work is grounded in science-based marketing and behavioral economics. We help brands grow through real value for people, a systematic approach, and creativity driven by effectiveness — not aesthetics alone.</p>',
 				'values_override'  => array(
 					array( 'text' => 'structure' ),
 					array( 'text' => 'continuous learning' ),

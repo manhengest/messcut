@@ -11,28 +11,28 @@
 				{ "slug": "brown", "color": "#3a261f", "name": "Brown" },
 				{ "slug": "accent", "color": "#c7f2e1", "name": "Turquoise" },
 				{ "slug": "accent-strong", "color": "#9ee5c9", "name": "Turquoise Strong" },
-				{ "slug": "primary", "color": "#ffffff", "name": "Primary" },
+				{ "slug": "primary", "color": "#000000", "name": "Primary" },
 				{ "slug": "secondary", "color": "#3a261f", "name": "Secondary" },
-				{ "slug": "background", "color": "#000000", "name": "Background" },
-				{ "slug": "surface", "color": "#0a0a0a", "name": "Surface" },
-				{ "slug": "text", "color": "#ffffff", "name": "Text" },
-				{ "slug": "text-muted", "color": "#f0f0fa", "name": "Text Muted" },
-				{ "slug": "hairline", "color": "#3a3a3f", "name": "Hairline" }
+				{ "slug": "background", "color": "#ffffff", "name": "Background" },
+				{ "slug": "surface", "color": "#f5f5f5", "name": "Surface" },
+				{ "slug": "text", "color": "#000000", "name": "Text" },
+				{ "slug": "text-muted", "color": "#5c5c62", "name": "Text Muted" },
+				{ "slug": "hairline", "color": "#e0e0e8", "name": "Hairline" }
 			],
 			"gradients": [
 				{
 					"slug": "brand",
-					"gradient": "linear-gradient(135deg, #3a261f 0%, #000000 100%)",
+					"gradient": "linear-gradient(135deg, #3a261f 0%, #2a1a15 100%)",
 					"name": "Brand"
 				},
 				{
 					"slug": "accent",
-					"gradient": "linear-gradient(160deg, rgba(58, 38, 31, 0.55) 0%, #000000 50%, rgba(199, 242, 225, 0.05) 100%)",
+					"gradient": "linear-gradient(160deg, rgba(199, 242, 225, 0.28) 0%, #ffffff 55%, rgba(199, 242, 225, 0.12) 100%)",
 					"name": "Accent"
 				},
 				{
 					"slug": "hero",
-					"gradient": "linear-gradient(165deg, rgba(58, 38, 31, 0.7) 0%, #000000 42%, #0a1210 100%)",
+					"gradient": "linear-gradient(165deg, #f5f5f5 0%, #ffffff 48%, rgba(199, 242, 225, 0.28) 100%)",
 					"name": "Hero"
 				},
 				{
@@ -109,14 +109,14 @@
 			},
 			"button": {
 				"color": {
-					"background": "transparent",
-					"text": "var(--wp--preset--color--white)"
+					"background": "var(--wp--preset--color--accent)",
+					"text": "var(--wp--preset--color--black)"
 				},
 				"border": {
-					"color": "var(--wp--preset--color--white)",
+					"color": "var(--wp--preset--color--accent)",
 					"width": "1px",
 					"style": "solid",
-					"radius": "32px"
+					"radius": "0"
 				},
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--ui)",
@@ -127,7 +127,7 @@
 			},
 			"link": {
 				"color": {
-					"text": "var(--wp--preset--color--white)"
+					"text": "var(--wp--preset--color--brown)"
 				}
 			}
 		}

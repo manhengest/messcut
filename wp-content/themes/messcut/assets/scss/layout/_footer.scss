@@ -1,0 +1,55 @@
+/* ——— Footer ——— */
+
+.site-footer {
+	padding-block: var(--space-huge);
+	background: var(--gradient-backdrop);
+	border-top: 1px solid var(--hairline-on-dark);
+	color: var(--on-primary);
+
+	a {
+		color: var(--on-primary);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-accent);
+			text-decoration: underline;
+			text-underline-offset: 3px;
+		}
+	}
+
+	&__inner {
+		text-align: center;
+
+		@media (min-width: 768px) {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			text-align: left;
+		}
+	}
+
+	&__tagline,
+	&__about {
+		color: var(--on-primary-mute);
+		line-height: 1.6;
+
+		@media (min-width: 768px) {
+			max-width: 32ch;
+		}
+	}
+
+	&__contacts-title {
+		font-family: var(--font-ui);
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		margin: 0 0 var(--space-md);
+	}
+
+	&__contacts p {
+		margin: 0 0 var(--space-xs);
+		font-size: 0.8125rem;
+		color: var(--on-primary-mute);
+	}
+}

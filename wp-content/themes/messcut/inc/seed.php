@@ -13,13 +13,29 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Run seed when content version is outdated.
  */
 function messcut_maybe_seed_content(): void {
+	static $running = false;
+
+	if ( $running ) {
+		return;
+	}
+
 	$current = (int) get_option( 'messcut_content_version', 0 );
 	if ( $current >= MESSCUT_CONTENT_VERSION && get_option( 'messcut_seeded' ) ) {
 		return;
 	}
+
+	if ( get_transient( 'messcut_seeding' ) ) {
+		return;
+	}
+
+	set_transient( 'messcut_seeding', 1, 2 * MINUTE_IN_SECONDS );
+	$running = true;
+
 	messcut_run_seed();
 	update_option( 'messcut_seeded', 1, false );
 	update_option( 'messcut_content_version', MESSCUT_CONTENT_VERSION, false );
+
+	delete_transient( 'messcut_seeding' );
 }
 add_action( 'after_switch_theme', 'messcut_maybe_seed_content', 20 );
 add_action( 'init', 'messcut_maybe_seed_content', 20 );
@@ -31,6 +47,7 @@ function messcut_run_seed(): void {
 	messcut_seed_options();
 	$service_ids = messcut_seed_services();
 	$case_ids    = messcut_seed_cases( $service_ids );
+	messcut_seed_articles();
 	messcut_seed_comparison( $service_ids );
 	messcut_seed_pages( $case_ids );
 	messcut_sync_menus();
@@ -70,9 +87,9 @@ function messcut_seed_options(): void {
 		'form_recipient_email' => 'admin@messcut.com',
 		'cta_discuss_label'    => 'Обговорити проєкт',
 		'cta_consult_label'    => 'Отримати ознайомчу консультацію',
-		'home_hero_title'      => 'Розвиваємо бренди з науковим підходом',
-		'home_hero_subtitle'   => 'ефективність в цифрах з чіткою стратегією',
-		'home_tagline'         => 'Розвиваємо бренди, збільшуючи їх ефективність в цифрах',
+		'home_hero_title'      => 'Бренд-стратегія та науковий маркетинг для розвитку бізнесу',
+		'home_hero_subtitle'   => 'Messcut – boutique-агенція стратегічного маркетингу. Розробляємо бренд-стратегії, будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень і даних.',
+		'audience_text'        => 'Для підприємців, які обирають шлях ефективного розвитку бренду зі зниженням ризиків інвестувати гроші і час в непрацюючі механіки, маючи чітку стратегію розвитку, що базується на наукових принципах.',
 		'stats'                => array(
 			array( 'value' => '', 'label' => 'роки практик та нескінченних навчань для підвищення кваліфікації' ),
 			array( 'value' => '30+', 'label' => 'бренд-стратегій' ),
@@ -85,6 +102,8 @@ function messcut_seed_options(): void {
 			array( 'text' => 'структура' ),
 			array( 'text' => 'любов до справи' ),
 		),
+		'home_faq_title'       => 'FAQ',
+		'home_faq'             => messcut_get_faq_seed_data( 'uk' ),
 	) );
 }
 
@@ -104,6 +123,7 @@ function messcut_upsert_post( string $post_type, string $slug, array $data ): in
 		'post_title'   => $data['title'] ?? $slug,
 		'post_name'    => $slug,
 		'post_excerpt' => $data['excerpt'] ?? '',
+		'post_content' => $data['content'] ?? '',
 		'menu_order'   => $data['order'] ?? 0,
 	);
 
@@ -170,6 +190,66 @@ function messcut_seed_cases( array $service_ids ): array {
 }
 
 /**
+ * Seed article type taxonomy terms.
+ *
+ * @return array<string, int> Type slug => term ID.
+ */
+function messcut_seed_article_types(): array {
+	$types = array(
+		'brand-strategy' => 'Бренд-стратегія',
+		'research'       => 'Дослідження',
+		'marketing'      => 'Маркетинг',
+	);
+
+	$ids = array();
+
+	foreach ( $types as $slug => $name ) {
+		$existing = term_exists( $slug, 'article_type' );
+		if ( $existing ) {
+			$ids[ $slug ] = (int) ( is_array( $existing ) ? $existing['term_id'] : $existing );
+			continue;
+		}
+
+		$term = wp_insert_term( $name, 'article_type', array( 'slug' => $slug ) );
+		if ( ! is_wp_error( $term ) ) {
+			$ids[ $slug ] = (int) $term['term_id'];
+		}
+	}
+
+	return $ids;
+}
+
+/**
+ * Seed insights (blog) articles.
+ */
+function messcut_seed_articles(): void {
+	$type_ids = messcut_seed_article_types();
+	$articles = messcut_get_article_seed_data();
+
+	foreach ( $articles as $slug => $data ) {
+		$post_id = messcut_upsert_post( 'article', $slug, $data );
+		if ( ! $post_id ) {
+			continue;
+		}
+
+		if ( empty( $data['types'] ) ) {
+			continue;
+		}
+
+		$terms = array();
+		foreach ( $data['types'] as $type_slug ) {
+			if ( isset( $type_ids[ $type_slug ] ) ) {
+				$terms[] = $type_ids[ $type_slug ];
+			}
+		}
+
+		if ( $terms ) {
+			wp_set_object_terms( $post_id, $terms, 'article_type' );
+		}
+	}
+}
+
+/**
  * Seed services comparison table in options.
  *
  * @param array<string, int> $service_ids Service IDs.
@@ -233,7 +313,7 @@ function messcut_seed_pages( array $case_ids ): void {
 		'',
 		'page-approach.php',
 		array(
-			'approach_content' => '<p>В основі нашої роботи – маркетинг, доведений наукою. Допомагаємо брендам зростати через реальну цінність для людей, системний підхід та стратегії, креатив не заради краси, а заради ефективності.</p><p>Основні драйвери ефективності маркетингу: реальна цінність для людей, системний підхід, креативність заради ефективності та науково обґрунтовані рішення.</p>',
+			'approach_content' => '<p>В основі нашої роботи – маркетинг, доведений наукою та поведінкова економіка. Допомагаємо брендам зростати через: реальну цінність для людей, системний підхід та стратегії, креатив не заради краси, а заради ефективності.</p>',
 		)
 	);
 
@@ -373,6 +453,9 @@ function messcut_sync_menus(): void {
 		'footer'  => $footer_id,
 	) );
 
+	messcut_dedupe_nav_menu( $primary_id );
+	messcut_dedupe_nav_menu( $footer_id );
+
 	if ( function_exists( 'pll_set_term_language' ) ) {
 		pll_set_term_language( $primary_id, 'uk' );
 		pll_set_term_language( $footer_id, 'uk' );
@@ -391,15 +474,53 @@ function messcut_sync_menus(): void {
 }
 
 /**
+ * Remove duplicate nav menu items (same target URL or linked object).
+ *
+ * @param int $menu_id Menu term ID.
+ */
+function messcut_dedupe_nav_menu( int $menu_id ): void {
+	$items = wp_get_nav_menu_items(
+		$menu_id,
+		array(
+			'update_post_term_cache' => false,
+		)
+	);
+
+	if ( ! $items ) {
+		return;
+	}
+
+	$seen = array();
+
+	foreach ( $items as $item ) {
+		$key = $item->type . ':' . ( $item->object_id ? (string) $item->object_id : (string) $item->url );
+
+		if ( isset( $seen[ $key ] ) ) {
+			wp_delete_post( (int) $item->ID, true );
+			continue;
+		}
+
+		$seen[ $key ] = true;
+	}
+}
+
+/**
  * Remove all items from a nav menu.
  *
  * @param int $menu_id Menu term ID.
  */
 function messcut_clear_nav_menu( int $menu_id ): void {
-	$items = wp_get_nav_menu_items( $menu_id );
+	$items = wp_get_nav_menu_items(
+		$menu_id,
+		array(
+			'update_post_term_cache' => false,
+		)
+	);
+
 	if ( ! $items ) {
 		return;
 	}
+
 	foreach ( $items as $item ) {
 		wp_delete_post( (int) $item->ID, true );
 	}

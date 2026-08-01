@@ -64,9 +64,9 @@ while ( have_posts() ) :
 
 		<?php
 		$blocks = array(
-			__( 'Завдання від замовника', 'messcut' ) => $client_task ?: $challenge,
+			__( 'Завдання від замовника', 'messcut' ) => $client_task,
 			__( 'Процес співпраці', 'messcut' )       => $collaboration,
-			__( 'Складнощі проєкту', 'messcut' )      => $difficulties,
+			__( 'Виклики проєкту', 'messcut' )        => $challenge ?: $difficulties,
 			__( 'Дослідження', 'messcut' )            => $research,
 			__( 'Стратегічний інсайт', 'messcut' )    => $insight,
 			__( 'Стратегія бренду', 'messcut' )       => $brand_strategy,
@@ -74,7 +74,7 @@ while ( have_posts() ) :
 			__( 'Позиціонування', 'messcut' )         => $positioning,
 			__( 'Меседж бренду', 'messcut' )          => $brand_message,
 			__( 'Візуальна складова бренду', 'messcut' ) => $visual_identity,
-			__( 'Що демонструє цей кейс', 'messcut' ) => $case_demonstrates,
+			__( 'Ключові висновки', 'messcut' )       => $case_demonstrates,
 		);
 		foreach ( $blocks as $heading => $content ) {
 			messcut_render_content_block( $heading, $content );
@@ -105,6 +105,7 @@ while ( have_posts() ) :
 		) );
 		messcut_render_approach_cta();
 		messcut_render_insights_tiles();
+		messcut_render_faq();
 		?>
 	</article>
 	<?php

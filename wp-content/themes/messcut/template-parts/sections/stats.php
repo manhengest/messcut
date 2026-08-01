@@ -12,24 +12,81 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $stats = $args['stats'] ?? array();
+$title = $args['title'] ?? __( 'Що стоїть за нашою роботою', 'messcut' );
 if ( empty( $stats ) ) {
 	return;
 }
+
+$intro    = null;
+$featured = null;
+$orbit    = array();
+
+foreach ( $stats as $stat ) {
+	if ( empty( $stat['value'] ) ) {
+		$intro = $stat;
+		continue;
+	}
+
+	if ( null === $featured && str_contains( (string) $stat['value'], '%' ) ) {
+		$featured = $stat;
+		continue;
+	}
+
+	$orbit[] = $stat;
+}
+
+if ( null === $featured && ! empty( $orbit ) ) {
+	$featured = array_shift( $orbit );
+}
+
+$tore_url = MESSCUT_URI . '/assets/img/tore.png';
 ?>
 <section class="section stats">
 	<div class="container">
-		<h2 class="section__title"><?php esc_html_e( 'Що стоїть за нашою роботою', 'messcut' ); ?></h2>
-		<ul class="stats__grid">
-			<?php foreach ( $stats as $stat ) : ?>
-				<li class="stats__item">
-					<?php if ( ! empty( $stat['value'] ) ) : ?>
-						<strong class="stats__value"><?php echo esc_html( $stat['value'] ); ?></strong>
-						<span class="stats__label"><?php echo esc_html( $stat['label'] ?? '' ); ?></span>
-					<?php else : ?>
-						<span class="stats__label stats__label--solo"><?php echo esc_html( $stat['label'] ?? '' ); ?></span>
-					<?php endif; ?>
-				</li>
-			<?php endforeach; ?>
-		</ul>
+		<div class="stats__layout">
+			<header class="stats__header">
+				<?php if ( $title ) : ?>
+					<h2 class="stats__title"><?php echo esc_html( $title ); ?></h2>
+				<?php endif; ?>
+				<?php if ( $featured ) : ?>
+					<div class="stats__item stats__item--featured">
+						<strong class="stats__value"><?php echo esc_html( $featured['value'] ); ?></strong>
+						<span class="stats__label"><?php echo esc_html( $featured['label'] ?? '' ); ?></span>
+					</div>
+				<?php endif; ?>
+			</header>
+
+			<div class="stats__visual" aria-hidden="true">
+				<img
+					class="stats__tore"
+					src="<?php echo esc_url( $tore_url ); ?>"
+					alt=""
+					width="640"
+					height="640"
+					loading="lazy"
+					decoding="async"
+				/>
+			</div>
+
+			<?php if ( ! empty( $orbit[0] ) ) : ?>
+				<div class="stats__item stats__item--tr">
+					<strong class="stats__value"><?php echo esc_html( $orbit[0]['value'] ); ?></strong>
+					<span class="stats__label"><?php echo esc_html( $orbit[0]['label'] ?? '' ); ?></span>
+				</div>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $orbit[1] ) ) : ?>
+				<div class="stats__item stats__item--bl">
+					<strong class="stats__value"><?php echo esc_html( $orbit[1]['value'] ); ?></strong>
+					<span class="stats__label"><?php echo esc_html( $orbit[1]['label'] ?? '' ); ?></span>
+				</div>
+			<?php endif; ?>
+
+			<?php if ( $intro ) : ?>
+				<div class="stats__item stats__item--br">
+					<p class="stats__narrative"><?php echo esc_html( $intro['label'] ?? '' ); ?></p>
+				</div>
+			<?php endif; ?>
+		</div>
 	</div>
 </section>

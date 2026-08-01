@@ -1,0 +1,225 @@
+/* ——— Grids & cards ——— */
+
+.grid {
+	display: grid;
+}
+
+.grid--cases,
+.grid--insights {
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: var(--space-md);
+}
+
+.grid--services {
+	grid-template-columns: 1fr;
+	gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+	.grid--cases,
+	.grid--services {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.services-grid {
+	background: var(--gradient-band-brown);
+	color: var(--on-primary);
+}
+
+.cases-grid {
+	background: var(--canvas-light);
+
+	&__more {
+		margin: var(--space-xxl) 0 0;
+		text-align: center;
+	}
+}
+
+.insights-tiles {
+	background: var(--gradient-band-brown);
+	color: var(--on-primary);
+
+	&__more {
+		margin: var(--space-xxl) 0 0;
+		text-align: center;
+		font-family: var(--font-ui);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+
+		a {
+			color: var(--color-accent);
+			text-decoration: underline;
+			text-underline-offset: 4px;
+			text-decoration-color: rgba(199, 242, 225, 0.45);
+
+			&:hover {
+				color: var(--on-primary);
+				text-decoration-color: var(--on-primary);
+			}
+		}
+	}
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-md);
+	padding: var(--space-xl);
+	border: 1px solid var(--hairline-on-light);
+	border-radius: var(--radius-sm);
+	background: var(--canvas-light);
+	color: var(--ink);
+	transition:
+		border-color var(--duration-fast) var(--ease-out),
+		background var(--duration-fast) var(--ease-out);
+
+	&:hover {
+		border-color: var(--color-accent-strong);
+		background: linear-gradient(180deg, var(--color-accent-soft) 0%, var(--canvas-light) 52%);
+	}
+
+	&__title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		line-height: 1.2;
+
+		a {
+			text-decoration: none;
+			color: var(--ink);
+
+			&:hover {
+				color: var(--color-brown);
+			}
+		}
+	}
+
+	&__excerpt {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-sm);
+		flex-grow: 1;
+		min-width: 0;
+	}
+
+	&__excerpt-text,
+	&__excerpt:not(&__excerpt--collapsible) {
+		margin: 0;
+		font-family: var(--font-body);
+		color: var(--ink-mute);
+		line-height: 1.6;
+	}
+
+	&__excerpt:not(&__excerpt--collapsible) {
+		flex-grow: 1;
+	}
+
+	&__excerpt--collapsible:not(.is-expanded) &__excerpt-text,
+	&__excerpt--collapsible:not(.is-expanded) &__link {
+		display: none;
+	}
+
+	&__excerpt &__link {
+		margin-top: 0;
+	}
+
+	&__excerpt-toggle {
+		display: inline-flex;
+		align-items: center;
+		padding: 0;
+		border: 0;
+		background: none;
+		font-family: var(--font-ui);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-decoration: underline;
+		text-underline-offset: 4px;
+		text-decoration-color: var(--color-accent-dim);
+		text-transform: uppercase;
+		color: var(--color-brown);
+		cursor: pointer;
+
+		&:hover {
+			color: var(--ink);
+			text-decoration-color: var(--ink);
+		}
+	}
+
+	&__link {
+		font-family: var(--font-ui);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-decoration: underline;
+		text-underline-offset: 4px;
+		text-decoration-color: var(--color-accent-dim);
+		text-transform: uppercase;
+		color: var(--color-brown);
+		margin-top: auto;
+
+		&:hover {
+			color: var(--ink);
+			text-decoration-color: var(--ink);
+		}
+	}
+
+	&__media {
+		display: block;
+		margin: calc(var(--space-xl) * -1) calc(var(--space-xl) * -1) 0;
+		overflow: hidden;
+		border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			aspect-ratio: 16 / 10;
+			object-fit: cover;
+		}
+	}
+}
+
+/* Light cards on brown substrate */
+.insights-tiles .card,
+.services-grid .card {
+	border-color: var(--hairline-on-dark);
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--on-primary);
+
+	&:hover {
+		border-color: var(--color-accent);
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	&__title a {
+		color: var(--on-primary);
+
+		&:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	&__excerpt,
+	&__excerpt-text {
+		color: var(--on-primary-mute);
+	}
+
+	&__link,
+	&__excerpt-toggle {
+		color: var(--color-accent);
+		text-decoration-color: rgba(199, 242, 225, 0.45);
+
+		&:hover {
+			color: var(--on-primary);
+			text-decoration-color: var(--on-primary);
+		}
+	}
+}

@@ -1,0 +1,72 @@
+/* ——— Sections & bands ——— */
+
+.site-main {
+	padding-top: 0;
+}
+
+.section {
+	padding-block: var(--space-band);
+
+	&--soft {
+		background: var(--canvas-light-soft);
+	}
+
+	&--brown {
+		background: var(--gradient-band-brown);
+		color: var(--on-primary);
+	}
+
+	&--brand {
+		background: var(--gradient-brand);
+		color: var(--on-primary);
+	}
+
+	&__title {
+		margin: 0 0 var(--space-xxl);
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 4.5vw, 3.75rem);
+		font-weight: 700;
+		line-height: 1.05;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		max-width: 22ch;
+
+		&::after {
+			content: "";
+			display: block;
+			width: 3.5rem;
+			height: 3px;
+			margin-top: var(--space-md);
+			background: var(--color-accent);
+		}
+	}
+
+	&__eyebrow {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-ui);
+		font-size: 0.75rem;
+		font-weight: 400;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-brown);
+	}
+
+	&--brown &__eyebrow,
+	&--brand &__eyebrow {
+		color: var(--color-accent);
+	}
+}
+
+/* Brown substrate sections — light text */
+.tagline,
+.services-comparison,
+.services-grid,
+.insights-tiles,
+.mid-cta,
+.approach-cta {
+	color: var(--on-primary);
+
+	a:hover {
+		color: var(--color-accent);
+	}
+}

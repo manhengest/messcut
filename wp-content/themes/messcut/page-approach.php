@@ -9,7 +9,11 @@
 
 get_header();
 
-get_template_part( 'template-parts/sections/hero' );
+get_template_part( 'template-parts/sections/hero', null, array(
+	'title'    => __( 'Розвиваємо бренди з науковим підходом', 'messcut' ),
+	'subtitle' => __( 'ефективність в цифрах з чіткою стратегією', 'messcut' ),
+) );
+
 messcut_render_stats();
 
 $values = function_exists( 'get_field' ) ? get_field( 'values_override' ) : array();
@@ -31,13 +35,19 @@ $approach = function_exists( 'get_field' ) ? get_field( 'approach_content' ) : '
 				<div class="entry-content"><?php the_content(); ?></div>
 			<?php endwhile; ?>
 		<?php endif; ?>
-		<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( messcut_cta_label( 'discuss' ) ); ?> →</a></p>
+		<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( messcut_cta_label( 'discuss' ) ); ?></a></p>
 	</div>
 </section>
 
-<?php get_template_part( 'template-parts/sections/cases-grid' ); ?>
-
-<?php get_template_part( 'template-parts/sections/cta' ); ?>
-
 <?php
+get_template_part( 'template-parts/sections/cases-grid', null, array(
+	'title' => __( 'Наші кейси', 'messcut' ),
+) );
+
+get_template_part( 'template-parts/sections/services-grid' );
+
+get_template_part( 'template-parts/sections/audience' );
+
+get_template_part( 'template-parts/sections/cta' );
+
 get_footer();

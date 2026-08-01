@@ -10,17 +10,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <header class="site-header">
-	<div class="container site-header__inner">
-		<div class="site-branding">
-			<?php messcut_render_logo( 'white', array( 'class' => 'site-logo site-logo--header' ) ); ?>
-		</div>
-
+	<div class="site-header__inner">
 		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
 			<span class="nav-toggle__label"><?php esc_html_e( 'Меню', 'messcut' ); ?></span>
 		</button>
 
+		<div class="site-header__brand">
+			<?php messcut_render_logo( 'black', array( 'class' => 'site-logo site-logo--header' ) ); ?>
+		</div>
+
+		<div class="site-header__actions">
+			<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
+			<a class="site-header__cta" href="#lead-form"><?php esc_html_e( 'Звʼязатись', 'messcut' ); ?></a>
+		</div>
+
 		<div class="site-header__contacts">
-			<?php messcut_render_language_switcher(); ?>
+			<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
 			<?php if ( messcut_phone() ) : ?>
 				<a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', messcut_phone() ) ); ?>">
 					<?php echo esc_html( messcut_phone() ); ?>
@@ -45,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			) );
 			?>
 			<div class="primary-navigation__meta">
-				<?php messcut_render_language_switcher(); ?>
+				<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
 				<?php if ( messcut_phone() ) : ?>
 					<a class="primary-navigation__contact" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', messcut_phone() ) ); ?>">
 						<?php echo esc_html( messcut_phone() ); ?>
