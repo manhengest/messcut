@@ -56,7 +56,7 @@ wp-content/themes/messcut/     # THEME SOURCE (edit here)
   template-parts/              # header, footer, forms, sections
   theme.json                   # Editor palette / fonts / gradients
 wordpress/                     # Docker WP root (generated + synced theme)
-Web Messcut.md                 # Client brief / content source
+Project Requirements.md        # Client brief / content source (local, gitignored)
 README.md                      # Docker + WP-CLI runbook
 ```
 
@@ -123,5 +123,5 @@ Use **Context7** for current WP / ACF / Polylang APIs — do not rely on stale t
 Further reading:
 
 - [README.md](README.md) — Docker, import/export, WP-CLI
-- [Web Messcut.md](Web%20Messcut.md) — pages, case/service structure, copy
+- [Project Requirements.md](Project%20Requirements.md) — pages, case/service structure, copy (local; gitignored)
 - [.cursor/plans/messcut_wp_theme_9dd8af69.plan.md](.cursor/plans/messcut_wp_theme_9dd8af69.plan.md) — architecture & phases
