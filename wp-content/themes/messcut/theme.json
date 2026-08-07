@@ -45,29 +45,35 @@
 		"typography": {
 			"fontFamilies": [
 				{
-					"fontFamily": "\"Oswald\", \"Arial Narrow\", sans-serif",
+					"fontFamily": "\"Space Grotesk\", \"Helvetica Neue\", Helvetica, sans-serif",
 					"name": "Display",
 					"slug": "display"
 				},
 				{
-					"fontFamily": "\"Montserrat\", \"Helvetica Neue\", Helvetica, sans-serif",
+					"fontFamily": "\"Space Grotesk\", \"Helvetica Neue\", Helvetica, sans-serif",
 					"name": "UI",
 					"slug": "ui"
 				},
 				{
-					"fontFamily": "\"Source Sans 3\", \"Helvetica Neue\", Helvetica, sans-serif",
+					"fontFamily": "\"Space Grotesk\", \"Helvetica Neue\", Helvetica, sans-serif",
 					"name": "Body",
 					"slug": "body"
+				},
+				{
+					"fontFamily": "\"IBM Plex Mono\", ui-monospace, monospace",
+					"name": "Mono",
+					"slug": "mono"
 				}
 			],
 			"fontSizes": [
-				{ "slug": "micro", "size": "0.75rem", "name": "Micro" },
-				{ "slug": "small", "size": "0.875rem", "name": "Small" },
+				{ "slug": "micro", "size": "0.6875rem", "name": "Micro" },
+				{ "slug": "xs", "size": "0.75rem", "name": "XS" },
+				{ "slug": "small", "size": "0.8125rem", "name": "Small" },
 				{ "slug": "medium", "size": "1rem", "name": "Medium" },
-				{ "slug": "large", "size": "1.25rem", "name": "Large" },
-				{ "slug": "x-large", "size": "1.5rem", "name": "Extra Large" },
-				{ "slug": "xx-large", "size": "2.25rem", "name": "2X Large" },
-				{ "slug": "display", "size": "clamp(2.5rem, 7vw, 5rem)", "name": "Display" }
+				{ "slug": "large", "size": "1.125rem", "name": "Large" },
+				{ "slug": "x-large", "size": "1.25rem", "name": "Extra Large" },
+				{ "slug": "xx-large", "size": "1.5rem", "name": "2X Large" },
+				{ "slug": "display", "size": "clamp(2.375rem, 7vw, 4.5rem)", "name": "Display" }
 			]
 		},
 		"spacing": {
@@ -76,15 +82,15 @@
 				{ "slug": "xs", "size": "0.5rem", "name": "XS" },
 				{ "slug": "sm", "size": "0.75rem", "name": "SM" },
 				{ "slug": "md", "size": "1rem", "name": "MD" },
-				{ "slug": "lg", "size": "1.125rem", "name": "LG" },
-				{ "slug": "xl", "size": "1.5rem", "name": "XL" },
-				{ "slug": "xxl", "size": "2rem", "name": "XXL" },
-				{ "slug": "huge", "size": "3rem", "name": "Huge" }
+				{ "slug": "lg", "size": "1.5rem", "name": "LG" },
+				{ "slug": "xl", "size": "2rem", "name": "XL" },
+				{ "slug": "xxl", "size": "3rem", "name": "XXL" },
+				{ "slug": "huge", "size": "4rem", "name": "Huge" }
 			]
 		},
 		"layout": {
 			"contentSize": "720px",
-			"wideSize": "1200px"
+			"wideSize": "1440px"
 		}
 	},
 	"styles": {
@@ -95,16 +101,15 @@
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--body)",
 			"fontSize": "var(--wp--preset--font-size--medium)",
-			"lineHeight": "1.6"
+			"lineHeight": "1.5"
 		},
 		"elements": {
 			"heading": {
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--display)",
-					"fontWeight": "700",
+					"fontWeight": "500",
 					"lineHeight": "1.1",
-					"textTransform": "uppercase",
-					"letterSpacing": "0.06em"
+					"letterSpacing": "-0.02em"
 				}
 			},
 			"button": {
@@ -116,13 +121,12 @@
 					"color": "var(--wp--preset--color--accent)",
 					"width": "1px",
 					"style": "solid",
-					"radius": "0"
+					"radius": "9999px"
 				},
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--ui)",
-					"fontWeight": "700",
-					"textTransform": "uppercase",
-					"letterSpacing": "0.12em"
+					"fontWeight": "500",
+					"letterSpacing": "normal"
 				}
 			},
 			"link": {

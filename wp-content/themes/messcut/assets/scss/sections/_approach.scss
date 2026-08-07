@@ -45,16 +45,16 @@
 .specialist-badge__inner {
 	display: inline-flex;
 	flex-direction: column;
-	gap: 0.25rem;
+	gap: var(--space-xxs);
 	padding: var(--space-md) var(--space-xl);
 	border: 1px solid var(--hairline-on-light);
-	border-radius: var(--radius-sm);
-	background: var(--canvas-light-soft);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
 }
 
 .entry-content {
 	color: var(--ink-mute);
-	line-height: 1.7;
+	line-height: var(--lh-body);
 
 	> *:first-child {
 		margin-top: 0;

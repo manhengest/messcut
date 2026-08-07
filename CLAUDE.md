@@ -79,9 +79,10 @@ Keep CSS variables and `theme.json` in sync.
 
 | Role | Family | Use |
 |------|--------|-----|
-| Display | Oswald | Headings, hero, stats |
-| UI | Montserrat | Nav, buttons, labels |
-| Body | Source Sans 3 | Body copy |
+| Display / UI / Body | Space Grotesk | Headings, nav, buttons, body copy |
+| Mono | IBM Plex Mono | Eyebrows, labels, metadata |
+
+Visual patterns follow a light Sanity-inspired system: pill CTAs, tight heading tracking, colorimetric depth (hairline borders, no drop shadows), brown hover states. Accent colors unchanged.
 
 **Colors** (sampled from brand board)
 

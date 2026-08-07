@@ -12,8 +12,8 @@
 
 .faq__item {
 	border: 1px solid var(--hairline-on-light);
-	border-radius: var(--radius-sm);
-	background: var(--canvas-light-soft);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
 	overflow: hidden;
 }
 
@@ -26,8 +26,8 @@
 	cursor: pointer;
 	font-family: var(--font-ui);
 	font-size: var(--text-sm);
-	font-weight: 600;
-	line-height: 1.4;
+	font-weight: 500;
+	line-height: var(--lh-heading);
 	color: var(--ink);
 	list-style: none;
 
@@ -64,4 +64,5 @@
 .faq__answer {
 	padding: 0 var(--space-lg) var(--space-lg);
 	color: var(--ink-mute);
+	line-height: var(--lh-body);
 }

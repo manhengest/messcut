@@ -5,16 +5,15 @@
 
 	a {
 		font-family: var(--font-ui);
-		font-weight: 600;
-		font-size: 0.75rem;
-		letter-spacing: 0.1em;
+		font-weight: 500;
+		font-size: var(--text-sm);
+		letter-spacing: normal;
 		text-decoration: none;
-		text-transform: uppercase;
-		color: var(--on-primary);
+		color: var(--on-primary-mute);
 		transition: color var(--duration-fast) var(--ease-out);
 
 		&:hover {
-			color: var(--color-accent);
+			color: var(--on-primary);
 		}
 	}
 }
@@ -22,19 +21,18 @@
 .primary-menu {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-xl);
+	gap: var(--space-lg);
 	list-style: none;
 	margin: 0;
 	padding: 0;
 
 	a {
 		font-family: var(--font-ui);
-		font-weight: 600;
-		font-size: 0.75rem;
-		letter-spacing: 0.1em;
+		font-weight: 500;
+		font-size: var(--text-base);
+		letter-spacing: normal;
 		text-decoration: none;
-		text-transform: uppercase;
-		color: var(--ink);
+		color: var(--ink-mute);
 		transition: color var(--duration-fast) var(--ease-out);
 
 		&:hover {
@@ -44,28 +42,28 @@
 
 	.current-menu-item > a,
 	.current_page_item > a {
-		color: var(--color-brown);
+		color: var(--ink);
 	}
 }
 
 .footer-menu .current-menu-item > a {
-	color: var(--color-accent);
+	color: var(--on-primary);
 }
 
 .language-switcher {
 	&__list {
 		display: flex;
-		gap: 0.5rem;
+		gap: var(--space-xs);
 		list-style: none;
 		margin: 0 0 0.25rem;
 		padding: 0;
 	}
 
 	&__link {
-		font-family: var(--font-ui);
-		font-size: 0.6875rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-decoration: none;
 		text-transform: uppercase;
 		color: var(--ink-mute);
@@ -89,15 +87,15 @@
 
 		.language-switcher__item:not(:last-child)::after {
 			content: "/";
-			color: var(--ink);
-			font-family: var(--font-ui);
-			font-size: 0.6875rem;
-			font-weight: 700;
-			letter-spacing: 0.12em;
+			color: var(--ink-mute);
+			font-family: var(--font-mono);
+			font-size: var(--text-micro);
+			font-weight: 500;
+			letter-spacing: var(--tracking-label);
 		}
 
 		.language-switcher__link {
-			color: var(--ink);
+			color: var(--ink-mute);
 		}
 
 		.language-switcher__item.is-current .language-switcher__link {
@@ -105,7 +103,7 @@
 		}
 
 		.language-switcher__item:not(.is-current) .language-switcher__link:hover {
-			color: var(--ink-mute);
+			color: var(--color-brown);
 		}
 	}
 }
@@ -118,10 +116,10 @@
 	background: transparent;
 	color: var(--ink);
 	padding: 0;
-	font-family: var(--font-ui);
-	font-size: 0.6875rem;
-	font-weight: 700;
-	letter-spacing: 0.12em;
+	font-family: var(--font-mono);
+	font-size: var(--text-micro);
+	font-weight: 500;
+	letter-spacing: var(--tracking-label);
 	text-transform: uppercase;
 	cursor: pointer;
 	border-radius: 0;
@@ -195,9 +193,9 @@ body.has-nav-open {
 				padding-block: var(--space-sm);
 				font-family: var(--font-display);
 				font-size: clamp(1.25rem, 4.8vw, 1.625rem);
-				font-weight: 700;
-				letter-spacing: 0.08em;
-				line-height: 1.1;
+				font-weight: 500;
+				letter-spacing: var(--tracking-heading);
+				line-height: var(--lh-tight);
 				color: var(--on-primary);
 
 				&:hover {
@@ -226,7 +224,7 @@ body.has-nav-open {
 		}
 
 		.language-switcher__link {
-			font-size: 0.75rem;
+			font-size: var(--text-xs);
 			color: var(--on-primary-mute);
 		}
 
@@ -241,15 +239,15 @@ body.has-nav-open {
 
 	&__contact {
 		font-family: var(--font-ui);
-		font-size: 0.875rem;
-		font-weight: 600;
-		letter-spacing: 0.04em;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		letter-spacing: normal;
 		text-decoration: none;
 		color: var(--on-primary-mute);
 		transition: color var(--duration-fast) var(--ease-out);
 
 		&:hover {
-			color: var(--color-accent);
+			color: var(--on-primary);
 		}
 	}
 

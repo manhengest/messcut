@@ -29,10 +29,10 @@
 	&__title {
 		margin: 0 0 var(--space-md);
 		font-family: var(--font-display);
-		font-size: clamp(1.75rem, 4.5vw, 3.25rem);
-		font-weight: 700;
-		line-height: 1.2;
-		text-transform: uppercase;
+		font-size: var(--text-display);
+		font-weight: 500;
+		line-height: var(--lh-tight);
+		letter-spacing: var(--tracking-display);
 		color: var(--ink);
 		max-width: 20ch;
 		animation: heroFadeUp var(--duration-med) var(--ease-out) both;
@@ -44,10 +44,9 @@
 		border-left: 3px solid var(--color-accent);
 		color: var(--ink-mute);
 		font-family: var(--font-body);
-		font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
-		line-height: 1.6;
-		letter-spacing: 0.02em;
-		text-transform: none;
+		font-size: var(--text-lg);
+		line-height: var(--lh-body);
+		letter-spacing: normal;
 		max-width: 50ch;
 		animation: heroFadeUp var(--duration-med) var(--ease-out) 0.1s both;
 	}

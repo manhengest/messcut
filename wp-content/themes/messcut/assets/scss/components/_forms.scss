@@ -8,7 +8,7 @@
 		margin: 0 0 var(--space-xxl);
 		color: var(--ink-mute);
 		max-width: 48ch;
-		line-height: 1.7;
+		line-height: var(--lh-body);
 	}
 }
 
@@ -43,10 +43,10 @@
 
 		> label,
 		legend {
-			font-family: var(--font-ui);
-			font-size: 0.6875rem;
-			font-weight: 700;
-			letter-spacing: 0.12em;
+			font-family: var(--font-mono);
+			font-size: var(--text-micro);
+			font-weight: 500;
+			letter-spacing: var(--tracking-label);
 			text-transform: uppercase;
 			color: var(--ink-mute);
 			padding: 0;
@@ -56,7 +56,7 @@
 		textarea {
 			width: 100%;
 			min-height: 2.75rem;
-			padding: var(--space-sm) var(--space-md);
+			padding: var(--space-xs) var(--space-sm);
 			border: 1px solid var(--hairline-on-light);
 			border-radius: var(--radius-xs);
 			font: inherit;
@@ -91,10 +91,10 @@
 
 	&__step-label {
 		margin: 0;
-		font-family: var(--font-ui);
-		font-size: 0.6875rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-transform: uppercase;
 		color: var(--ink-mute);
 	}
@@ -102,7 +102,7 @@
 	&__choices {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-md);
+		gap: var(--space-sm);
 	}
 
 	&__choice {
@@ -111,18 +111,17 @@
 		align-items: center;
 		justify-content: center;
 		min-height: 2.75rem;
-		padding: var(--space-md) var(--space-xl);
+		padding: var(--space-xs) var(--space-md);
 		border: 1px solid var(--hairline-on-light);
-		border-radius: var(--radius-xs);
+		border-radius: var(--radius-pill);
 		cursor: pointer;
 		color: var(--ink);
 		background: var(--color-white);
 		font-family: var(--font-ui);
-		font-size: 0.75rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		line-height: 1.2;
-		text-transform: uppercase;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		letter-spacing: normal;
+		line-height: var(--lh-body);
 		transition:
 			border-color var(--duration-fast) var(--ease-out),
 			background var(--duration-fast) var(--ease-out),
@@ -130,8 +129,9 @@
 			color var(--duration-fast) var(--ease-out);
 
 		&:hover {
-			border-color: var(--color-accent-strong);
-			background: var(--color-accent-soft);
+			border-color: var(--color-brown);
+			background: var(--color-surface);
+			color: var(--color-brown);
 		}
 
 		&:has(input:checked) {
@@ -165,7 +165,7 @@
 	}
 
 	&__thanks {
-		font-size: 1.125rem;
+		font-size: var(--text-lg);
 		margin: 0;
 		color: var(--ink);
 	}
@@ -190,10 +190,10 @@
 
 	&__label {
 		margin: 0 0 var(--space-md);
-		font-family: var(--font-ui);
-		font-size: 0.6875rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-transform: uppercase;
 		color: var(--ink-mute);
 	}

@@ -40,7 +40,7 @@ function messcut_enqueue_assets(): void {
 
 	wp_enqueue_style(
 		'messcut-fonts',
-		'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Oswald:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap',
+		'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap',
 		array(),
 		null
 	);

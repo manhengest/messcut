@@ -43,10 +43,10 @@
 	&__more {
 		margin: var(--space-xxl) 0 0;
 		text-align: center;
-		font-family: var(--font-ui);
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-transform: uppercase;
 
 		a {
@@ -69,8 +69,8 @@
 	gap: var(--space-md);
 	padding: var(--space-xl);
 	border: 1px solid var(--hairline-on-light);
-	border-radius: var(--radius-sm);
-	background: var(--canvas-light);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
 	color: var(--ink);
 	transition:
 		border-color var(--duration-fast) var(--ease-out),
@@ -78,17 +78,16 @@
 
 	&:hover {
 		border-color: var(--color-accent-strong);
-		background: linear-gradient(180deg, var(--color-accent-soft) 0%, var(--canvas-light) 52%);
+		background: var(--canvas-light);
 	}
 
 	&__title {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: 1.25rem;
-		font-weight: 700;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		line-height: 1.2;
+		font-size: var(--text-xl);
+		font-weight: 500;
+		letter-spacing: var(--tracking-heading);
+		line-height: var(--lh-heading);
 
 		a {
 			text-decoration: none;
@@ -114,7 +113,7 @@
 		margin: 0;
 		font-family: var(--font-body);
 		color: var(--ink-mute);
-		line-height: 1.6;
+		line-height: var(--lh-body);
 	}
 
 	&__excerpt:not(&__excerpt--collapsible) {
@@ -136,10 +135,10 @@
 		padding: 0;
 		border: 0;
 		background: none;
-		font-family: var(--font-ui);
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-decoration: underline;
 		text-underline-offset: 4px;
 		text-decoration-color: var(--color-accent-dim);
@@ -154,10 +153,10 @@
 	}
 
 	&__link {
-		font-family: var(--font-ui);
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-decoration: underline;
 		text-underline-offset: 4px;
 		text-decoration-color: var(--color-accent-dim);
@@ -175,7 +174,7 @@
 		display: block;
 		margin: calc(var(--space-xl) * -1) calc(var(--space-xl) * -1) 0;
 		overflow: hidden;
-		border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+		border-radius: var(--radius-md) var(--radius-md) 0 0;
 
 		img {
 			display: block;

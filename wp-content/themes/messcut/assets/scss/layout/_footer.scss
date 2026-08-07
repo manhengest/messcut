@@ -7,13 +7,11 @@
 	color: var(--on-primary);
 
 	a {
-		color: var(--on-primary);
+		color: var(--on-primary-mute);
 		text-decoration: none;
 
 		&:hover {
-			color: var(--color-accent);
-			text-decoration: underline;
-			text-underline-offset: 3px;
+			color: var(--on-primary);
 		}
 	}
 
@@ -31,7 +29,7 @@
 	&__tagline,
 	&__about {
 		color: var(--on-primary-mute);
-		line-height: 1.6;
+		line-height: var(--lh-body);
 
 		@media (min-width: 768px) {
 			max-width: 32ch;
@@ -39,17 +37,18 @@
 	}
 
 	&__contacts-title {
-		font-family: var(--font-ui);
-		font-size: 0.6875rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
 		text-transform: uppercase;
 		margin: 0 0 var(--space-md);
+		color: var(--on-primary);
 	}
 
 	&__contacts p {
 		margin: 0 0 var(--space-xs);
-		font-size: 0.8125rem;
+		font-size: var(--text-sm);
 		color: var(--on-primary-mute);
 	}
 }

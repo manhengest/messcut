@@ -49,31 +49,57 @@
 	--gradient-band-brown: linear-gradient(180deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
 	--gradient-hero: linear-gradient(165deg, var(--canvas-light-soft) 0%, var(--canvas-light) 48%, rgba(199, 242, 225, 0.28) 100%);
 
-	--font-display: "Oswald", "Arial Narrow", sans-serif;
-	--font-ui: "Montserrat", "Helvetica Neue", Helvetica, sans-serif;
-	--font-body: "Source Sans 3", "Helvetica Neue", Helvetica, sans-serif;
+	/* Typography — Sanity-inspired (Space Grotesk + IBM Plex Mono) */
+	--font-display: "Space Grotesk", "Helvetica Neue", Helvetica, sans-serif;
+	--font-ui: "Space Grotesk", "Helvetica Neue", Helvetica, sans-serif;
+	--font-body: "Space Grotesk", "Helvetica Neue", Helvetica, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-	/* Spacing scale */
+	/* Type scale */
+	--text-micro: 0.6875rem;
+	--text-xs: 0.75rem;
+	--text-sm: 0.8125rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 2rem;
+	--text-4xl: clamp(2rem, 4.5vw, 3rem);
+	--text-display: clamp(2.375rem, 7vw, 4.5rem);
+
+	--lh-tight: 1.1;
+	--lh-heading: 1.24;
+	--lh-body: 1.5;
+
+	--tracking-tight: -0.02em;
+	--tracking-heading: -0.03em;
+	--tracking-display: -0.04em;
+	--tracking-label: 0.04em;
+
+	/* Spacing scale — 8px base */
 	--space-xxs: 0.25rem;
 	--space-xs: 0.5rem;
 	--space-sm: 0.75rem;
 	--space-md: 1rem;
-	--space-lg: 1.125rem;
-	--space-xl: 1.5rem;
-	--space-xxl: 2rem;
-	--space-huge: 3rem;
-	--space-band: clamp(4rem, 10vw, 6rem);
+	--space-lg: 1.5rem;
+	--space-xl: 2rem;
+	--space-xxl: 3rem;
+	--space-huge: 4rem;
+	--space-band: clamp(3rem, 8vw, 7.5rem);
 
-	--radius-xs: 4px;
-	--radius-sm: 8px;
-	--radius-md: 16px;
-	--radius-pill: 32px;
+	/* Radius — Sanity scale */
+	--radius-xs: 3px;
+	--radius-sm: 5px;
+	--radius-md: 6px;
+	--radius-lg: 12px;
+	--radius-pill: 9999px;
 
-	--container: 1200px;
+	--container: 1440px;
 	--container-narrow: 720px;
 
 	--header-height: 4.5625rem;
-	--focus-ring: 0 0 0 3px rgba(199, 242, 225, 0.55);
+	--focus-ring: 0 0 0 2px rgba(199, 242, 225, 0.65);
+	--ring-hairline: 0 0 0 1px var(--hairline-on-light);
 
 	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 	--duration-fast: 180ms;
