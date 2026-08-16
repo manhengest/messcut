@@ -1,0 +1,105 @@
+/* ——— Compact consultation CTA ——— */
+
+.consult-cta {
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+	width: 100%;
+	max-width: 500px;
+	margin-top: var(--space-xl);
+	margin-inline: auto;
+	padding: var(--space-sm) var(--space-xs) var(--space-sm) var(--space-sm);
+	text-decoration: none;
+	color: var(--ink);
+	background: var(--color-white);
+	border: 1px solid var(--hairline-on-light);
+	border-radius: var(--radius-pill);
+	transition:
+		border-color var(--duration-fast) var(--ease-out),
+		color var(--duration-fast) var(--ease-out);
+
+	@media (min-width: 768px) {
+		gap: var(--space-md);
+		padding: var(--space-md) var(--space-sm) var(--space-md) var(--space-md);
+	}
+
+	&:hover,
+	&:focus-visible {
+		color: var(--ink);
+		border-color: var(--color-accent-strong);
+	}
+
+	&:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+	}
+
+	&__avatar {
+		display: block;
+		width: 3.5rem;
+		height: 3.5rem;
+		flex-shrink: 0;
+		max-width: none;
+		object-fit: cover;
+		border-radius: 50%;
+		filter: grayscale(1);
+	}
+
+	&__copy {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.125rem;
+		min-width: 0;
+	}
+
+	&__title {
+		font-family: var(--font-ui);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: normal;
+		line-height: var(--lh-heading);
+
+		@media (min-width: 768px) {
+			font-size: var(--text-base);
+		}
+	}
+
+	&__text {
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		line-height: var(--lh-body);
+		color: var(--ink-mute);
+
+		@media (min-width: 768px) {
+			font-size: var(--text-sm);
+		}
+	}
+
+	&__action {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		min-width: 4.5rem;
+		height: 3rem;
+		padding-inline: var(--space-lg);
+		background: var(--color-accent);
+		color: var(--color-black);
+		border-radius: var(--radius-pill);
+		transition:
+			background var(--duration-fast) var(--ease-out),
+			color var(--duration-fast) var(--ease-out);
+	}
+
+	&:hover &__action,
+	&:focus-visible &__action {
+		background: var(--color-accent-hover);
+		color: var(--color-black);
+	}
+
+	&__arrow {
+		display: block;
+	}
+}

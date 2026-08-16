@@ -47,6 +47,9 @@ function messcut_get_service_seed_data(): array {
 				'interaction_format' => '<p>Онлайн-зустрічі, стратегічні воркшопи, презентації та документи з рекомендаціями. Формат та тривалість визначаються індивідуально.</p>',
 				'show_services_comparison' => 1,
 				'cta_title'         => 'Обговорити стратегію бренду',
+				'testimonial_quote' => 'Messcut допомогли нам сформувати чітку позицію на ринку.',
+				'testimonial_author'=> 'Клієнт',
+				'testimonial_role'  => 'CEO, placeholder',
 			),
 		),
 		'marketing-support' => array(
@@ -350,7 +353,133 @@ function messcut_get_faq_seed_data( string $lang = 'uk' ): array {
 		),
 	);
 
-	return $sets[ $lang ] ?? $sets['uk'];
+	return array_slice( $sets[ $lang ] ?? $sets['uk'], 0, 7 );
+}
+
+/**
+ * Partner brand logo filenames in assets/img/partners/.
+ *
+ * @return array<string, string> Brand name => logo filename.
+ */
+function messcut_get_partner_brand_logo_files(): array {
+	return array(
+		'Puma'        => 'puma.png',
+		'McDonald\'s' => 'mcdonalds.png',
+		'Comfy'       => 'comfy.png',
+		'Toyota'      => 'toyota.png',
+		'Lexus'       => 'lexus.png',
+		'Сільпо'      => 'silpo.png',
+		'Binance'     => 'binance.png',
+		'MD Fashion'  => 'md-fashion.png',
+		'Inzhur'      => 'inzhur.png',
+		'Prom'        => 'prom.png',
+		'Uklon'       => 'uklon.png',
+		'Sweet TV'    => 'sweet-tv.png',
+		'Pepsi'       => 'pepsi.png',
+		'Lifecell'    => 'lifecell.png',
+		'Lamic'       => 'lamic.png',
+		'Prostor'     => 'prostor.png',
+		'Koblevo'     => 'koblevo.png',
+		'Socar'       => 'socar.png',
+		'Flint'       => 'flint.png',
+		'Chipster\'s' => 'chipsters.png',
+	);
+}
+
+/**
+ * Partner brands for marquee seed data.
+ *
+ * @return array<int, array{name: string, logo_file: string}>
+ */
+function messcut_get_partner_brands_seed(): array {
+	$brands = array();
+
+	foreach ( messcut_get_partner_brand_logo_files() as $name => $logo_file ) {
+		$brands[] = array(
+			'name'      => $name,
+			'logo_file' => $logo_file,
+		);
+	}
+
+	return $brands;
+}
+
+/**
+ * Agency comparison seed rows.
+ *
+ * @return array<int, array{criterion: string, messcut: string, agency: string, inhouse: string}>
+ */
+function messcut_get_agency_comparison_seed(): array {
+	return array(
+		array(
+			'criterion' => 'Дослідження',
+			'messcut'   => 'Завжди на старті',
+			'agency'    => 'Опційно / додатково',
+			'inhouse'   => 'Залежить від досвіду',
+		),
+		array(
+			'criterion' => 'Фокус 1:2',
+			'messcut'   => 'До 2 проєктів',
+			'agency'    => 'Багато клієнтів',
+			'inhouse'   => '1 бренд',
+		),
+		array(
+			'criterion' => 'Стратегія vs кампанії',
+			'messcut'   => 'Стратегія першочергово',
+			'agency'    => 'Кампанії / креатив',
+			'inhouse'   => 'Змішано',
+		),
+		array(
+			'criterion' => 'Швидкість рішень',
+			'messcut'   => 'Прямий контакт',
+			'agency'    => 'Через менеджера',
+			'inhouse'   => 'Внутрішні процеси',
+		),
+		array(
+			'criterion' => 'Вартість',
+			'messcut'   => 'Прозора модель',
+			'agency'    => 'Ретейнер + націнки',
+			'inhouse'   => 'Зарплата + податки',
+		),
+		array(
+			'criterion' => 'Знання залишаються',
+			'messcut'   => 'Документація + передача',
+			'agency'    => 'У агенції',
+			'inhouse'   => 'У компанії',
+		),
+		array(
+			'criterion' => 'Обʼєктивність',
+			'messcut'   => 'Зовнішній погляд',
+			'agency'    => 'Комерційні інтереси',
+			'inhouse'   => 'Внутрішні упередження',
+		),
+		array(
+			'criterion' => 'Відповідальність за KPI',
+			'messcut'   => 'Стратегічний партнер',
+			'agency'    => 'Виконавець задач',
+			'inhouse'   => 'Залежить від ролі',
+		),
+	);
+}
+
+/**
+ * Service pain labels mapped to service slugs for funnel seed.
+ *
+ * @return array<int, array{label: string, service_slug: string}>
+ */
+function messcut_get_service_pains_seed(): array {
+	return array(
+		array( 'label' => 'Стратегія', 'service_slug' => 'brand-strategy' ),
+		array( 'label' => 'невизначеність позиціонування', 'service_slug' => 'brand-strategy' ),
+		array( 'label' => 'відсутність структури', 'service_slug' => 'marketing-support' ),
+		array( 'label' => 'хаотичний маркетинг', 'service_slug' => 'marketing-support' ),
+		array( 'label' => 'потрібна швидка порада', 'service_slug' => 'consulting' ),
+		array( 'label' => 'запуск бренду', 'service_slug' => 'mentorship' ),
+		array( 'label' => 'масштабування', 'service_slug' => 'brand-strategy' ),
+		array( 'label' => 'невизначеність позиціонування', 'service_slug' => 'brand-strategy' ),
+		array( 'label' => 'Стратегія', 'service_slug' => 'brand-strategy' ),
+		array( 'label' => 'відсутність структури', 'service_slug' => 'marketing-support' ),
+	);
 }
 
 /**

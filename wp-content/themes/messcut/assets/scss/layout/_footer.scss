@@ -1,14 +1,31 @@
 /* ——— Footer ——— */
 
 .site-footer {
+	overflow: hidden;
 	padding-block: var(--space-huge);
-	background: var(--gradient-backdrop);
 	border-top: 1px solid var(--hairline-on-dark);
 	color: var(--on-primary);
+
+	@media (min-width: 768px) {
+		background-image:
+			radial-gradient(ellipse 28% 180% at 100% 0%, var(--mesh-sage) 0%, transparent 58%),
+			radial-gradient(ellipse 26% 160% at 0% 110%, var(--mesh-dusty-mint) 0%, transparent 55%),
+			radial-gradient(ellipse 48% 200% at 38% 120%, var(--mesh-bronze) 0%, transparent 58%),
+			radial-gradient(ellipse 32% 150% at 82% 110%, var(--mesh-umber) 0%, transparent 52%),
+			radial-gradient(ellipse 22% 120% at 8% 0%, var(--mesh-charcoal) 0%, transparent 55%),
+			radial-gradient(ellipse 30% 140% at 68% 120%, var(--substrate-brown-deep) 0%, transparent 50%),
+			radial-gradient(ellipse 18% 90% at 55% 30%, color-mix(in srgb, var(--mesh-cream) 28%, transparent) 0%, transparent 48%);
+	}
 
 	a {
 		color: var(--on-primary-mute);
 		text-decoration: none;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
+		text-transform: uppercase;
+		transition: color var(--duration-fast) var(--ease-out);
 
 		&:hover {
 			color: var(--on-primary);
@@ -16,39 +33,36 @@
 	}
 
 	&__inner {
-		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xl);
 
 		@media (min-width: 768px) {
-			display: flex;
-			align-items: flex-start;
+			flex-direction: row;
+			align-items: center;
 			justify-content: space-between;
-			text-align: left;
+			gap: var(--space-xxl);
 		}
 	}
 
-	&__tagline,
-	&__about {
+	&__brand {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__tagline {
+		margin: var(--space-sm) 0 0;
 		color: var(--on-primary-mute);
 		line-height: var(--lh-body);
-
-		@media (min-width: 768px) {
-			max-width: 32ch;
-		}
-	}
-
-	&__contacts-title {
-		font-family: var(--font-mono);
-		font-size: var(--text-micro);
-		font-weight: 500;
-		letter-spacing: var(--tracking-label);
-		text-transform: uppercase;
-		margin: 0 0 var(--space-md);
-		color: var(--on-primary);
-	}
-
-	&__contacts p {
-		margin: 0 0 var(--space-xs);
+		max-width: 32ch;
 		font-size: var(--text-sm);
-		color: var(--on-primary-mute);
+	}
+
+	&__contacts,
+	&__socials {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-md) var(--space-lg);
+		align-items: center;
 	}
 }

@@ -36,6 +36,12 @@ img {
 	height: auto;
 }
 
+button,
+input[type="submit"],
+input[type="button"] {
+	font-family: var(--font-mono);
+}
+
 a {
 	color: inherit;
 

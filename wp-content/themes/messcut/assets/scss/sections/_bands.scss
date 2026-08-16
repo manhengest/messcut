@@ -29,15 +29,6 @@
 		line-height: var(--lh-tight);
 		letter-spacing: var(--tracking-display);
 		max-width: 22ch;
-
-		&::after {
-			content: "";
-			display: block;
-			width: 3.5rem;
-			height: 3px;
-			margin-top: var(--space-md);
-			background: var(--color-accent);
-		}
 	}
 
 	&__eyebrow {
@@ -59,8 +50,6 @@
 /* Brown substrate sections — light text */
 .tagline,
 .services-comparison,
-.services-grid,
-.insights-tiles,
 .mid-cta,
 .approach-cta {
 	color: var(--on-primary);

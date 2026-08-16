@@ -76,7 +76,7 @@ function messcut_email(): string {
 function messcut_cta_label( string $type = 'discuss' ): string {
 	$key = 'discuss' === $type ? 'cta_discuss_label' : 'cta_consult_label';
 	$default = 'discuss' === $type
-		? __( 'Обговорити проєкт', 'messcut' )
+		? __( 'Отримати план розвитку', 'messcut' )
 		: __( 'Отримати ознайомчу консультацію', 'messcut' );
 	return (string) messcut_get_localized_option( $key, $default );
 }
@@ -90,10 +90,11 @@ function messcut_render_stats( array $args = array() ): void {
 	$stats = $args['stats'] ?? messcut_get_localized_option( 'stats', array() );
 	if ( empty( $stats ) || ! is_array( $stats ) ) {
 		$stats = array(
-			array( 'value' => '', 'label' => __( 'роки практик та нескінченних навчань для підвищення кваліфікації', 'messcut' ) ),
-			array( 'value' => '30+', 'label' => __( 'бренд-стратегій', 'messcut' ) ),
-			array( 'value' => '50+', 'label' => __( 'співпраць', 'messcut' ) ),
-			array( 'value' => '85%', 'label' => __( 'клієнтів приходять за рекомендацією', 'messcut' ) ),
+			array( 'value' => '94%', 'label' => __( 'клієнтів радять нас своїм колегам', 'messcut' ) ),
+			array( 'value' => '6+', 'label' => __( 'років практики', 'messcut' ) ),
+			array( 'value' => '50+', 'label' => __( 'стратегічних співпраць з великими та малими брендами в різних нішах', 'messcut' ) ),
+			array( 'value' => '1:2', 'label' => __( 'маркетолог = до 2-х проєктів для глибокого занурення у ваш бізнес', 'messcut' ) ),
+			array( 'value' => '', 'label' => __( 'NON-STOP підвищення кваліфікації та вивчення досліджень', 'messcut' ) ),
 		);
 	}
 	$args['stats'] = $stats;
@@ -188,6 +189,62 @@ function messcut_get_cases_query( int $limit = -1 ): WP_Query {
 }
 
 /**
+ * Theme mock image URL (until client photography arrives).
+ */
+function messcut_get_mock_image_url(): string {
+	$path = get_template_directory() . '/assets/img/tore.png';
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+
+	return get_template_directory_uri() . '/assets/img/tore.png';
+}
+
+/**
+ * Render a post thumbnail or mock fallback image.
+ *
+ * @param string               $size    Registered image size.
+ * @param int|null             $post_id Post ID. Defaults to the current post.
+ * @param array<string, mixed> $args    Optional img attributes.
+ */
+function messcut_render_post_thumbnail( string $size = 'medium_large', ?int $post_id = null, array $args = array() ): void {
+	$post_id = $post_id ?: (int) get_the_ID();
+
+	if ( $post_id && has_post_thumbnail( $post_id ) ) {
+		echo get_the_post_thumbnail(
+			$post_id,
+			$size,
+			array_merge(
+				array(
+					'loading'  => 'lazy',
+					'decoding' => 'async',
+				),
+				$args
+			)
+		);
+		return;
+	}
+
+	$url = messcut_get_mock_image_url();
+	if ( '' === $url ) {
+		echo '<span class="card__media--placeholder" aria-hidden="true"></span>';
+		return;
+	}
+
+	$alt     = $args['alt'] ?? ( $post_id ? get_the_title( $post_id ) : '' );
+	$class   = isset( $args['class'] ) ? ' class="' . esc_attr( (string) $args['class'] ) . '"' : '';
+	$loading = isset( $args['loading'] ) ? ' loading="' . esc_attr( (string) $args['loading'] ) . '"' : ' loading="lazy"';
+
+	printf(
+		'<img src="%s" alt="%s" width="1200" height="750" decoding="async"%s%s />',
+		esc_url( $url ),
+		esc_attr( (string) $alt ),
+		$class,
+		$loading
+	);
+}
+
+/**
  * Render lead form.
  *
  * @param array<string, mixed> $args Form args.
@@ -200,7 +257,12 @@ function messcut_render_lead_form( array $args = array() ): void {
  * Get contact whatsapp number or link.
  */
 function messcut_whatsapp(): string {
-	return (string) messcut_get_option( 'whatsapp', '' );
+	$value = (string) messcut_get_option( 'whatsapp', '' );
+	if ( '' !== $value ) {
+		return $value;
+	}
+
+	return messcut_phone();
 }
 
 /**
@@ -303,6 +365,35 @@ function messcut_render_mid_cta( string $label = '' ): void {
 }
 
 /**
+ * Avatar URL for the compact consultation CTA.
+ */
+function messcut_consult_cta_avatar_url(): string {
+	$image = messcut_get_option( 'consult_cta_avatar' );
+	if ( is_array( $image ) && ! empty( $image['url'] ) ) {
+		return (string) $image['url'];
+	}
+	if ( is_string( $image ) && '' !== $image ) {
+		return $image;
+	}
+
+	$path = MESSCUT_DIR . '/assets/img/consult-avatar.png';
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+
+	return MESSCUT_URI . '/assets/img/consult-avatar.png?v=' . (string) filemtime( $path );
+}
+
+/**
+ * Render compact consultation CTA linking to the lead form.
+ *
+ * @param array<string, mixed> $args Template args (title, text, avatar).
+ */
+function messcut_render_consult_cta( array $args = array() ): void {
+	get_template_part( 'template-parts/sections/consult-cta', null, $args );
+}
+
+/**
  * Get article type term IDs for insights block.
  *
  * @param int|null $post_id Post ID.
@@ -323,6 +414,189 @@ function messcut_get_insights_type_ids( ?int $post_id = null ): array {
  */
 function messcut_render_insights_tiles( array $args = array() ): void {
 	get_template_part( 'template-parts/sections/insights-tiles', null, $args );
+}
+
+/**
+ * Render partner logos marquee.
+ */
+function messcut_render_partner_logos(): void {
+	get_template_part( 'template-parts/sections/partner-logos' );
+}
+
+/**
+ * Resolve a bundled partner logo URL from theme assets.
+ *
+ * @param string $logo_file Filename inside assets/img/partners/.
+ */
+function messcut_get_partner_logo_asset_url( string $logo_file ): string {
+	$logo_file = ltrim( $logo_file, '/' );
+	if ( '' === $logo_file || str_contains( $logo_file, '..' ) ) {
+		return '';
+	}
+
+	$path = get_template_directory() . '/assets/img/partners/' . $logo_file;
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+
+	return get_template_directory_uri() . '/assets/img/partners/' . $logo_file;
+}
+
+/**
+ * Get partner brands for marquee.
+ *
+ * @return array<int, array{name: string, logo_url: string}>
+ */
+function messcut_get_partner_brands(): array {
+	$rows = messcut_get_localized_option( 'partner_brands', array() );
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		$rows = messcut_get_partner_brands_seed();
+	}
+
+	$theme_logos = messcut_get_partner_brand_logo_files();
+	$brands      = array();
+
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		$name = trim( (string) ( $row['name'] ?? '' ) );
+		if ( '' === $name ) {
+			continue;
+		}
+		$logo_url = '';
+		$logo     = $row['logo'] ?? null;
+		if ( is_array( $logo ) && ! empty( $logo['url'] ) ) {
+			$logo_url = (string) $logo['url'];
+		} elseif ( is_numeric( $logo ) ) {
+			$logo_url = (string) wp_get_attachment_image_url( (int) $logo, 'medium' );
+		}
+
+		if ( '' === $logo_url ) {
+			$logo_file = (string) ( $row['logo_file'] ?? ( $theme_logos[ $name ] ?? '' ) );
+			if ( '' !== $logo_file ) {
+				$logo_url = messcut_get_partner_logo_asset_url( $logo_file );
+			}
+		}
+
+		$brands[] = array(
+			'name'     => $name,
+			'logo_url' => $logo_url,
+		);
+	}
+
+	return $brands;
+}
+
+/**
+ * Get agency comparison rows.
+ *
+ * @return array<int, array{criterion: string, messcut: string, agency: string, inhouse: string}>
+ */
+function messcut_get_agency_comparison_rows(): array {
+	$rows = messcut_get_localized_option( 'agency_comparison_rows', array() );
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		$rows = messcut_get_agency_comparison_seed();
+	}
+
+	$normalized = array();
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		$criterion = trim( (string) ( $row['criterion'] ?? '' ) );
+		if ( '' === $criterion ) {
+			continue;
+		}
+		$normalized[] = array(
+			'criterion' => $criterion,
+			'messcut'   => (string) ( $row['messcut'] ?? '' ),
+			'agency'    => (string) ( $row['agency'] ?? '' ),
+			'inhouse'   => (string) ( $row['inhouse'] ?? '' ),
+		);
+	}
+
+	return $normalized;
+}
+
+/**
+ * Render agency comparison table.
+ */
+function messcut_render_agency_comparison(): void {
+	get_template_part( 'template-parts/sections/agency-comparison' );
+}
+
+/**
+ * Get service pain points for funnel.
+ *
+ * @return array<int, array{label: string, service_id: int}>
+ */
+function messcut_get_service_pains(): array {
+	$rows = messcut_get_localized_option( 'service_pains', array() );
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		$rows = messcut_get_service_pains_seed();
+	}
+
+	$pains = array();
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		$label = trim( (string) ( $row['label'] ?? '' ) );
+		if ( '' === $label ) {
+			continue;
+		}
+
+		$service_id = 0;
+		if ( ! empty( $row['service'] ) ) {
+			$service_id = is_object( $row['service'] ) ? (int) $row['service']->ID : (int) $row['service'];
+		} elseif ( ! empty( $row['service_slug'] ) ) {
+			$post = get_page_by_path( (string) $row['service_slug'], OBJECT, 'service' );
+			$service_id = $post ? (int) $post->ID : 0;
+		}
+
+		$pains[] = array(
+			'label'      => $label,
+			'service_id' => $service_id,
+		);
+	}
+
+	return $pains;
+}
+
+/**
+ * Render pain funnel section.
+ */
+function messcut_render_pain_funnel(): void {
+	get_template_part( 'template-parts/sections/pain-funnel' );
+}
+
+/**
+ * Get audience method / value chips (formerly homepage ticker).
+ *
+ * @return string[]
+ */
+function messcut_get_ticker_items(): array {
+	$rows = messcut_get_localized_option( 'home_ticker', array() );
+	if ( empty( $rows ) || ! is_array( $rows ) ) {
+		$rows = array(
+			array( 'text' => __( 'дослідження', 'messcut' ) ),
+			array( 'text' => __( 'стратегія', 'messcut' ) ),
+			array( 'text' => __( 'бізнес-показники', 'messcut' ) ),
+			array( 'text' => __( 'структура', 'messcut' ) ),
+		);
+	}
+
+	$items = array();
+	foreach ( $rows as $row ) {
+		if ( is_array( $row ) && ! empty( $row['text'] ) ) {
+			$items[] = (string) $row['text'];
+		} elseif ( is_string( $row ) && '' !== trim( $row ) ) {
+			$items[] = trim( $row );
+		}
+	}
+
+	return $items;
 }
 
 /**
@@ -388,7 +662,7 @@ function messcut_get_faq_items( array $args = array() ): array {
 		if ( empty( $items ) ) {
 			$items = messcut_get_faq_seed_data( messcut_is_english() ? 'en' : 'uk' );
 		}
-		return $items;
+		return array_slice( $items, 0, 7 );
 	}
 
 	if ( ! $post_id ) {
@@ -472,7 +746,6 @@ function messcut_render_approach_cta(): void {
  */
 function messcut_fallback_primary_menu(): void {
 	$items = array(
-		home_url( '/' )                    => __( 'Головна', 'messcut' ),
 		messcut_page_url( 'poslugy' )      => __( 'Послуги', 'messcut' ),
 		messcut_cases_archive_url()        => __( 'Кейси', 'messcut' ),
 		messcut_approach_url()             => __( 'Досвід та підхід', 'messcut' ),

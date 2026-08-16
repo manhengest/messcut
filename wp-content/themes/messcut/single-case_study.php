@@ -33,9 +33,9 @@ while ( have_posts() ) :
 	<article <?php post_class( 'case-single' ); ?>>
 		<header class="section case-single__header">
 			<div class="container container--narrow">
-				<?php if ( has_post_thumbnail() ) : ?>
-					<div class="case-single__media"><?php the_post_thumbnail( 'large' ); ?></div>
-				<?php endif; ?>
+				<div class="case-single__media">
+					<?php messcut_render_post_thumbnail( 'large' ); ?>
+				</div>
 				<h1><?php the_title(); ?></h1>
 				<?php if ( $subtitle ) : ?>
 					<p class="case-single__subtitle"><?php echo esc_html( $subtitle ); ?></p>

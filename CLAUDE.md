@@ -79,17 +79,23 @@ Keep CSS variables and `theme.json` in sync.
 
 | Role | Family | Use |
 |------|--------|-----|
-| Display / UI / Body | Space Grotesk | Headings, nav, buttons, body copy |
-| Mono | IBM Plex Mono | Eyebrows, labels, metadata |
+| Display | Playfair Display | Titles / headings (Cyrillic via Google Fonts) |
+| UI / Body | Golos Text | Nav, body copy (Cyrillic via Google Fonts) |
+| Mono | IBM Plex Mono | Buttons, eyebrows, labels, metadata |
 
-Visual patterns follow a light Sanity-inspired system: pill CTAs, tight heading tracking, colorimetric depth (hairline borders, no drop shadows), brown hover states. Accent colors unchanged.
+**Surfaces:** CSS mesh + grain utilities in `assets/scss/abstracts/_surfaces.scss` — `.surface--gradient-light` (page/sections) and `.surface--gradient-dark` (proof chapter, footer, nav overlay). `.surface--dots` for dotted grids (cases). Do not commit client gradient bitmap refs.
+
+**Canvas:** `--canvas-ivory` / `#f7f9f7` (not pure white). Sync `theme.json` background.
+
+Visual patterns follow a light Sanity-inspired system: Playfair Display titles, pill CTAs, colorimetric depth (hairline borders, no drop shadows), brown hover states. Accent colors unchanged.
 
 **Colors** (sampled from brand board)
 
 | Token | Hex | Role |
 |-------|-----|------|
 | `--color-black` | `#000000` | Base / text / primary CTA |
-| `--color-white` | `#ffffff` | Base / page bg |
+| `--color-white` | `#ffffff` | Cards / inputs |
+| `--canvas-ivory` | `#f7f9f7` | Default page canvas |
 | `--color-brown` | `#3a261f` | Backdrop (footer, hovers) |
 | `--color-accent` | `#c7f2e1` | Turquoise fills / surfaces |
 

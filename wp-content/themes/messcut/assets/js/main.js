@@ -4,9 +4,6 @@
 	var navToggle = document.querySelector('.nav-toggle');
 	var primaryNav = document.getElementById('primary-navigation');
 	var siteHeader = document.querySelector('.site-header');
-	var navToggleLabel = navToggle ? navToggle.querySelector('.nav-toggle__label') : null;
-	var navToggleOpenLabel = (window.messcutData && window.messcutData.navCloseLabel) || 'Закрити';
-	var navToggleClosedLabel = (navToggleLabel && navToggleLabel.textContent) || 'Меню';
 
 	function setNavOpen(isOpen) {
 		if (!primaryNav || !navToggle) {
@@ -16,10 +13,6 @@
 		primaryNav.classList.toggle('is-open', isOpen);
 		navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 		document.body.classList.toggle('has-nav-open', isOpen);
-
-		if (navToggleLabel) {
-			navToggleLabel.textContent = isOpen ? navToggleOpenLabel : navToggleClosedLabel;
-		}
 	}
 
 	function closeNav() {
@@ -50,11 +43,24 @@
 		window.addEventListener('scroll', onScroll, { passive: true });
 	}
 
+	var heroVideo = document.querySelector('[data-hero-video]');
+	if (heroVideo && 'IntersectionObserver' in window) {
+		var videoObserver = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting) {
+					heroVideo.play().catch(function () {});
+				} else {
+					heroVideo.pause();
+				}
+			});
+		}, { threshold: 0.25 });
+		videoObserver.observe(heroVideo);
+	}
+
 	document.querySelectorAll('[data-lead-form]').forEach(function (form) {
 		var steps = form.querySelectorAll('[data-lead-step]');
 		var statusEl = form.querySelector('[data-lead-status]');
 		var thanksEl = form.querySelector('[data-lead-thanks]');
-		var brandField = form.querySelector('[data-lead-brand-field]');
 		var currentStep = 1;
 
 		function getStepEl(step) {
@@ -69,21 +75,26 @@
 				el.classList.toggle('is-active', isActive);
 			});
 			currentStep = step;
+			form.setAttribute('data-step', String(step));
+			updateProgress(step);
 			if (statusEl) {
 				statusEl.hidden = true;
 			}
 		}
 
+		function updateProgress(step) {
+			var segs = form.querySelectorAll('[data-lead-progress]');
+			var stepNum = step === 'thanks' ? 3 : Number(step);
+			segs.forEach(function (seg) {
+				var n = Number(seg.getAttribute('data-lead-progress'));
+				seg.classList.toggle('is-complete', n < stepNum || step === 'thanks');
+				seg.classList.toggle('is-current', n === stepNum && step !== 'thanks');
+			});
+		}
+
 		function getProjectType() {
 			var checked = form.querySelector('[name="project_type"]:checked');
 			return checked ? checked.value : '';
-		}
-
-		function toggleBrandField() {
-			if (!brandField) {
-				return;
-			}
-			brandField.hidden = getProjectType() !== 'existing';
 		}
 
 		function validateStep(stepEl) {
@@ -105,11 +116,6 @@
 
 			return true;
 		}
-
-		form.querySelectorAll('[name="project_type"]').forEach(function (input) {
-			input.addEventListener('change', toggleBrandField);
-		});
-		toggleBrandField();
 
 		form.querySelectorAll('[data-lead-next]').forEach(function (btn) {
 			btn.addEventListener('click', function () {
@@ -140,9 +146,9 @@
 				return;
 			}
 
-			var stepEl = getStepEl(3);
+			var stepEl = getStepEl(2);
 			if (!validateStep(stepEl)) {
-				showStep(3);
+				showStep(2);
 				return;
 			}
 
@@ -153,8 +159,8 @@
 				phone: form.querySelector('[name="phone"]')?.value || '',
 				email: form.querySelector('[name="email"]')?.value || '',
 				contact_method: form.querySelector('[name="contact_method"]:checked')?.value || '',
-				brand: form.querySelector('[name="brand"]')?.value || '',
-				message: form.querySelector('[name="message"]')?.value || '',
+				brand: '',
+				message: '',
 				website: form.querySelector('[name="website"]')?.value || '',
 			};
 
@@ -183,7 +189,6 @@
 				.then(function (result) {
 					if (result.ok && result.data && result.data.success) {
 						form.reset();
-						toggleBrandField();
 						var message = result.data.message || window.messcutData.successMsg;
 						if (thanksEl) {
 							thanksEl.textContent = message;
@@ -219,11 +224,8 @@
 		el.classList.add(type === 'success' ? 'is-success' : 'is-error');
 	}
 
-	document.querySelectorAll('[data-service-excerpt]').forEach(function (wrap) {
-		var toggle = wrap.querySelector('[data-service-excerpt-toggle]');
-		var moreLabel = wrap.querySelector('.card__excerpt-toggle-more');
-		var lessLabel = wrap.querySelector('.card__excerpt-toggle-less');
-
+	document.querySelectorAll('[data-case-excerpt]').forEach(function (wrap) {
+		var toggle = wrap.querySelector('[data-case-excerpt-toggle]');
 		if (!toggle) {
 			return;
 		}
@@ -231,32 +233,398 @@
 		toggle.addEventListener('click', function () {
 			var isExpanded = wrap.classList.toggle('is-expanded');
 			toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-
-			if (moreLabel) {
-				moreLabel.hidden = isExpanded;
-			}
-
-			if (lessLabel) {
-				lessLabel.hidden = !isExpanded;
+			var icon = toggle.querySelector('.card__excerpt-toggle-icon');
+			if (icon) {
+				icon.textContent = isExpanded ? '−' : '+';
 			}
 		});
 	});
 
-	document.querySelectorAll('[data-faq-accordion]').forEach(function (list) {
-		var items = list.querySelectorAll('.faq__item');
+	document.querySelectorAll('[data-accordion]').forEach(function (list) {
+		var items = list.querySelectorAll('details');
 
 		items.forEach(function (item) {
-			item.addEventListener('toggle', function () {
-				if (!item.open) {
-					return;
-				}
+			var summary = item.querySelector('summary');
+			if (!summary) {
+				return;
+			}
 
-				items.forEach(function (other) {
-					if (other !== item) {
-						other.open = false;
-					}
-				});
+			summary.addEventListener('click', function (event) {
+				event.preventDefault();
+				var willOpen = !item.open;
+				if (willOpen) {
+					items.forEach(function (other) {
+						if (other !== item) {
+							other.open = false;
+						}
+					});
+				}
+				item.open = willOpen;
 			});
 		});
 	});
+
+	document.querySelectorAll('[data-marquee]').forEach(function (track) {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			return;
+		}
+
+		var section = track.closest('.partner-logos');
+		var wrap = track.parentElement;
+		var group = track.querySelector('.partner-logos__group');
+		if (!section || !wrap || !group) {
+			return;
+		}
+
+		var paused = false;
+		var running = false;
+		var offset = 0;
+		var last = 0;
+		var speed = 70;
+
+		function fillTrack() {
+			var copies = 0;
+			while (track.scrollWidth < wrap.clientWidth * 2 && copies < 6) {
+				track.appendChild(group.cloneNode(true));
+				copies += 1;
+			}
+		}
+
+		function tick(now) {
+			if (!running) {
+				return;
+			}
+
+			if (!last) {
+				last = now;
+			}
+
+			var dt = (now - last) / 1000;
+			last = now;
+			if (dt > 0.05) {
+				dt = 0.05;
+			}
+
+			if (!paused) {
+				var width = group.offsetWidth;
+				if (width > 0) {
+					offset += speed * dt;
+					if (offset >= width) {
+						offset -= width;
+					}
+					track.style.transform = 'translate3d(' + (-offset).toFixed(2) + 'px,0,0)';
+				}
+			}
+
+			window.requestAnimationFrame(tick);
+		}
+
+		function start() {
+			fillTrack();
+			section.classList.add('is-marquee-ready');
+			if (running) {
+				return;
+			}
+			running = true;
+			last = 0;
+			window.requestAnimationFrame(tick);
+		}
+
+		wrap.addEventListener('mouseenter', function () {
+			paused = true;
+		});
+		wrap.addEventListener('mouseleave', function () {
+			paused = false;
+			last = 0;
+		});
+
+		var pending = 0;
+		track.querySelectorAll('img').forEach(function (img) {
+			if (img.complete) {
+				return;
+			}
+			pending += 1;
+			img.addEventListener('load', onImageReady, { once: true });
+			img.addEventListener('error', onImageReady, { once: true });
+		});
+
+		function onImageReady() {
+			pending -= 1;
+			if (pending <= 0) {
+				start();
+			}
+		}
+
+		if (pending === 0) {
+			start();
+		} else {
+			window.setTimeout(start, 2000);
+		}
+
+		window.addEventListener('resize', fillTrack);
+	});
+
+	var painFunnel = document.querySelector('[data-pain-funnel]');
+	if (painFunnel) {
+		var vessel = painFunnel.querySelector('[data-pain-vessel]');
+		var pills = painFunnel.querySelectorAll('[data-pain-pill]');
+		var funnelServices = painFunnel.querySelectorAll('[data-pain-service]');
+		var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		var narrowQuery = window.matchMedia('(max-width: 639px)');
+		var layoutTimer = 0;
+		var lastWidth = 0;
+		var lastHeight = 0;
+
+		function isNarrow() {
+			return narrowQuery.matches;
+		}
+
+		function prepareMobilePills() {
+			var seen = {};
+			pills.forEach(function (pill) {
+				var key = (pill.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
+				if (isNarrow() && seen[key]) {
+					pill.hidden = true;
+				} else {
+					pill.hidden = false;
+					seen[key] = true;
+				}
+				if (isNarrow()) {
+					pill.style.left = '';
+					pill.style.top = '';
+				}
+			});
+		}
+
+		function getServiceEls() {
+			return painFunnel.querySelectorAll('[data-pain-service]');
+		}
+
+		function openMatchingService(target) {
+			var accordionItem = document.querySelector(
+				'.services-list__item[data-pain-service="' + target + '"]'
+			);
+			if (!accordionItem) {
+				return;
+			}
+			var list = accordionItem.closest('[data-accordion]');
+			if (list) {
+				list.querySelectorAll('details').forEach(function (other) {
+					if (other !== accordionItem) {
+						other.open = false;
+					}
+				});
+			}
+			accordionItem.open = true;
+		}
+
+		function randomPointInTriangle(width, height) {
+			var r1 = Math.sqrt(Math.random());
+			var r2 = Math.random();
+			return {
+				x: (1 - r1) * 0 + r1 * (1 - r2) * width + r1 * r2 * (width / 2),
+				y: (1 - r1) * 0 + r1 * (1 - r2) * 0 + r1 * r2 * height
+			};
+		}
+
+		function isInInvertedTriangle(x, y, width, height) {
+			if (y < 0 || y > height) {
+				return false;
+			}
+			var half = (width / 2) * (1 - y / height);
+			var cx = width / 2;
+			return x >= cx - half && x <= cx + half;
+		}
+
+		function rectInTriangle(rect, width, height, inset) {
+			var maxY = height * 0.78;
+			var corners = [
+				[rect.left - inset, rect.top - inset],
+				[rect.left + rect.w + inset, rect.top - inset],
+				[rect.left - inset, rect.top + rect.h + inset],
+				[rect.left + rect.w + inset, rect.top + rect.h + inset]
+			];
+			return corners.every(function (point) {
+				return point[1] <= maxY && isInInvertedTriangle(point[0], point[1], width, height);
+			});
+		}
+
+		function rectsOverlap(a, b, gap) {
+			return !(
+				a.left + a.w + gap <= b.left ||
+				b.left + b.w + gap <= a.left ||
+				a.top + a.h + gap <= b.top ||
+				b.top + b.h + gap <= a.top
+			);
+		}
+
+		function assignDrift(pill) {
+			if (reduceMotion || pill.hasAttribute('data-pain-drift')) {
+				return;
+			}
+			var dx = (4 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
+			var dy = (4 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
+			pill.style.setProperty('--dx', dx.toFixed(1) + 'px');
+			pill.style.setProperty('--dy', dy.toFixed(1) + 'px');
+			pill.style.setProperty('--drift-dur', (6 + Math.random() * 4).toFixed(1) + 's');
+			pill.style.setProperty('--drift-delay', (Math.random() * 3).toFixed(2) + 's');
+			pill.setAttribute('data-pain-drift', '');
+		}
+
+		function layoutPills(force) {
+			if (!vessel) {
+				return;
+			}
+
+			prepareMobilePills();
+			if (isNarrow()) {
+				vessel.classList.add('is-ready');
+				return;
+			}
+
+			var width = vessel.clientWidth;
+			var height = vessel.clientHeight;
+			if (width < 40 || height < 40) {
+				return;
+			}
+			if (!force && width === lastWidth && height === lastHeight && vessel.classList.contains('is-ready')) {
+				return;
+			}
+			lastWidth = width;
+			lastHeight = height;
+
+			var items = Array.prototype.filter.call(pills, function (pill) {
+				return !pill.hidden;
+			}).map(function (pill) {
+				assignDrift(pill);
+				return {
+					el: pill,
+					w: Math.max(pill.offsetWidth, 32),
+					h: Math.max(pill.offsetHeight, 24)
+				};
+			});
+
+			var placed = [];
+			var gaps = [10, 6, 2, 0];
+
+			items.forEach(function (item) {
+				var found = null;
+				var last = null;
+				for (var g = 0; g < gaps.length && !found; g++) {
+					var gap = gaps[g];
+					for (var i = 0; i < 40; i++) {
+						var point = randomPointInTriangle(width, height);
+						var rect = {
+							left: point.x - item.w / 2,
+							top: point.y - item.h / 2,
+							w: item.w,
+							h: item.h
+						};
+						last = rect;
+						if (!rectInTriangle(rect, width, height, 12)) {
+							continue;
+						}
+						var hits = placed.some(function (other) {
+							return rectsOverlap(rect, other, gap);
+						});
+						if (!hits) {
+							found = rect;
+							break;
+						}
+					}
+				}
+				if (!found) {
+					found = last || {
+						left: (width - item.w) / 2,
+						top: height * 0.2,
+						w: item.w,
+						h: item.h
+					};
+				}
+				placed.push(found);
+				item.el.style.left = Math.round(found.left) + 'px';
+				item.el.style.top = Math.round(found.top) + 'px';
+			});
+
+			vessel.classList.add('is-ready');
+		}
+
+		function requestLayout() {
+			window.clearTimeout(layoutTimer);
+			layoutTimer = window.setTimeout(layoutPills, 100);
+		}
+
+		function clearPain() {
+			pills.forEach(function (pill) {
+				pill.setAttribute('aria-pressed', 'false');
+			});
+			getServiceEls().forEach(function (service) {
+				service.classList.remove('is-active', 'is-dimmed');
+			});
+		}
+
+		function activatePain(target) {
+			pills.forEach(function (pill) {
+				var isActive = pill.getAttribute('data-pain-target') === target;
+				pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+			});
+
+			getServiceEls().forEach(function (service) {
+				var isActive = service.getAttribute('data-pain-service') === target;
+				service.classList.toggle('is-active', isActive);
+				service.classList.toggle('is-dimmed', !isActive);
+			});
+
+			openMatchingService(target);
+		}
+
+		pills.forEach(function (pill) {
+			pill.addEventListener('click', function () {
+				var target = pill.getAttribute('data-pain-target');
+				if (!target) {
+					return;
+				}
+				if (pill.getAttribute('aria-pressed') === 'true') {
+					clearPain();
+					return;
+				}
+				activatePain(target);
+			});
+		});
+
+		funnelServices.forEach(function (service) {
+			service.addEventListener('click', function (event) {
+				if (event.target.closest('a')) {
+					return;
+				}
+				var target = service.getAttribute('data-pain-service');
+				if (target) {
+					activatePain(target);
+				}
+			});
+		});
+
+		if (vessel && window.ResizeObserver) {
+			new ResizeObserver(requestLayout).observe(vessel);
+		} else {
+			window.addEventListener('resize', requestLayout);
+		}
+
+		if (narrowQuery.addEventListener) {
+			narrowQuery.addEventListener('change', function () {
+				layoutPills(true);
+			});
+		} else if (narrowQuery.addListener) {
+			narrowQuery.addListener(function () {
+				layoutPills(true);
+			});
+		}
+
+		layoutPills(true);
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () {
+				layoutPills(true);
+			});
+		}
+	}
 })();

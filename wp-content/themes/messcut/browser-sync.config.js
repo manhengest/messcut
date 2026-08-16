@@ -12,6 +12,11 @@ module.exports = {
 	open: 'local',
 	notify: true,
 	cors: true,
+	ghostMode: {
+		clicks: true,
+		forms: true,
+		scroll: false,
+	},
 	injectChanges: true,
 	reloadDelay: 150,
 	reloadDebounce: 300,

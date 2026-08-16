@@ -46,6 +46,7 @@ add_action( 'init', 'messcut_maybe_seed_content', 20 );
 function messcut_run_seed(): void {
 	messcut_seed_options();
 	$service_ids = messcut_seed_services();
+	messcut_seed_service_pains( $service_ids );
 	$case_ids    = messcut_seed_cases( $service_ids );
 	messcut_seed_articles();
 	messcut_seed_comparison( $service_ids );
@@ -78,24 +79,34 @@ function messcut_seed_options(): void {
 	messcut_seed_update_options( array(
 		'phone'                => '+38 (095) 477-11-22',
 		'telegram'             => '@messcutstrategy',
-		'whatsapp'             => '',
+		'whatsapp'             => '+38 (095) 477-11-22',
 		'email'                => 'admin@messcut.com',
 		'instagram_1'          => 'https://www.instagram.com/valeria.messcut/',
 		'instagram_2'          => 'https://www.instagram.com/messcut.strategy/',
 		'footer_tagline'       => 'Стратегічний маркетинг для брендів, які хочуть зростати системно.',
 		'footer_about'         => 'Поєднуємо маркетинг, доведений наукою, стратегічне мислення та глибоке розуміння споживача, щоб створювати бренди, які залишаються в пам\'яті та приносять бізнес-результат.',
 		'form_recipient_email' => 'admin@messcut.com',
-		'cta_discuss_label'    => 'Обговорити проєкт',
+		'cta_discuss_label'    => 'Отримати план розвитку',
 		'cta_consult_label'    => 'Отримати ознайомчу консультацію',
 		'home_hero_title'      => 'Бренд-стратегія та науковий маркетинг для розвитку бізнесу',
 		'home_hero_subtitle'   => 'Messcut – boutique-агенція стратегічного маркетингу. Розробляємо бренд-стратегії, будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень і даних.',
 		'audience_text'        => 'Для підприємців, які обирають шлях ефективного розвитку бренду зі зниженням ризиків інвестувати гроші і час в непрацюючі механіки, маючи чітку стратегію розвитку, що базується на наукових принципах.',
 		'stats'                => array(
-			array( 'value' => '', 'label' => 'роки практик та нескінченних навчань для підвищення кваліфікації' ),
-			array( 'value' => '30+', 'label' => 'бренд-стратегій' ),
-			array( 'value' => '50+', 'label' => 'співпраць' ),
-			array( 'value' => '85%', 'label' => 'клієнтів приходять за рекомендацією' ),
+			array( 'value' => '94%', 'label' => 'клієнтів радять нас своїм колегам' ),
+			array( 'value' => '6+', 'label' => 'років практики' ),
+			array( 'value' => '50+', 'label' => 'стратегічних співпраць з великими та малими брендами в різних нішах' ),
+			array( 'value' => '1:2', 'label' => 'маркетолог = до 2-х проєктів для глибокого занурення у ваш бізнес' ),
+			array( 'value' => '', 'label' => 'NON-STOP підвищення кваліфікації та вивчення досліджень' ),
 		),
+		'home_ticker'          => array(
+			array( 'text' => 'дослідження' ),
+			array( 'text' => 'стратегія' ),
+			array( 'text' => 'бізнес-показники' ),
+			array( 'text' => 'структура' ),
+		),
+		'partner_brands'       => messcut_get_partner_brands_seed(),
+		'agency_comparison_title' => 'Порівняйте нас з іншими агенціями або власним наймом маркетолога',
+		'agency_comparison_rows'  => messcut_get_agency_comparison_seed(),
 		'home_values'          => array(
 			array( 'text' => 'етичність' ),
 			array( 'text' => 'мотивація' ),
@@ -157,6 +168,28 @@ function messcut_seed_services(): array {
 	}
 
 	return $ids;
+}
+
+/**
+ * Seed service pain funnel mapping.
+ *
+ * @param array<string, int> $service_ids Service slug => post ID.
+ */
+function messcut_seed_service_pains( array $service_ids ): void {
+	$pains = array();
+	foreach ( messcut_get_service_pains_seed() as $row ) {
+		$slug = $row['service_slug'] ?? '';
+		if ( ! isset( $service_ids[ $slug ] ) ) {
+			continue;
+		}
+		$pains[] = array(
+			'label'   => $row['label'],
+			'service' => $service_ids[ $slug ],
+		);
+	}
+	if ( ! empty( $pains ) ) {
+		messcut_seed_update_options( array( 'service_pains' => $pains ) );
+	}
 }
 
 /**
@@ -398,7 +431,6 @@ function messcut_sync_menus(): void {
 	messcut_clear_nav_menu( $footer_id );
 
 	$primary_items = array(
-		array( 'type' => 'page', 'slug' => 'home', 'title' => 'Головна' ),
 		array( 'type' => 'page', 'slug' => 'poslugy', 'title' => 'Послуги' ),
 		array( 'type' => 'archive', 'url' => get_post_type_archive_link( 'case_study' ), 'title' => 'Кейси' ),
 		array( 'type' => 'page', 'slug' => 'dosvid', 'title' => 'Досвід та підхід' ),

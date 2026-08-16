@@ -1,4 +1,5 @@
 @use 'abstracts/tokens';
+@use 'abstracts/surfaces';
 @use 'base/reset';
 @use 'layout/container';
 @use 'layout/header';
@@ -10,8 +11,10 @@
 @use 'sections/values';
 @use 'sections/audience';
 @use 'sections/grids';
+@use 'sections/consult-cta';
 @use 'components/forms';
 @use 'sections/comparison';
+@use 'sections/funnel';
 @use 'sections/approach';
 @use 'sections/faq';
 @use 'layout/footer';

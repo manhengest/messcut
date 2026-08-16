@@ -40,7 +40,7 @@ function messcut_enqueue_assets(): void {
 
 	wp_enqueue_style(
 		'messcut-fonts',
-		'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap',
+		'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap',
 		array(),
 		null
 	);
@@ -70,7 +70,7 @@ function messcut_enqueue_assets(): void {
 		array(
 			'restUrl'       => esc_url_raw( rest_url( 'messcut/v1/lead' ) ),
 			'nonce'         => wp_create_nonce( 'wp_rest' ),
-			'successMsg'    => esc_html__( 'Дякуємо, Валерія найближчим часом звʼяжеться з вами', 'messcut' ),
+			'successMsg'    => esc_html__( 'Дякуємо! Звʼяжемось з вами протягом 24 год', 'messcut' ),
 			'errorRequired' => esc_html__( 'Заповніть обовʼязкові поля.', 'messcut' ),
 			'errorSubmit'   => esc_html__( 'Не вдалося надіслати заявку. Спробуйте пізніше.', 'messcut' ),
 			'errorNetwork'  => esc_html__( 'Помилка мережі. Спробуйте пізніше.', 'messcut' ),

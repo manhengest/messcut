@@ -1,0 +1,59 @@
+/* ——— Mesh + grain surface utilities ——— */
+
+// Inline SVG grain (feTurbulence) — reused via data URI
+$grain-svg: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+@mixin surface-grain($opacity: 0.06) {
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background-image: $grain-svg;
+		background-repeat: repeat;
+		background-size: 180px 180px;
+		opacity: $opacity;
+		pointer-events: none;
+		mix-blend-mode: overlay;
+	}
+
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.surface--gradient-light {
+	position: relative;
+	background-color: var(--canvas-ivory);
+	background-image:
+		radial-gradient(ellipse 80% 60% at 10% 20%, rgba(132, 185, 185, 0.35) 0%, transparent 55%),
+		radial-gradient(ellipse 70% 50% at 90% 10%, rgba(212, 233, 215, 0.55) 0%, transparent 50%),
+		radial-gradient(ellipse 60% 45% at 75% 85%, rgba(199, 242, 225, 0.3) 0%, transparent 48%),
+		radial-gradient(ellipse 50% 40% at 20% 90%, rgba(132, 185, 185, 0.15) 0%, transparent 45%);
+
+	@include surface-grain(0.06);
+}
+
+.surface--gradient-dark {
+	position: relative;
+	isolation: isolate;
+	color: var(--on-primary);
+	background-color: var(--mesh-charcoal);
+	background-image:
+		radial-gradient(ellipse 80% 75% at 100% -8%, var(--mesh-sage) 0%, transparent 58%),
+		radial-gradient(ellipse 62% 58% at -8% 108%, var(--mesh-dusty-mint) 0%, transparent 55%),
+		radial-gradient(ellipse 110% 46% at 32% 52%, var(--mesh-bronze) 0%, transparent 58%),
+		radial-gradient(ellipse 60% 42% at 88% 88%, var(--mesh-umber) 0%, transparent 52%),
+		radial-gradient(ellipse 42% 40% at -4% -4%, var(--mesh-charcoal) 0%, transparent 55%),
+		radial-gradient(ellipse 48% 38% at 72% 108%, var(--substrate-brown-deep) 0%, transparent 50%),
+		radial-gradient(ellipse 30% 26% at 58% 40%, color-mix(in srgb, var(--mesh-cream) 40%, transparent) 0%, transparent 48%);
+
+	@include surface-grain(0.12);
+}
+
+.surface--dots {
+	background-color: var(--canvas-ivory);
+	background-image: radial-gradient(circle, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+	background-size: 16px 16px;
+}

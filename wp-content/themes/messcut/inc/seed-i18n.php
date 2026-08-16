@@ -57,17 +57,25 @@ function messcut_seed_en_options(): void {
 	messcut_seed_update_options(
 		array(
 			'en_footer_tagline'     => 'We build brands with a scientific approach',
-			'en_cta_discuss_label'  => 'Discuss your project',
+			'en_cta_discuss_label'  => 'Get your growth plan',
 			'en_cta_consult_label'  => 'Get an introductory consultation',
 			'en_home_hero_title'    => 'Brand strategy and scientific marketing for business growth',
 			'en_home_hero_subtitle' => 'Messcut is a boutique strategic marketing agency. We develop brand strategies, build marketing systems, and help businesses scale based on research and data.',
 			'en_audience_text'      => 'For entrepreneurs who choose effective brand development while reducing the risk of investing time and money in tactics that do not work — with a clear strategy grounded in scientific principles.',
 			'en_stats'              => array(
-				array( 'value' => '6 years', 'label' => 'of hands-on experience' ),
-				array( 'value' => '30+', 'label' => 'brand strategies developed' ),
-				array( 'value' => '50+', 'label' => 'brands consulted' ),
-				array( 'value' => '85%', 'label' => 'of clients come by referral' ),
+				array( 'value' => '94%', 'label' => 'of clients recommend us to colleagues' ),
+				array( 'value' => '6+', 'label' => 'years of practice' ),
+				array( 'value' => '50+', 'label' => 'strategic partnerships with brands of all sizes' ),
+				array( 'value' => '1:2', 'label' => 'marketer to up to 2 projects for deep business immersion' ),
+				array( 'value' => '', 'label' => 'NON-STOP professional development and research' ),
 			),
+			'en_home_ticker'        => array(
+				array( 'text' => 'research' ),
+				array( 'text' => 'strategy' ),
+				array( 'text' => 'business metrics' ),
+				array( 'text' => 'structure' ),
+			),
+			'en_agency_comparison_title' => 'Compare us with other agencies or hiring in-house',
 			'en_home_values'        => array(
 				array( 'text' => 'ethics' ),
 				array( 'text' => 'motivation' ),
@@ -188,7 +196,6 @@ function messcut_seed_en_menus(): void {
 
 	if ( 0 === count( (array) wp_get_nav_menu_items( $primary_en ) ) ) {
 		$menu_items = array(
-			array( 'slug' => 'home', 'title' => 'Home' ),
 			array( 'slug' => 'poslugy', 'title' => 'Services' ),
 			array( 'slug' => 'dosvid', 'title' => 'Experience' ),
 		);

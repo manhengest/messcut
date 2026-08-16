@@ -85,5 +85,7 @@ return array(
 		'Не вдалося надіслати заявку. Спробуйте пізніше.'                              => array( 'Could not submit the form. Please try again later.' ),
 		'Помилка мережі. Спробуйте пізніше.'                                           => array( 'Network error. Please try again later.' ),
 		'Мова'                                                                         => array( 'Language' ),
+		'Потрібна консультація?'                                                       => array( 'Need a consultation?' ),
+		'Обговоримо ваш проєкт та знайдемо найкраще рішення.'                          => array( 'We will discuss your project and find the best solution.' ),
 	),
 );

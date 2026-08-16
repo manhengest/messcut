@@ -1,6 +1,6 @@
 <?php
 /**
- * Services grid section.
+ * Services accordion — numbered rows with excerpt, quote, permalink.
  *
  * @package Messcut
  */
@@ -14,46 +14,61 @@ $query = messcut_get_services_query( 4 );
 if ( ! $query->have_posts() ) {
 	return;
 }
+$num = 0;
 ?>
 <section class="section services-grid">
 	<div class="container">
 		<h2 class="section__title"><?php echo esc_html( $title ); ?></h2>
-		<div class="grid grid--services">
+		<div class="services-list" data-accordion>
 			<?php
 			while ( $query->have_posts() ) :
 				$query->the_post();
-				$description   = messcut_get_service_card_description();
-				$needs_toggle  = mb_strlen( $description ) > 120;
+				++$num;
+				$description = messcut_get_service_card_description();
+				$quote       = messcut_get_acf( 'testimonial_quote' );
+				$author      = messcut_get_acf( 'testimonial_author' );
+				$role        = messcut_get_acf( 'testimonial_role' );
 				?>
-				<article class="card card--service">
-					<h3 class="card__title">
-						<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-					</h3>
-					<?php if ( $description ) : ?>
-						<div
-							class="card__excerpt<?php echo $needs_toggle ? ' card__excerpt--collapsible' : ''; ?>"
-							<?php echo $needs_toggle ? ' data-service-excerpt' : ''; ?>
-						>
-							<p class="card__excerpt-text"><?php echo esc_html( $description ); ?></p>
-							<a class="card__link" href="<?php the_permalink(); ?>">
-								<?php esc_html_e( 'Перейти на сторінку послуги', 'messcut' ); ?>
-							</a>
-							<?php if ( $needs_toggle ) : ?>
-								<button
-									type="button"
-									class="card__excerpt-toggle"
-									data-service-excerpt-toggle
-									aria-expanded="false"
-								>
-									<span class="card__excerpt-toggle-more"><?php esc_html_e( 'Більше', 'messcut' ); ?></span>
-									<span class="card__excerpt-toggle-less" hidden><?php esc_html_e( 'Менше', 'messcut' ); ?></span>
-								</button>
-							<?php endif; ?>
-						</div>
-					<?php endif; ?>
-				</article>
+				<details
+					class="services-list__item"
+					data-pain-service="<?php echo esc_attr( 'service-' . ( $num - 1 ) ); ?>"
+				>
+					<summary class="services-list__header">
+						<span class="services-list__num"><?php echo esc_html( sprintf( '%02d', $num ) ); ?></span>
+						<h3 class="services-list__title"><?php the_title(); ?></h3>
+						<span class="services-list__toggle" aria-hidden="true">
+							<span class="services-list__toggle-icon">+</span>
+						</span>
+					</summary>
+					<div class="services-list__panel">
+						<?php if ( $description ) : ?>
+							<div class="services-list__copy">
+								<p class="services-list__excerpt"><?php echo esc_html( $description ); ?></p>
+							</div>
+						<?php endif; ?>
+						<?php if ( $quote ) : ?>
+							<blockquote class="services-list__testimonial">
+								<p class="services-list__quote"><?php echo esc_html( $quote ); ?></p>
+								<?php if ( $author || $role ) : ?>
+									<footer class="services-list__attribution">
+										<?php if ( $author ) : ?>
+											<cite><?php echo esc_html( $author ); ?></cite>
+										<?php endif; ?>
+										<?php if ( $role ) : ?>
+											<span class="services-list__role"><?php echo esc_html( $role ); ?></span>
+										<?php endif; ?>
+									</footer>
+								<?php endif; ?>
+							</blockquote>
+						<?php endif; ?>
+						<a class="services-list__link" href="<?php the_permalink(); ?>">
+							<?php esc_html_e( 'Детальніше', 'messcut' ); ?>
+						</a>
+					</div>
+				</details>
 			<?php endwhile; ?>
 		</div>
 		<?php wp_reset_postdata(); ?>
+		<?php messcut_render_consult_cta(); ?>
 	</div>
 </section>

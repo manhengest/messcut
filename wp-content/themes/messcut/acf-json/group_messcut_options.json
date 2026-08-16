@@ -39,6 +39,33 @@
             "type": "url"
         },
         {
+            "key": "field_messcut_linkedin",
+            "label": "LinkedIn",
+            "name": "linkedin",
+            "type": "url"
+        },
+        {
+            "key": "field_messcut_facebook",
+            "label": "Facebook",
+            "name": "facebook",
+            "type": "url"
+        },
+        {
+            "key": "field_messcut_home_hero_video",
+            "label": "Hero відео",
+            "name": "home_hero_video",
+            "type": "file",
+            "return_format": "array",
+            "mime_types": "mp4,webm"
+        },
+        {
+            "key": "field_messcut_home_hero_poster",
+            "label": "Hero постер (зображення)",
+            "name": "home_hero_poster",
+            "type": "image",
+            "return_format": "array"
+        },
+        {
             "key": "field_messcut_footer_tagline",
             "label": "Підпис у підвалі",
             "name": "footer_tagline",
@@ -171,6 +198,118 @@
                     "name": "text",
                     "type": "text",
                     "parent_repeater": "field_messcut_home_values"
+                }
+            ]
+        },
+        {
+            "key": "field_messcut_home_ticker",
+            "label": "Тікер (головна)",
+            "name": "home_ticker",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати значення",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_ticker_text",
+                    "label": "Текст",
+                    "name": "text",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_home_ticker"
+                }
+            ]
+        },
+        {
+            "key": "field_messcut_partner_brands",
+            "label": "Партнерські бренди",
+            "name": "partner_brands",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати бренд",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_partner_name",
+                    "label": "Назва",
+                    "name": "name",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_partner_brands"
+                },
+                {
+                    "key": "field_messcut_partner_logo",
+                    "label": "Логотип",
+                    "name": "logo",
+                    "type": "image",
+                    "return_format": "array",
+                    "parent_repeater": "field_messcut_partner_brands"
+                }
+            ]
+        },
+        {
+            "key": "field_messcut_agency_comparison_title",
+            "label": "Порівняння: заголовок",
+            "name": "agency_comparison_title",
+            "type": "text"
+        },
+        {
+            "key": "field_messcut_agency_comparison_rows",
+            "label": "Порівняння з агенціями",
+            "name": "agency_comparison_rows",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати рядок",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_agency_criterion",
+                    "label": "Критерій",
+                    "name": "criterion",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_agency_comparison_rows"
+                },
+                {
+                    "key": "field_messcut_agency_messcut",
+                    "label": "Messcut",
+                    "name": "messcut",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_agency_comparison_rows"
+                },
+                {
+                    "key": "field_messcut_agency_agency",
+                    "label": "Агенція",
+                    "name": "agency",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_agency_comparison_rows"
+                },
+                {
+                    "key": "field_messcut_agency_inhouse",
+                    "label": "In-house",
+                    "name": "inhouse",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_agency_comparison_rows"
+                }
+            ]
+        },
+        {
+            "key": "field_messcut_service_pains",
+            "label": "Pain funnel",
+            "name": "service_pains",
+            "type": "repeater",
+            "layout": "table",
+            "button_label": "Додати pain point",
+            "sub_fields": [
+                {
+                    "key": "field_messcut_pain_label",
+                    "label": "Текст",
+                    "name": "label",
+                    "type": "text",
+                    "parent_repeater": "field_messcut_service_pains"
+                },
+                {
+                    "key": "field_messcut_pain_service",
+                    "label": "Послуга",
+                    "name": "service",
+                    "type": "post_object",
+                    "post_type": ["service"],
+                    "return_format": "object",
+                    "parent_repeater": "field_messcut_service_pains"
                 }
             ]
         },

@@ -122,6 +122,25 @@
             "type": "text"
         },
         {
+            "key": "field_service_testimonial_quote",
+            "label": "Відгук: цитата",
+            "name": "testimonial_quote",
+            "type": "textarea",
+            "rows": 3
+        },
+        {
+            "key": "field_service_testimonial_author",
+            "label": "Відгук: автор",
+            "name": "testimonial_author",
+            "type": "text"
+        },
+        {
+            "key": "field_service_testimonial_role",
+            "label": "Відгук: посада",
+            "name": "testimonial_role",
+            "type": "text"
+        },
+        {
             "key": "field_service_faq_title",
             "label": "FAQ: заголовок",
             "name": "faq_title",
