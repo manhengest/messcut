@@ -87,5 +87,7 @@ return array(
 		'Мова'                                                                         => array( 'Language' ),
 		'Потрібна консультація?'                                                       => array( 'Need a consultation?' ),
 		'Обговоримо ваш проєкт та знайдемо найкраще рішення.'                          => array( 'We will discuss your project and find the best solution.' ),
+		'Бренд-стратегія та науковий маркетинг'                                        => array( 'Brand strategy and scientific marketing' ),
+		'Будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень' => array( 'We build marketing systems and help businesses scale based on research' ),
 	),
 );

@@ -59,8 +59,8 @@ function messcut_seed_en_options(): void {
 			'en_footer_tagline'     => 'We build brands with a scientific approach',
 			'en_cta_discuss_label'  => 'Get your growth plan',
 			'en_cta_consult_label'  => 'Get an introductory consultation',
-			'en_home_hero_title'    => 'Brand strategy and scientific marketing for business growth',
-			'en_home_hero_subtitle' => 'Messcut is a boutique strategic marketing agency. We develop brand strategies, build marketing systems, and help businesses scale based on research and data.',
+			'en_home_hero_title'    => 'Brand strategy and scientific marketing',
+			'en_home_hero_subtitle' => 'We build marketing systems and help businesses scale based on research',
 			'en_audience_text'      => 'For entrepreneurs who choose effective brand development while reducing the risk of investing time and money in tactics that do not work — with a clear strategy grounded in scientific principles.',
 			'en_stats'              => array(
 				array( 'value' => '94%', 'label' => 'of clients recommend us to colleagues' ),

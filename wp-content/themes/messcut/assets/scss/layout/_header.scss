@@ -25,6 +25,10 @@
 		box-shadow: none;
 	}
 
+	.site-logo--on-dark {
+		display: none;
+	}
+
 	&__inner {
 		position: relative;
 		z-index: 2;
@@ -33,9 +37,8 @@
 		justify-content: space-between;
 		gap: var(--space-md);
 		width: min(100% - 2rem, var(--container));
-		min-height: var(--header-height);
 		margin-inline: auto;
-		padding-block: var(--space-sm);
+		padding-block: var(--space-md);
 
 		@media (min-width: 900px) {
 			pointer-events: none;
@@ -56,7 +59,7 @@
 	&__actions {
 		display: flex;
 		align-items: center;
-		gap: var(--space-sm);
+		gap: var(--space-xs);
 		margin-left: auto;
 
 		@media (min-width: 900px) {
@@ -97,8 +100,9 @@
 	&__cta {
 		display: inline-flex;
 		align-items: center;
-		min-height: 2.5rem;
-		padding-inline: var(--space-md);
+		min-height: 30px;
+		padding-inline: var(--space-sm);
+		border: 1px solid transparent;
 		background: var(--color-accent);
 		color: var(--color-black);
 		font-family: var(--font-mono);
@@ -112,6 +116,7 @@
 		border-radius: var(--radius-pill);
 		transition:
 			background var(--duration-fast) var(--ease-out),
+			border-color var(--duration-fast) var(--ease-out),
 			color var(--duration-fast) var(--ease-out);
 
 		&:hover {
@@ -129,6 +134,63 @@
 
 			@media (min-width: 900px) {
 				display: inline-flex;
+			}
+		}
+	}
+
+	&__actions .language-switcher {
+		.language-switcher__item.is-current {
+			display: none;
+		}
+
+		.language-switcher__item:not(:last-child)::after {
+			content: none;
+		}
+	}
+}
+
+@media (max-width: 767.98px) {
+	body:has(.hero--has-video):not(.has-nav-open) .site-header:not(.is-scrolled) {
+		background: transparent;
+		box-shadow: none;
+
+		.site-logo--on-light {
+			display: none;
+		}
+
+		.site-logo--on-dark {
+			display: inline-flex;
+		}
+
+		.language-switcher__link,
+		.language-switcher__item.is-current .language-switcher__link {
+			color: var(--on-primary);
+		}
+
+		.language-switcher__item:not(.is-current) .language-switcher__link:hover {
+			color: var(--color-accent);
+		}
+
+		.site-header__cta {
+			background: transparent;
+			border-color: rgba(255, 255, 255, 0.85);
+			color: var(--on-primary);
+
+			&:hover {
+				background: rgba(255, 255, 255, 0.08);
+				border-color: var(--on-primary);
+				color: var(--on-primary);
+			}
+		}
+
+		.nav-toggle {
+			background: transparent;
+			border-color: transparent;
+			color: var(--on-primary);
+
+			&:hover {
+				border-color: transparent;
+				color: var(--on-primary);
 			}
 		}
 	}

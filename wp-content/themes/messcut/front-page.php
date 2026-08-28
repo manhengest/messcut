@@ -8,6 +8,8 @@
 get_header();
 
 get_template_part( 'template-parts/sections/hero', null, array(
+	'title'     => __( 'Бренд-стратегія та науковий маркетинг', 'messcut' ),
+	'subtitle'  => __( 'Будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень', 'messcut' ),
 	'cta_label' => messcut_cta_label( 'discuss' ),
 ) );
 ?>

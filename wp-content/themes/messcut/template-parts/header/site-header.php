@@ -12,10 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 <header class="site-header">
 	<div class="site-header__inner">
 		<div class="site-header__brand">
-			<?php messcut_render_logo( 'black', array( 'class' => 'site-logo site-logo--header' ) ); ?>
+			<?php messcut_render_logo( 'black', array( 'class' => 'site-logo site-logo--header site-logo--on-light' ) ); ?>
+			<?php messcut_render_logo( 'white', array( 'class' => 'site-logo site-logo--header site-logo--on-dark' ) ); ?>
 		</div>
 
 		<div class="site-header__actions">
+			<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
 			<a class="site-header__cta" href="#lead-form"><?php esc_html_e( 'Звʼязатися', 'messcut' ); ?></a>
 			<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="<?php esc_attr_e( 'Меню', 'messcut' ); ?>">
 				<span class="nav-toggle__icon" aria-hidden="true">

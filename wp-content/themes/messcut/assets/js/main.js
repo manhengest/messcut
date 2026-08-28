@@ -44,17 +44,74 @@
 	}
 
 	var heroVideo = document.querySelector('[data-hero-video]');
-	if (heroVideo && 'IntersectionObserver' in window) {
-		var videoObserver = new IntersectionObserver(function (entries) {
-			entries.forEach(function (entry) {
-				if (entry.isIntersecting) {
-					heroVideo.play().catch(function () {});
-				} else {
-					heroVideo.pause();
-				}
-			});
-		}, { threshold: 0.25 });
-		videoObserver.observe(heroVideo);
+	if (heroVideo) {
+		var mobileQuery = window.matchMedia('(max-width: 767.98px)');
+		var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+		var inView = true;
+
+		function heroVideoSrc() {
+			return heroVideo.getAttribute('data-src') || '';
+		}
+
+		function shouldPlayHeroVideo() {
+			return inView && mobileQuery.matches && !reduceQuery.matches && !!heroVideoSrc();
+		}
+
+		function enableHeroVideo() {
+			var src = heroVideoSrc();
+			if (!src) {
+				return;
+			}
+			if (heroVideo.getAttribute('src') !== src) {
+				heroVideo.setAttribute('src', src);
+				heroVideo.load();
+			}
+			if (shouldPlayHeroVideo()) {
+				heroVideo.play().catch(function () {});
+			}
+		}
+
+		function disableHeroVideo() {
+			heroVideo.pause();
+			if (heroVideo.getAttribute('src')) {
+				heroVideo.removeAttribute('src');
+				heroVideo.load();
+			}
+		}
+
+		function syncHeroVideo() {
+			if (shouldPlayHeroVideo()) {
+				enableHeroVideo();
+				return;
+			}
+			heroVideo.pause();
+			if (!mobileQuery.matches || reduceQuery.matches) {
+				disableHeroVideo();
+			}
+		}
+
+		if ('IntersectionObserver' in window) {
+			new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					inView = entry.isIntersecting;
+					syncHeroVideo();
+				});
+			}, { threshold: 0.25 }).observe(heroVideo);
+		}
+
+		function onHeroQueryChange() {
+			syncHeroVideo();
+		}
+
+		if (mobileQuery.addEventListener) {
+			mobileQuery.addEventListener('change', onHeroQueryChange);
+			reduceQuery.addEventListener('change', onHeroQueryChange);
+		} else if (mobileQuery.addListener) {
+			mobileQuery.addListener(onHeroQueryChange);
+			reduceQuery.addListener(onHeroQueryChange);
+		}
+
+		syncHeroVideo();
 	}
 
 	document.querySelectorAll('[data-lead-form]').forEach(function (form) {
