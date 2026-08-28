@@ -1,9 +1,11 @@
 # macOS
 .DS_Store
+.vscode/
 
 # Environment overrides (keep .env tracked for local dev defaults)
 .env.local
 .env.*.local
+.env.deploy
 
 # Docker named volume bind-mount artifacts
 mysql_data/
@@ -26,7 +28,7 @@ wp-content/themes/messcut/node_modules/
 Project Requirements.md
 
 # Cursor local state (keep plans out of noise; docs live in CLAUDE/README)
-.cursor/
+.cursor/plans/
 
 # ---------------------------------------------------------------------------
 # WordPress core & runtime — do NOT version these

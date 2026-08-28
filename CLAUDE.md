@@ -37,12 +37,16 @@ docker compose up -d          # WP http://localhost:8080 — phpMyAdmin :8081
 docker compose down
 cd wp-content/themes/messcut && npm run dev   # SCSS watch + BrowserSync :3000
 cd wp-content/themes/messcut && npm run build # compile CSS before commit
+./scripts/deploy.sh --dry-run # list theme files; upload nothing
+./scripts/deploy.sh           # build CSS + upload theme to Hosting Ukraine
+./scripts/deploy.sh discover  # find remote WordPress root (sets nothing)
+# Cursor: /deploy — review local diff (blocks on must/should fix), build, push, then hosting
 docker compose run --rm wpcli plugin list
 docker compose run --rm wpcli rewrite flush
 docker compose run --rm wpcli theme activate messcut
 ```
 
-Env defaults: see `.env` (`wordpress` / `wordpress` / DB `wordpress`).
+Env defaults: see `.env` (`wordpress` / `wordpress` / DB `wordpress`). Deploy secrets: `.env.deploy` (gitignored).
 
 ## Project layout
 
@@ -56,6 +60,8 @@ wp-content/themes/messcut/     # THEME SOURCE (edit here)
   template-parts/              # header, footer, forms, sections
   theme.json                   # Editor palette / fonts / gradients
 wordpress/                     # Docker WP root (generated + synced theme)
+scripts/deploy.sh              # Theme upload to Hosting Ukraine (SSH + tar)
+.env.deploy.example            # Deploy env template (copy to .env.deploy)
 Project Requirements.md        # Client brief / content source (local, gitignored)
 README.md                      # Docker + WP-CLI runbook
 ```
@@ -103,6 +109,34 @@ Gradients: `--gradient-brand`, `--gradient-accent`, `--gradient-backdrop`. Mint 
 
 **Logos:** `assets/img/logo-black.svg` (header), `logo-white.svg` (footer). Prefer SVG; PNG fallbacks exist. Render via `messcut_render_logo( $variant )`.
 
+## Production deploy (Hosting Ukraine)
+
+Uploads **only** `wp-content/themes/messcut/` over SSH. Does not touch WordPress core, plugins, `uploads/`, `wp-config.php`, or the database. Uses tar-over-SSH (not rsync): macOS `openrsync` is incompatible with GNU rsync on this host.
+
+**One-time setup**
+
+```bash
+cp .env.deploy.example .env.deploy
+# fill DEPLOY_PASS; leave DEPLOY_PATH empty
+./scripts/deploy.sh discover
+# set DEPLOY_PATH to the printed WordPress root (directory that contains wp-content/)
+```
+
+Current production path: `/home/ur624933/messcut.com/www`. Host/user live in `.env.deploy.example`. Never commit `.env.deploy`.
+
+**Each release**
+
+In Cursor, run **`/deploy`**: reviews the local diff (Bugbot), **stops** on must-fix or should-fix, then `npm run build`, commits/pushes, and `./scripts/deploy.sh`. Command lives at `.cursor/commands/deploy.md`.
+
+Or by hand:
+
+```bash
+./scripts/deploy.sh --dry-run
+./scripts/deploy.sh
+```
+
+The script runs `npm run build` first, then swaps the remote theme directory (old tree removed). Excludes `node_modules/`, `assets/scss/`, `*.map`, `browser-sync.config.js`. After CPT or rewrite changes, save **Settings → Permalinks** in WP admin (no WP-CLI on this host). Do not run `inc/seed*.php` on production.
+
 ## Conventions
 
 - **No page builders.** Templates + ACF + small JS.
@@ -117,7 +151,8 @@ Gradients: `--gradient-brand`, `--gradient-accent`, `--gradient-backdrop`. Mint 
 
 ## Do not
 
-- Put secrets in the repo (beyond local `.env` defaults).
+- Put secrets in the repo (beyond local `.env` defaults). `.env.deploy` stays gitignored.
+- Deploy Docker `wordpress/`, plugins, uploads, or the local database to production.
 - Introduce React/Vue/builders for this theme.
 - Use Inter / Roboto / system stack as primary fonts.
 - Use the old gold accent (`#c8a96e`) — replaced by turquoise.
@@ -130,5 +165,6 @@ Use **Context7** for current WP / ACF / Polylang APIs — do not rely on stale t
 Further reading:
 
 - [README.md](README.md) — Docker, import/export, WP-CLI
+- `.env.deploy.example` + `scripts/deploy.sh` — Hosting Ukraine theme upload
 - [Project Requirements.md](Project%20Requirements.md) — pages, case/service structure, copy (local; gitignored)
 - [.cursor/plans/messcut_wp_theme_9dd8af69.plan.md](.cursor/plans/messcut_wp_theme_9dd8af69.plan.md) — architecture & phases
