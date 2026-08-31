@@ -82,22 +82,155 @@ function messcut_cta_label( string $type = 'discuss' ): string {
 }
 
 /**
+ * Default "why us" mosaic items (value, label, optional image).
+ *
+ * @return array<string, array<string, mixed>>
+ */
+function messcut_get_why_stats_defaults(): array {
+	return array(
+		'recommend' => array(
+			'value'     => '94%',
+			'label'     => __( 'клієнтів радять нас своїм колегам', 'messcut' ),
+			'image'     => 'why-1.jpg',
+			'width'     => 206,
+			'height'    => 290,
+			'image_pos' => 'after',
+		),
+		'partners'  => array(
+			'value'     => '50+',
+			'label'     => __( 'стратегічних співпраць з великими та малими брендами в різних нішах', 'messcut' ),
+			'image'     => 'why-2.jpg',
+			'width'     => 288,
+			'height'    => 102,
+			'image_pos' => 'after',
+		),
+		'nonstop'   => array(
+			'value'     => 'NON-STOP',
+			'label'     => __( 'NON-STOP підвищення кваліфікації та вивчення досліджень', 'messcut' ),
+			'image'     => 'why-3.jpg',
+			'width'     => 204,
+			'height'    => 184,
+			'image_pos' => 'after',
+		),
+		'years'     => array(
+			'value'     => '6+',
+			'label'     => __( 'років практики', 'messcut' ),
+			'image'     => 'why-4.jpg',
+			'width'     => 220,
+			'height'    => 126,
+			'image_pos' => 'before',
+		),
+		'ratio'     => array(
+			'value'     => '1:2',
+			'label'     => __( '1 маркетолог = до 2-х проєктів для глибокого занурення у ваш бізнес', 'messcut' ),
+			'image'     => '',
+			'image_pos' => '',
+		),
+	);
+}
+
+/**
+ * Map a CMS stat row onto a mosaic slot key.
+ *
+ * @param array<string, mixed> $row Repeater row.
+ */
+function messcut_match_stat_slot( array $row ): string {
+	$value = strtoupper( (string) preg_replace( '/\s+/', '', (string) ( $row['value'] ?? '' ) ) );
+	$label = (string) ( $row['label'] ?? '' );
+
+	if ( str_contains( $value, '94' ) ) {
+		return 'recommend';
+	}
+	if ( str_contains( $value, '50' ) ) {
+		return 'partners';
+	}
+	if ( str_contains( $value, 'NONSTOP' ) || str_contains( $value, 'NON-STOP' ) ) {
+		return 'nonstop';
+	}
+	if ( str_contains( $value, '6+' ) || '6' === $value ) {
+		return 'years';
+	}
+	if ( str_contains( $value, '1:2' ) ) {
+		return 'ratio';
+	}
+
+	$label_l = function_exists( 'mb_strtolower' ) ? mb_strtolower( $label ) : strtolower( $label );
+	if ( '' === $value && (
+		str_contains( $label_l, 'non-stop' )
+		|| str_contains( $label_l, 'nonstop' )
+		|| str_contains( $label_l, 'підвищення кваліфікації' )
+		|| str_contains( $label_l, 'professional development' )
+	) ) {
+		return 'nonstop';
+	}
+
+	return '';
+}
+
+/**
+ * Skip stale CMS labels that predate the designed mosaic copy.
+ *
+ * @param string $slot  Mosaic slot key.
+ * @param string $label CMS label.
+ */
+function messcut_is_legacy_stat_label( string $slot, string $label ): bool {
+	if ( 'ratio' !== $slot ) {
+		return false;
+	}
+
+	$legacy = array(
+		'маркетолог = до 2-х проєктів для глибокого занурення у ваш бізнес',
+		'marketer to up to 2 projects for deep business immersion',
+	);
+
+	return in_array( $label, $legacy, true );
+}
+
+/**
+ * Mosaic items: design defaults, overlaid with CMS stats when present.
+ *
+ * @param array<int, array<string, mixed>> $stats Optional CMS rows.
+ * @return array<string, array<string, mixed>>
+ */
+function messcut_get_why_stats( array $stats = array() ): array {
+	$items = messcut_get_why_stats_defaults();
+
+	if ( empty( $stats ) ) {
+		$stats = messcut_get_localized_option( 'stats', array() );
+	}
+
+	if ( ! is_array( $stats ) ) {
+		return $items;
+	}
+
+	foreach ( $stats as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		$slot = messcut_match_stat_slot( $row );
+		if ( '' === $slot || ! isset( $items[ $slot ] ) ) {
+			continue;
+		}
+		$value = trim( (string) ( $row['value'] ?? '' ) );
+		$label = trim( (string) ( $row['label'] ?? '' ) );
+		if ( '' !== $value ) {
+			$items[ $slot ]['value'] = $value;
+		}
+		if ( '' !== $label && ! messcut_is_legacy_stat_label( $slot, $label ) ) {
+			$items[ $slot ]['label'] = $label;
+		}
+	}
+
+	return $items;
+}
+
+/**
  * Render stats section from options.
  *
- * @param array<string, mixed> $args Template args (stats, title).
+ * @param array<string, mixed> $args Template args (stats, title, items).
  */
 function messcut_render_stats( array $args = array() ): void {
-	$stats = $args['stats'] ?? messcut_get_localized_option( 'stats', array() );
-	if ( empty( $stats ) || ! is_array( $stats ) ) {
-		$stats = array(
-			array( 'value' => '94%', 'label' => __( 'клієнтів радять нас своїм колегам', 'messcut' ) ),
-			array( 'value' => '6+', 'label' => __( 'років практики', 'messcut' ) ),
-			array( 'value' => '50+', 'label' => __( 'стратегічних співпраць з великими та малими брендами в різних нішах', 'messcut' ) ),
-			array( 'value' => '1:2', 'label' => __( 'маркетолог = до 2-х проєктів для глибокого занурення у ваш бізнес', 'messcut' ) ),
-			array( 'value' => '', 'label' => __( 'NON-STOP підвищення кваліфікації та вивчення досліджень', 'messcut' ) ),
-		);
-	}
-	$args['stats'] = $stats;
+	$args['items'] = $args['items'] ?? messcut_get_why_stats( isset( $args['stats'] ) && is_array( $args['stats'] ) ? $args['stats'] : array() );
 	get_template_part( 'template-parts/sections/stats', null, $args );
 }
 
@@ -418,9 +551,11 @@ function messcut_render_insights_tiles( array $args = array() ): void {
 
 /**
  * Render partner logos marquee.
+ *
+ * @param array<string, mixed> $args Template args.
  */
-function messcut_render_partner_logos(): void {
-	get_template_part( 'template-parts/sections/partner-logos' );
+function messcut_render_partner_logos( array $args = array() ): void {
+	get_template_part( 'template-parts/sections/partner-logos', null, $args );
 }
 
 /**
@@ -489,6 +624,71 @@ function messcut_get_partner_brands(): array {
 }
 
 /**
+ * Agency comparison section title. Ignores the pre-redesign long headline.
+ */
+function messcut_get_agency_comparison_title(): string {
+	$default = __( 'Порівняйте', 'messcut' );
+	$title   = messcut_get_localized_option( 'agency_comparison_title', $default );
+	if ( ! is_string( $title ) || '' === trim( $title ) ) {
+		return $default;
+	}
+
+	$title  = trim( $title );
+	$legacy = array(
+		'Порівняйте нас з іншими агенціями або власним наймом маркетолога',
+		'Compare us with other agencies or hiring in-house',
+	);
+
+	return in_array( $title, $legacy, true ) ? $default : $title;
+}
+
+/**
+ * Agency comparison tab panels (Figma node 131:74).
+ *
+ * @return array<int, array{id: string, label: string, logo: bool, heading: string, points: array<int, string>}>
+ */
+function messcut_get_agency_comparison_tabs(): array {
+	return array(
+		array(
+			'id'      => 'messcut',
+			'label'   => __( 'Messcut', 'messcut' ),
+			'logo'    => true,
+			'heading' => '',
+			'points'  => array(
+				__( 'Максимум 2 проєкти на спеціаліста', 'messcut' ),
+				__( 'Результат і бізнес-KPI, а не години', 'messcut' ),
+				__( "Багаторівневий контроль якості.\nВнутрішня ревізія + регулярні зовнішні аудити", 'messcut' ),
+				__( 'Рішення на основі досліджень і перевірених методологій', 'messcut' ),
+			),
+		),
+		array(
+			'id'      => 'inhouse',
+			'label'   => __( 'Власний найм', 'messcut' ),
+			'logo'    => false,
+			'heading' => __( 'Власний найм', 'messcut' ),
+			'points'  => array(
+				__( 'Один бренд — залежить від досвіду команди', 'messcut' ),
+				__( 'Зарплата, податки й внутрішні процеси', 'messcut' ),
+				__( 'Знання залишаються в компанії', 'messcut' ),
+				__( 'Рішення з внутрішніми упередженнями', 'messcut' ),
+			),
+		),
+		array(
+			'id'      => 'agency',
+			'label'   => __( 'Інші агенції', 'messcut' ),
+			'logo'    => false,
+			'heading' => __( 'Інші агенції', 'messcut' ),
+			'points'  => array(
+				__( 'Багато клієнтів на спеціаліста', 'messcut' ),
+				__( 'Фокус на кампаніях і креативі', 'messcut' ),
+				__( 'Дослідження опційно / додатково', 'messcut' ),
+				__( 'Знання залишаються в агенції', 'messcut' ),
+			),
+		),
+	);
+}
+
+/**
  * Get agency comparison rows.
  *
  * @return array<int, array{criterion: string, messcut: string, agency: string, inhouse: string}>
@@ -520,7 +720,7 @@ function messcut_get_agency_comparison_rows(): array {
 }
 
 /**
- * Render agency comparison table.
+ * Render agency comparison tabs.
  */
 function messcut_render_agency_comparison(): void {
 	get_template_part( 'template-parts/sections/agency-comparison' );
@@ -569,6 +769,15 @@ function messcut_get_service_pains(): array {
  */
 function messcut_render_pain_funnel(): void {
 	get_template_part( 'template-parts/sections/pain-funnel' );
+}
+
+/**
+ * Render combined path section (funnel + service cards + audience + ticker).
+ *
+ * @param array<string, mixed> $args Template args.
+ */
+function messcut_render_path( array $args = array() ): void {
+	get_template_part( 'template-parts/sections/path', null, $args );
 }
 
 /**
@@ -716,7 +925,7 @@ function messcut_get_faq_title( array $args = array() ): string {
 /**
  * Render FAQ accordion (hidden when no items).
  *
- * @param array<string, mixed> $args Args: source, post_id, title, items.
+ * @param array<string, mixed> $args Args: source, post_id, title, items, text.
  */
 function messcut_render_faq( array $args = array() ): void {
 	$items = $args['items'] ?? messcut_get_faq_items( $args );
@@ -730,6 +939,7 @@ function messcut_render_faq( array $args = array() ): void {
 		array(
 			'items' => $items,
 			'title' => messcut_get_faq_title( $args ),
+			'text'  => $args['text'] ?? __( 'Відповідаємо на найпоширеніші запитання про бренд-стратегію та маркетинг.', 'messcut' ),
 		)
 	);
 }
@@ -765,42 +975,63 @@ function messcut_fallback_primary_menu(): void {
 /**
  * Render the Messcut logo.
  *
- * @param string               $variant black|white.
- * @param array<string, mixed> $args    Optional: class, width, height.
+ * @param string               $variant black|white|footer.
+ * @param array<string, mixed> $args    Optional: class, width, height, linked.
  */
 function messcut_render_logo( string $variant = 'black', array $args = array() ): void {
-	$variant = 'white' === $variant ? 'white' : 'black';
-	$class   = isset( $args['class'] ) ? (string) $args['class'] : 'site-logo';
-	$width   = isset( $args['width'] ) ? (int) $args['width'] : 160;
-	$height  = isset( $args['height'] ) ? (int) $args['height'] : 35;
+	$class  = isset( $args['class'] ) ? (string) $args['class'] : 'site-logo';
+	$width  = isset( $args['width'] ) ? (int) $args['width'] : 160;
+	$height = isset( $args['height'] ) ? (int) $args['height'] : 35;
+	$linked = ! array_key_exists( 'linked', $args ) || false !== $args['linked'];
 
-	$filename = 'logo-' . $variant . '.svg';
-	$path     = MESSCUT_DIR . '/assets/img/' . $filename;
-	$url      = MESSCUT_URI . '/assets/img/' . $filename;
+	if ( 'footer' === $variant ) {
+		$filename = 'footer-logo.png';
+	} else {
+		$variant  = 'white' === $variant ? 'white' : 'black';
+		$filename = 'logo-' . $variant . '.svg';
+	}
 
-	if ( ! file_exists( $path ) ) {
+	$path = MESSCUT_DIR . '/assets/img/' . $filename;
+	$url  = MESSCUT_URI . '/assets/img/' . $filename;
+
+	if ( 'footer' !== $variant && ! file_exists( $path ) ) {
 		$filename = 'logo-' . $variant . '.png';
 		$path     = MESSCUT_DIR . '/assets/img/' . $filename;
 		$url      = MESSCUT_URI . '/assets/img/' . $filename;
 	}
 
 	if ( ! file_exists( $path ) ) {
-		printf(
-			'<a class="%1$s site-title" href="%2$s">%3$s</a>',
-			esc_attr( $class ),
-			esc_url( home_url( '/' ) ),
-			esc_html( get_bloginfo( 'name' ) )
-		);
+		$fallback = esc_html( get_bloginfo( 'name' ) );
+		if ( $linked ) {
+			printf(
+				'<a class="%1$s site-title" href="%2$s">%3$s</a>',
+				esc_attr( $class ),
+				esc_url( home_url( '/' ) ),
+				$fallback
+			);
+			return;
+		}
+		printf( '<span class="%1$s site-title">%2$s</span>', esc_attr( $class ), $fallback );
 		return;
 	}
 
-	printf(
-		'<a class="%1$s" href="%2$s" rel="home"><img class="site-logo__img" src="%3$s" alt="%4$s" width="%5$d" height="%6$d" decoding="async" /></a>',
-		esc_attr( $class ),
-		esc_url( home_url( '/' ) ),
+	$img = sprintf(
+		'<img class="site-logo__img" src="%1$s" alt="%2$s" width="%3$d" height="%4$d" decoding="async" />',
 		esc_url( $url ),
 		esc_attr( get_bloginfo( 'name' ) ),
 		$width,
 		$height
 	);
+
+	if ( $linked ) {
+		printf(
+			'<a class="%1$s" href="%2$s" rel="home">%3$s</a>',
+			esc_attr( $class ),
+			esc_url( home_url( '/' ) ),
+			$img
+		);
+		return;
+	}
+
+	printf( '<span class="%1$s">%2$s</span>', esc_attr( $class ), $img );
 }

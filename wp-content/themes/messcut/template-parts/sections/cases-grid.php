@@ -1,6 +1,6 @@
 <?php
 /**
- * Cases grid section.
+ * Cases section — Figma 150:2 (dark band, horizontal logo cards).
  *
  * @package Messcut
  *
@@ -11,61 +11,76 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$limit     = isset( $args['limit'] ) ? (int) $args['limit'] : -1;
-$title     = $args['title'] ?? __( 'Кейси', 'messcut' );
-$show_more = $args['show_more'] ?? false;
+$limit          = isset( $args['limit'] ) ? (int) $args['limit'] : -1;
+$title          = $args['title'] ?? __( 'Кейси', 'messcut' );
+$show_more      = $args['show_more'] ?? false;
+$on_dark        = ! empty( $args['on_dark'] );
+$section_class  = 'section cases-grid' . ( $on_dark ? ' cases-grid--on-dark' : '' );
+$more_arrow_path = MESSCUT_DIR . '/assets/img/path/more-arrow.svg';
+$more_arrow_svg  = is_readable( $more_arrow_path ) ? file_get_contents( $more_arrow_path ) : '';
 $query     = messcut_get_cases_query( $limit );
 if ( ! $query->have_posts() ) {
 	return;
 }
 ?>
-<section class="section cases-grid surface--gradient-light surface--dots">
+<section class="<?php echo esc_attr( $section_class ); ?>">
 	<div class="container">
-		<h2 class="section__title"><?php echo esc_html( $title ); ?></h2>
-		<div class="grid grid--cases">
+		<div class="cases-grid__header">
+			<h2 class="cases-grid__title"><?php echo esc_html( $title ); ?></h2>
+			<?php if ( $show_more ) : ?>
+				<a class="cases-grid__more" href="<?php echo esc_url( messcut_cases_archive_url() ); ?>">
+					<span><?php esc_html_e( 'Більше', 'messcut' ); ?></span>
+					<span class="cases-grid__more-arrow" aria-hidden="true">
+						<?php
+						if ( $more_arrow_svg ) {
+							echo $more_arrow_svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme SVG asset.
+						}
+						?>
+					</span>
+				</a>
+			<?php endif; ?>
+		</div>
+		<div class="cases-grid__track">
 			<?php
 			while ( $query->have_posts() ) :
 				$query->the_post();
-				$subtitle = function_exists( 'get_field' ) ? get_field( 'hero_subtitle' ) : '';
-				$excerpt  = has_excerpt() ? get_the_excerpt() : '';
-				$has_extra = ( $subtitle || $excerpt );
+				$subtitle  = function_exists( 'get_field' ) ? trim( (string) get_field( 'hero_subtitle' ) ) : '';
+				$excerpt   = has_excerpt() ? trim( (string) get_the_excerpt() ) : '';
+				if ( $excerpt && $subtitle && 0 === strcasecmp( $excerpt, $subtitle ) ) {
+					$excerpt = '';
+				}
+				$has_extra = ( '' !== $subtitle || '' !== $excerpt );
 				?>
-				<article class="card card--case" <?php echo $has_extra ? 'data-case-expand' : ''; ?>>
-					<a class="card__media" href="<?php the_permalink(); ?>">
-						<?php messcut_render_post_thumbnail( 'medium_large' ); ?>
+				<article class="cases-grid__card" <?php echo $has_extra ? 'data-case-expand' : ''; ?>>
+					<a class="cases-grid__hit" href="<?php the_permalink(); ?>">
+						<span class="cases-grid__brand"><?php the_title(); ?></span>
 					</a>
-					<h3 class="card__title">
-						<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-					</h3>
 					<?php if ( $has_extra ) : ?>
-						<div class="card__excerpt card__excerpt--collapsible" data-case-excerpt>
+						<div class="cases-grid__excerpt" data-case-excerpt>
 							<?php if ( $subtitle ) : ?>
-								<p class="card__excerpt-text"><?php echo esc_html( $subtitle ); ?></p>
+								<p class="cases-grid__excerpt-text"><?php echo esc_html( $subtitle ); ?></p>
 							<?php endif; ?>
 							<?php if ( $excerpt ) : ?>
-								<p class="card__excerpt-extra"><?php echo esc_html( $excerpt ); ?></p>
+								<p class="cases-grid__excerpt-extra"><?php echo esc_html( $excerpt ); ?></p>
 							<?php endif; ?>
 							<button
 								type="button"
-								class="card__excerpt-toggle"
+								class="cases-grid__plus"
 								data-case-excerpt-toggle
 								aria-expanded="false"
 								aria-label="<?php esc_attr_e( 'Розгорнути', 'messcut' ); ?>"
 							>
-								<span class="card__excerpt-toggle-icon" aria-hidden="true">+</span>
+								<span class="cases-grid__plus-icon" aria-hidden="true">+</span>
 							</button>
 						</div>
+					<?php else : ?>
+						<span class="cases-grid__plus" aria-hidden="true">
+							<span class="cases-grid__plus-icon">+</span>
+						</span>
 					<?php endif; ?>
 				</article>
 			<?php endwhile; ?>
 		</div>
 		<?php wp_reset_postdata(); ?>
-		<?php if ( $show_more ) : ?>
-			<p class="cases-grid__more">
-				<a class="button button--secondary" href="<?php echo esc_url( messcut_cases_archive_url() ); ?>">
-					<?php esc_html_e( 'Усі кейси', 'messcut' ); ?>
-				</a>
-			</p>
-		<?php endif; ?>
 	</div>
 </section>

@@ -11,9 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$title  = $args['title'] ?? __( 'Потрібна консультація?', 'messcut' );
-$text   = $args['text'] ?? __( 'Обговоримо ваш проєкт та знайдемо найкраще рішення.', 'messcut' );
-$avatar = $args['avatar'] ?? messcut_consult_cta_avatar_url();
+$title     = $args['title'] ?? __( 'Потрібна консультація?', 'messcut' );
+$text      = $args['text'] ?? __( 'Обговоримо ваш проєкт та знайдемо найкраще рішення', 'messcut' );
+$avatar    = $args['avatar'] ?? messcut_consult_cta_avatar_url();
+$arrow     = MESSCUT_DIR . '/assets/img/path/cta-arrow.svg';
+$arrow_url = is_readable( $arrow ) ? MESSCUT_URI . '/assets/img/path/cta-arrow.svg?v=' . (string) filemtime( $arrow ) : '';
 ?>
 <a class="consult-cta" href="#lead-form">
 	<?php if ( $avatar ) : ?>
@@ -21,8 +23,8 @@ $avatar = $args['avatar'] ?? messcut_consult_cta_avatar_url();
 			class="consult-cta__avatar"
 			src="<?php echo esc_url( $avatar ); ?>"
 			alt=""
-			width="320"
-			height="320"
+			width="48"
+			height="48"
 			loading="lazy"
 			decoding="async"
 		>
@@ -33,9 +35,16 @@ $avatar = $args['avatar'] ?? messcut_consult_cta_avatar_url();
 			<span class="consult-cta__text"><?php echo esc_html( $text ); ?></span>
 		<?php endif; ?>
 	</span>
-	<span class="consult-cta__action" aria-hidden="true">
-		<svg class="consult-cta__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-		</svg>
-	</span>
+	<?php if ( $arrow_url ) : ?>
+		<img
+			class="consult-cta__arrow"
+			src="<?php echo esc_url( $arrow_url ); ?>"
+			alt=""
+			width="48"
+			height="48"
+			decoding="async"
+		>
+	<?php else : ?>
+		<span class="consult-cta__action" aria-hidden="true">→</span>
+	<?php endif; ?>
 </a>

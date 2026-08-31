@@ -32,57 +32,6 @@
 	}
 }
 
-.cases-grid {
-	&__more {
-		margin: var(--space-xxl) 0 0;
-		text-align: center;
-	}
-}
-
-.insights-tiles {
-	background-color: var(--color-white);
-
-	&__track {
-		display: flex;
-		gap: var(--space-md);
-		overflow-x: auto;
-		scroll-snap-type: x mandatory;
-		scroll-padding-inline: var(--space-md);
-		padding-bottom: var(--space-sm);
-		-webkit-overflow-scrolling: touch;
-
-		&::-webkit-scrollbar {
-			height: 4px;
-		}
-
-		&::-webkit-scrollbar-thumb {
-			background: var(--hairline-on-light);
-			border-radius: var(--radius-pill);
-		}
-	}
-
-	&__more {
-		margin: var(--space-xl) 0 0;
-		font-family: var(--font-mono);
-		font-size: var(--text-micro);
-		font-weight: 500;
-		letter-spacing: var(--tracking-label);
-		text-transform: uppercase;
-
-		a {
-			color: var(--color-brown);
-			text-decoration: underline;
-			text-underline-offset: 4px;
-			text-decoration-color: var(--color-accent-dim);
-
-			&:hover {
-				color: var(--ink);
-				text-decoration-color: var(--ink);
-			}
-		}
-	}
-}
-
 /* ——— Services accordion list ——— */
 
 .services-list {
@@ -514,7 +463,6 @@
 }
 
 /* Light cards on brown substrate (service pages) */
-.insights-tiles .card--legacy,
 .services-comparison .card {
 	border-color: var(--hairline-on-dark);
 	background: rgba(255, 255, 255, 0.08);

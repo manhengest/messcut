@@ -1,6 +1,75 @@
 (function () {
 	'use strict';
 
+	function compareTabsRoot(from) {
+		return from && from.closest ? from.closest('[data-compare-tabs]') : null;
+	}
+
+	function compareTabsActivate(root, nextTab, focus) {
+		if (!root || !nextTab) {
+			return;
+		}
+
+		var tabs = root.querySelectorAll('[role="tab"]');
+		var panels = root.querySelectorAll('[role="tabpanel"]');
+		var controls = nextTab.getAttribute('aria-controls');
+
+		tabs.forEach(function (tab) {
+			var selected = tab === nextTab;
+			tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+			tab.tabIndex = selected ? 0 : -1;
+		});
+		panels.forEach(function (panel) {
+			panel.hidden = panel.id !== controls;
+		});
+		if (focus) {
+			nextTab.focus();
+		}
+	}
+
+	document.addEventListener('click', function (event) {
+		var tab = event.target.closest ? event.target.closest('[data-compare-tab]') : null;
+		var root = compareTabsRoot(tab);
+		if (!tab || !root) {
+			return;
+		}
+		compareTabsActivate(root, tab, false);
+	});
+
+	document.addEventListener('keydown', function (event) {
+		var tab = event.target.closest ? event.target.closest('[data-compare-tab]') : null;
+		var root = compareTabsRoot(tab);
+		if (!tab || !root) {
+			return;
+		}
+
+		var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+		var index = tabs.indexOf(tab);
+		if (index < 0) {
+			return;
+		}
+
+		var offset = 0;
+		if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+			offset = 1;
+		} else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+			offset = -1;
+		} else if (event.key === 'Home') {
+			event.preventDefault();
+			compareTabsActivate(root, tabs[0], true);
+			return;
+		} else if (event.key === 'End') {
+			event.preventDefault();
+			compareTabsActivate(root, tabs[tabs.length - 1], true);
+			return;
+		} else {
+			return;
+		}
+
+		event.preventDefault();
+		compareTabsActivate(root, tabs[(index + offset + tabs.length) % tabs.length], true);
+	});
+
 	var navToggle = document.querySelector('.nav-toggle');
 	var primaryNav = document.getElementById('primary-navigation');
 	var siteHeader = document.querySelector('.site-header');
@@ -287,13 +356,11 @@
 			return;
 		}
 
-		toggle.addEventListener('click', function () {
+		toggle.addEventListener('click', function (event) {
+			event.preventDefault();
+			event.stopPropagation();
 			var isExpanded = wrap.classList.toggle('is-expanded');
 			toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-			var icon = toggle.querySelector('.card__excerpt-toggle-icon');
-			if (icon) {
-				icon.textContent = isExpanded ? '−' : '+';
-			}
 		});
 	});
 
@@ -326,10 +393,10 @@
 			return;
 		}
 
-		var section = track.closest('.partner-logos');
+		var root = track.closest('[data-marquee-root]') || track.closest('.partner-logos');
 		var wrap = track.parentElement;
-		var group = track.querySelector('.partner-logos__group');
-		if (!section || !wrap || !group) {
+		var group = track.querySelector('[data-marquee-group]') || track.querySelector('.partner-logos__group');
+		if (!root || !wrap || !group) {
 			return;
 		}
 
@@ -337,7 +404,7 @@
 		var running = false;
 		var offset = 0;
 		var last = 0;
-		var speed = 70;
+		var speed = root.classList.contains('path__ticker') ? 48 : 70;
 
 		function fillTrack() {
 			var copies = 0;
@@ -378,7 +445,7 @@
 
 		function start() {
 			fillTrack();
-			section.classList.add('is-marquee-ready');
+			root.classList.add('is-marquee-ready');
 			if (running) {
 				return;
 			}
@@ -446,10 +513,6 @@
 					pill.hidden = false;
 					seen[key] = true;
 				}
-				if (isNarrow()) {
-					pill.style.left = '';
-					pill.style.top = '';
-				}
 			});
 		}
 
@@ -458,7 +521,9 @@
 		}
 
 		function openMatchingService(target) {
-			var accordionItem = document.querySelector(
+			var accordionItem = painFunnel.querySelector(
+				'details[data-pain-service="' + target + '"]'
+			) || document.querySelector(
 				'.services-list__item[data-pain-service="' + target + '"]'
 			);
 			if (!accordionItem) {
@@ -475,57 +540,32 @@
 			accordionItem.open = true;
 		}
 
-		function randomPointInTriangle(width, height) {
-			var r1 = Math.sqrt(Math.random());
-			var r2 = Math.random();
-			return {
-				x: (1 - r1) * 0 + r1 * (1 - r2) * width + r1 * r2 * (width / 2),
-				y: (1 - r1) * 0 + r1 * (1 - r2) * 0 + r1 * r2 * height
-			};
-		}
-
-		function isInInvertedTriangle(x, y, width, height) {
-			if (y < 0 || y > height) {
-				return false;
-			}
-			var half = (width / 2) * (1 - y / height);
-			var cx = width / 2;
-			return x >= cx - half && x <= cx + half;
-		}
-
-		function rectInTriangle(rect, width, height, inset) {
-			var maxY = height * 0.78;
-			var corners = [
-				[rect.left - inset, rect.top - inset],
-				[rect.left + rect.w + inset, rect.top - inset],
-				[rect.left - inset, rect.top + rect.h + inset],
-				[rect.left + rect.w + inset, rect.top + rect.h + inset]
-			];
-			return corners.every(function (point) {
-				return point[1] <= maxY && isInInvertedTriangle(point[0], point[1], width, height);
-			});
-		}
-
-		function rectsOverlap(a, b, gap) {
-			return !(
-				a.left + a.w + gap <= b.left ||
-				b.left + b.w + gap <= a.left ||
-				a.top + a.h + gap <= b.top ||
-				b.top + b.h + gap <= a.top
-			);
-		}
-
 		function assignDrift(pill) {
 			if (reduceMotion || pill.hasAttribute('data-pain-drift')) {
 				return;
 			}
-			var dx = (4 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
-			var dy = (4 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
+			var dx = (5 + Math.random() * 6) * (Math.random() < 0.5 ? -1 : 1);
+			var dy = (4 + Math.random() * 6) * (Math.random() < 0.5 ? -1 : 1);
+			var dx2 = (4 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
+			var dy2 = (4 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
 			pill.style.setProperty('--dx', dx.toFixed(1) + 'px');
 			pill.style.setProperty('--dy', dy.toFixed(1) + 'px');
-			pill.style.setProperty('--drift-dur', (6 + Math.random() * 4).toFixed(1) + 's');
-			pill.style.setProperty('--drift-delay', (Math.random() * 3).toFixed(2) + 's');
+			pill.style.setProperty('--dx2', dx2.toFixed(1) + 'px');
+			pill.style.setProperty('--dy2', dy2.toFixed(1) + 'px');
+			pill.style.setProperty('--drift-dur', (10 + Math.random() * 6).toFixed(1) + 's');
+			pill.style.setProperty('--drift-delay', (-Math.random() * 9).toFixed(2) + 's');
+			pill.setAttribute('data-jx', ((Math.random() - 0.5) * 12).toFixed(1));
+			pill.setAttribute('data-jy', ((Math.random() - 0.5) * 10).toFixed(1));
 			pill.setAttribute('data-pain-drift', '');
+		}
+
+		function triangleInner(y, width, height, pad) {
+			var t = Math.min(1, Math.max(0, y / height));
+			var half = (width / 2) * (1 - t * 0.88);
+			return {
+				left: width / 2 - half + pad,
+				right: width / 2 + half - pad
+			};
 		}
 
 		function layoutPills(force) {
@@ -534,10 +574,6 @@
 			}
 
 			prepareMobilePills();
-			if (isNarrow()) {
-				vessel.classList.add('is-ready');
-				return;
-			}
 
 			var width = vessel.clientWidth;
 			var height = vessel.clientHeight;
@@ -561,46 +597,76 @@
 				};
 			});
 
-			var placed = [];
-			var gaps = [10, 6, 2, 0];
+			if (!items.length) {
+				vessel.classList.add('is-ready');
+				return;
+			}
 
-			items.forEach(function (item) {
-				var found = null;
-				var last = null;
-				for (var g = 0; g < gaps.length && !found; g++) {
-					var gap = gaps[g];
-					for (var i = 0; i < 40; i++) {
-						var point = randomPointInTriangle(width, height);
-						var rect = {
-							left: point.x - item.w / 2,
-							top: point.y - item.h / 2,
-							w: item.w,
-							h: item.h
-						};
-						last = rect;
-						if (!rectInTriangle(rect, width, height, 12)) {
-							continue;
-						}
-						var hits = placed.some(function (other) {
-							return rectsOverlap(rect, other, gap);
-						});
-						if (!hits) {
-							found = rect;
-							break;
-						}
+			var hGap = width < 640 ? 28 : 36;
+			var pad = Math.max(12, width * 0.04);
+			var topPad = height * 0.05;
+			var bottomLimit = height * 0.76;
+			var maxPerRow = width < 600 ? 2 : width < 900 ? 3 : 4;
+			var remaining = items.slice();
+			var rows = [];
+			var probeY = topPad;
+
+			while (remaining.length) {
+				var bounds = triangleInner(probeY, width, height, pad);
+				var avail = Math.max(64, bounds.right - bounds.left);
+				var row = [];
+				var rowW = 0;
+				while (remaining.length) {
+					var item = remaining[0];
+					var next = row.length === 0 ? item.w : rowW + hGap + item.w;
+					if (row.length && (next > avail || row.length >= maxPerRow)) {
+						break;
+					}
+					row.push(remaining.shift());
+					rowW = next;
+				}
+				if (!row.length) {
+					row.push(remaining.shift());
+					rowW = row[0].w;
+				}
+				var rowH = row[0].h;
+				for (var r = 1; r < row.length; r++) {
+					if (row[r].h > rowH) {
+						rowH = row[r].h;
 					}
 				}
-				if (!found) {
-					found = last || {
-						left: (width - item.w) / 2,
-						top: height * 0.2,
-						w: item.w,
-						h: item.h
-					};
+				rows.push({ items: row, w: rowW, h: rowH });
+				probeY += rowH + 28;
+			}
+
+			var contentH = 0;
+			for (var c = 0; c < rows.length; c++) {
+				contentH += rows[c].h;
+			}
+			var slack = Math.max(0, bottomLimit - topPad - contentH);
+			var rowGap = rows.length > 1 ? slack / (rows.length - 0.15) : slack * 0.4;
+			rowGap = Math.max(width < 640 ? 22 : 28, rowGap);
+
+			var y = topPad + rowGap * 0.2;
+			rows.forEach(function (row) {
+				var placeBounds = triangleInner(y + row.h / 2, width, height, pad);
+				var placeAvail = Math.max(row.w, placeBounds.right - placeBounds.left);
+				var innerGap = hGap;
+				if (row.items.length > 1) {
+					var extra = Math.max(0, placeAvail - row.w);
+					innerGap = hGap + extra * 0.62 / (row.items.length - 1);
 				}
-				placed.push(found);
-				item.el.style.left = Math.round(found.left) + 'px';
-				item.el.style.top = Math.round(found.top) + 'px';
+				var used = row.w + (innerGap - hGap) * Math.max(0, row.items.length - 1);
+				var startX = placeBounds.left + Math.max(0, (placeBounds.right - placeBounds.left - used) / 2);
+				var x = startX;
+				row.items.forEach(function (pillItem) {
+					var jx = Number(pillItem.el.getAttribute('data-jx') || 0);
+					var jy = Number(pillItem.el.getAttribute('data-jy') || 0);
+					pillItem.el.style.left = Math.round(x + jx) + 'px';
+					pillItem.el.style.top = Math.round(y + jy) + 'px';
+					x += pillItem.w + innerGap;
+				});
+				y += row.h + rowGap;
 			});
 
 			vessel.classList.add('is-ready');
@@ -617,19 +683,26 @@
 			});
 			getServiceEls().forEach(function (service) {
 				service.classList.remove('is-active', 'is-dimmed');
+				if (service.tagName === 'DETAILS') {
+					service.open = false;
+				}
+			});
+		}
+
+		function syncPills(target) {
+			pills.forEach(function (pill) {
+				var isActive = !!target && pill.getAttribute('data-pain-target') === target;
+				pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
 			});
 		}
 
 		function activatePain(target) {
-			pills.forEach(function (pill) {
-				var isActive = pill.getAttribute('data-pain-target') === target;
-				pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-			});
+			syncPills(target);
 
 			getServiceEls().forEach(function (service) {
 				var isActive = service.getAttribute('data-pain-service') === target;
 				service.classList.toggle('is-active', isActive);
-				service.classList.toggle('is-dimmed', !isActive);
+				service.classList.toggle('is-dimmed', !isActive && service.matches('.pain-funnel__service'));
 			});
 
 			openMatchingService(target);
@@ -650,6 +723,24 @@
 		});
 
 		funnelServices.forEach(function (service) {
+			if (service.tagName === 'DETAILS') {
+				service.addEventListener('toggle', function () {
+					if (service.open) {
+						syncPills(service.getAttribute('data-pain-service'));
+						return;
+					}
+					if (!painFunnel.querySelector('details[data-pain-service][open]')) {
+						pills.forEach(function (pill) {
+							pill.setAttribute('aria-pressed', 'false');
+						});
+						getServiceEls().forEach(function (el) {
+							el.classList.remove('is-active', 'is-dimmed');
+						});
+					}
+				});
+				return;
+			}
+
 			service.addEventListener('click', function (event) {
 				if (event.target.closest('a')) {
 					return;

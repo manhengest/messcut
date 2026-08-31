@@ -59,6 +59,10 @@ def main() -> None:
 
     print(f"Done: {ok} ok, {fail} failed")
 
+    import subprocess
+
+    subprocess.run(["python3", str(THEME_DIR / "scripts" / "process-partner-logos.py")], check=False)
+
 
 if __name__ == "__main__":
     main()

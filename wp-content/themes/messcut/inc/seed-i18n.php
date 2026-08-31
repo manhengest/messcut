@@ -61,13 +61,13 @@ function messcut_seed_en_options(): void {
 			'en_cta_consult_label'  => 'Get an introductory consultation',
 			'en_home_hero_title'    => 'Brand strategy and scientific marketing',
 			'en_home_hero_subtitle' => 'We build marketing systems and help businesses scale based on research',
-			'en_audience_text'      => 'For entrepreneurs who choose effective brand development while reducing the risk of investing time and money in tactics that do not work — with a clear strategy grounded in scientific principles.',
+			'en_audience_text'      => 'Entrepreneurs who want to grow a brand systematically, take fewer risks, and decide from research, data, and scientific principles',
 			'en_stats'              => array(
 				array( 'value' => '94%', 'label' => 'of clients recommend us to colleagues' ),
+				array( 'value' => '50+', 'label' => 'strategic partnerships with large and small brands across niches' ),
+				array( 'value' => 'NON-STOP', 'label' => 'NON-STOP professional development and research' ),
 				array( 'value' => '6+', 'label' => 'years of practice' ),
-				array( 'value' => '50+', 'label' => 'strategic partnerships with brands of all sizes' ),
-				array( 'value' => '1:2', 'label' => 'marketer to up to 2 projects for deep business immersion' ),
-				array( 'value' => '', 'label' => 'NON-STOP professional development and research' ),
+				array( 'value' => '1:2', 'label' => '1 marketer = up to 2 projects for deep immersion in your business' ),
 			),
 			'en_home_ticker'        => array(
 				array( 'text' => 'research' ),
@@ -75,7 +75,7 @@ function messcut_seed_en_options(): void {
 				array( 'text' => 'business metrics' ),
 				array( 'text' => 'structure' ),
 			),
-			'en_agency_comparison_title' => 'Compare us with other agencies or hiring in-house',
+			'en_agency_comparison_title' => 'Compare',
 			'en_home_values'        => array(
 				array( 'text' => 'ethics' ),
 				array( 'text' => 'motivation' ),

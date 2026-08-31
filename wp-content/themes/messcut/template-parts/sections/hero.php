@@ -70,4 +70,7 @@ if ( $video_url ) {
 			</div>
 		</div>
 	</div>
+	<?php if ( ! empty( $args['partners'] ) ) : ?>
+		<?php messcut_render_partner_logos( array( 'embed' => true, 'title' => '' ) ); ?>
+	<?php endif; ?>
 </section>

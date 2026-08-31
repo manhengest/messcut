@@ -35,225 +35,206 @@ $border-width: 3px;
 	}
 }
 
-/* ——— Agency comparison (homepage proof chapter) ——— */
+/* ——— Agency comparison tabs (Figma 131:74) ——— */
 
 .agency-comparison {
-	--compare-pin: 10rem;
-	--compare-col: 11.5rem;
-	--compare-cell-pad-y: var(--space-sm);
-	--compare-cell-pad-x: var(--space-sm);
+	--compare-ink: #1a1d1e;
+	--compare-canvas: #fcfbfa;
+	--compare-mint: #c7f1e0;
+	padding-block: 0;
+	padding-inline: 0;
+	color: var(--compare-ink);
+	background-color: var(--compare-canvas);
+	background-image: linear-gradient(180deg, var(--compare-canvas) 0%, #e7efe8 100%);
+
+	&__inner {
+		width: min(100%, 56.25rem);
+		margin-inline: auto;
+		padding: 2.5rem 2rem 2.625rem;
+	}
 
 	&__title {
-		margin: 0 0 var(--space-xl);
+		margin: 0 0 1rem;
 		font-family: var(--font-display);
-		font-size: var(--text-2xl);
-		font-weight: 500;
-		line-height: var(--lh-tight);
-		letter-spacing: var(--tracking-display);
-		color: var(--on-primary);
-		max-width: 28ch;
+		font-size: 1.5rem;
+		font-weight: 700;
+		line-height: 1.2;
+		letter-spacing: 0;
+		text-transform: uppercase;
+		color: var(--compare-ink);
+		max-width: 20ch;
 	}
 
-	&__frame {
-		position: relative;
-		margin-inline: -1rem;
-		border: $border-width dotted var(--hairline-on-dark);
-
-		&::after {
-			content: "";
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			width: 1.5rem;
-			background: linear-gradient(90deg, transparent, rgba(26, 20, 18, 0.55));
-			pointer-events: none;
-			z-index: 4;
-		}
+	&__tabs {
+		display: flex;
+		gap: 4px;
+		align-items: stretch;
+		margin: 0 0 2.375rem;
 	}
 
-	&__scroll {
-		overflow-x: auto;
-		overflow-y: hidden;
-		-webkit-overflow-scrolling: touch;
-		overscroll-behavior-x: contain;
-		isolation: isolate;
-		scrollbar-width: thin;
-		scrollbar-color: var(--hairline-on-dark) transparent;
-
-		&::-webkit-scrollbar {
-			height: 4px;
-		}
-
-		&::-webkit-scrollbar-thumb {
-			background: var(--hairline-on-dark);
-			border-radius: var(--radius-pill);
-		}
-	}
-
-	&__table {
-		border-collapse: separate;
-		border-spacing: 0;
-		table-layout: fixed;
-		width: max(100%, calc(var(--compare-pin) + 3 * var(--compare-col)));
-		margin: 0;
-	}
-
-	&__col--pin {
-		width: var(--compare-pin);
-	}
-
-	&__col:not(&__col--pin) {
-		width: var(--compare-col);
-	}
-
-	&__cell {
-		padding: var(--compare-cell-pad-y) var(--compare-cell-pad-x);
-		border-right: $border-width dotted var(--hairline-on-dark);
-		border-bottom: $border-width dotted var(--hairline-on-dark);
-		font-size: var(--text-xs);
-		line-height: 1.35;
-		font-weight: 400;
+	&__tab {
+		display: flex;
+		flex: 1 0 0;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 0.875rem;
+		min-width: 0;
+		min-height: 4.5rem;
+		padding: 0.5rem;
+		border: 1px solid var(--compare-ink);
+		border-radius: 12px;
+		background: transparent;
+		color: var(--compare-ink);
 		text-align: left;
-		vertical-align: top;
-		color: var(--on-primary-mute);
-		background-color: transparent;
+		cursor: pointer;
+		appearance: none;
+		font-family: var(--font-body);
+		transition:
+			background var(--duration-fast) var(--ease-out),
+			border-color var(--duration-fast) var(--ease-out);
 
-		&:last-child {
-			border-right: 0;
+		&:hover {
+			background: color-mix(in srgb, var(--compare-mint) 35%, transparent);
 		}
 
-		thead & {
-			font-family: var(--font-mono);
-			font-size: var(--text-md);
-			font-weight: 700;
-			letter-spacing: var(--tracking-label);
-			text-transform: uppercase;
-			color: var(--on-primary-mute);
-			vertical-align: bottom;
-			position: sticky;
-			top: 0;
-			z-index: 2;
-			background-color: var(--substrate-brown-deep);
+		&[aria-selected="true"] {
+			background: var(--compare-mint);
+			border-color: var(--compare-mint);
 		}
 
-		&--pinned {
-			position: sticky;
-			left: 0;
-			z-index: 1;
-			width: var(--compare-pin);
-			min-width: var(--compare-pin);
-			background-color: var(--substrate-brown-deep);
-			box-shadow: 6px 0 10px -6px rgba(0, 0, 0, 0.45);
-		}
-
-		thead &--pinned {
-			z-index: 3;
-			top: 0;
-			left: 0;
-		}
-
-		&--criterion {
-			font-family: var(--font-mono);
-			font-size: var(--text-micro);
-			font-weight: 700;
-			letter-spacing: var(--tracking-label);
-			text-transform: uppercase;
-			color: var(--on-primary);
-			overflow-wrap: break-word;
-			hyphens: auto;
-		}
-
-		&--messcut {
-			background-color: rgba(199, 242, 225, 0.1);
-			color: var(--on-primary);
-		}
-
-		thead &--messcut {
-			font-weight: 600;
-			background-color: color-mix(in srgb, var(--substrate-brown-deep) 82%, var(--color-accent));
-			color: var(--on-primary);
+		&:focus-visible {
+			outline: none;
+			box-shadow: var(--focus-ring);
 		}
 	}
 
-	tbody tr:last-child .agency-comparison__cell {
-		border-bottom: 0;
+	&__tab-label {
+		font-family: var(--font-body);
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 1.2;
+		color: var(--compare-ink);
+	}
+
+	&__plus {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 22px;
+		height: 28px;
+		border: 1px solid var(--compare-ink);
+		border-radius: 12px;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 1;
+		text-transform: uppercase;
+		color: var(--compare-ink);
+	}
+
+	&__panel {
+		min-height: 10.5rem;
+	}
+
+	&__brand,
+	&__heading {
+		margin: 0 0 0.75rem;
+	}
+
+	&__heading {
+		font-family: var(--font-display);
+		font-size: 1.5rem;
+		font-weight: 700;
+		line-height: 1.2;
+		letter-spacing: 0;
+		text-transform: uppercase;
+		color: var(--compare-ink);
+	}
+
+	&__logo {
+		display: inline-flex;
+		align-items: center;
+		line-height: 0;
+
+		.site-logo__img {
+			display: block;
+			height: 1.5rem;
+			width: auto;
+		}
+	}
+
+	&__points {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__point {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	&__num {
+		flex-shrink: 0;
+		width: 1rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 1;
+		text-transform: uppercase;
+		color: rgba(26, 29, 30, 0.5);
+	}
+
+	&__text {
+		flex: 1 1 auto;
+		min-width: 0;
+		font-family: var(--font-body);
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 1.2;
+		color: var(--compare-ink);
 	}
 
 	@media (min-width: 48rem) {
-		--compare-pin: 12rem;
-		--compare-col: 16.5rem;
-		--compare-cell-pad-y: var(--space-sm);
-		--compare-cell-pad-x: var(--space-md);
-
-		&__title {
-			margin-bottom: var(--space-xxl);
-			font-size: var(--text-3xl);
+		&__inner {
+			padding: 3rem 2rem 3.5rem;
 		}
 
-		&__frame {
-			margin-inline: 0;
+		&__title,
+		&__heading {
+			font-size: 2rem;
 		}
 
-		&__cell {
-			font-size: var(--text-sm);
-			line-height: var(--lh-body);
-
-			&--criterion {
-				font-size: var(--text-xs);
-			}
-		}
-	}
-
-	@media (min-width: 64rem) {
-		--compare-pin: 14rem;
-		--compare-col: 1px;
-		--compare-cell-pad-y: var(--space-md);
-		--compare-cell-pad-x: var(--space-lg);
-
-		&__frame {
-			margin-inline: 0;
-
-			&::after {
-				content: none;
-			}
+		&__tabs {
+			max-width: 28rem;
+			margin-bottom: 2.75rem;
 		}
 
-		&__scroll {
-			overflow: visible;
+		&__tab {
+			min-height: 5rem;
+			padding: 0.75rem;
 		}
 
-		&__table {
-			width: 100%;
-			table-layout: auto;
+		&__tab-label,
+		&__text {
+			font-size: 0.875rem;
 		}
 
-		&__col--pin {
-			width: 22%;
-			min-width: 12rem;
+		&__logo .site-logo__img {
+			height: 2rem;
 		}
 
-		&__col:not(&__col--pin) {
-			width: auto;
+		&__point {
+			align-items: flex-start;
 		}
 
-		&__cell--pinned {
-			position: static;
-			box-shadow: none;
-			width: auto;
-			min-width: 12rem;
-			background-color: transparent;
-		}
-
-		&__cell {
-			thead & {
-				position: static;
-				background-color: transparent;
-			}
-
-			thead &--messcut {
-				background-color: rgba(199, 242, 225, 0.1);
-			}
+		&__num {
+			margin-top: 0.15rem;
 		}
 	}
 }

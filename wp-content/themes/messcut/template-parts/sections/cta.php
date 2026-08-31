@@ -11,18 +11,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$title = $args['title'] ?? __( 'Отримайте план розвитку вашого бренду', 'messcut' );
-$text  = $args['text'] ?? __( 'в форматі 30-хв стратегічної зустрічі', 'messcut' );
+$title         = $args['title'] ?? __( 'Отримайте план розвитку вашого бренду', 'messcut' );
+$text          = $args['text'] ?? __( 'У форматі 30-хв стратегічної зустрічі', 'messcut' );
 $show_contacts = $args['show_contacts'] ?? true;
 ?>
 <section class="section cta surface--gradient-dark" id="lead-form">
 	<div class="container">
 		<div class="cta__layout">
 			<div class="cta__intro">
+				<h2 class="cta__title"><?php echo esc_html( $title ); ?></h2>
 				<?php if ( $text ) : ?>
 					<p class="cta__descriptor"><?php echo esc_html( $text ); ?></p>
 				<?php endif; ?>
-				<h2 class="section__title"><?php echo esc_html( $title ); ?></h2>
 			</div>
 			<div class="cta__panel">
 				<?php messcut_render_lead_form(); ?>
