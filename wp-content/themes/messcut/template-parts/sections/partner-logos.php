@@ -11,9 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$embed  = ! empty( $args['embed'] );
-$title  = array_key_exists( 'title', $args ) ? (string) $args['title'] : __( 'Бренди, з якими працювала наша команда', 'messcut' );
-$brands = messcut_get_partner_brands();
+$embed   = ! empty( $args['embed'] );
+$title   = array_key_exists( 'title', $args ) ? (string) $args['title'] : __( 'Бренди, з якими працювала наша команда', 'messcut' );
+$caption = __( 'Бренди, з якими працювала наша команда', 'messcut' );
+$brands  = messcut_get_partner_brands();
 
 if ( empty( $brands ) ) {
 	return;
@@ -34,8 +35,11 @@ $classes = $embed ? 'hero__partners partner-logos partner-logos--hero' : 'sectio
 			<div class="partner-logos__track" data-marquee aria-hidden="true">
 				<?php for ( $copy = 0; $copy < 2; $copy++ ) : ?>
 					<div class="partner-logos__group" data-marquee-group>
+						<span class="partner-logos__item partner-logos__item--caption">
+							<?php echo esc_html( $caption ); ?>
+						</span>
 						<?php foreach ( $brands as $brand ) : ?>
-							<span class="partner-logos__item">
+							<span class="partner-logos__item" data-brand="<?php echo esc_attr( messcut_partner_brand_slug( $brand['name'] ) ); ?>">
 								<?php if ( ! empty( $brand['logo_url'] ) ) : ?>
 									<img class="partner-logos__logo" src="<?php echo esc_url( $brand['logo_url'] ); ?>" alt="" loading="eager" decoding="async" draggable="false">
 								<?php else : ?>

@@ -62,7 +62,6 @@ wp-content/themes/messcut/     # THEME SOURCE (edit here)
 wordpress/                     # Docker WP root (generated + synced theme)
 scripts/deploy.sh              # Theme upload to Hosting Ukraine (SSH + tar)
 .env.deploy.example            # Deploy env template (copy to .env.deploy)
-Project Requirements.md        # Client brief / content source (local, gitignored)
 README.md                      # Docker + WP-CLI runbook
 ```
 
@@ -166,5 +165,4 @@ Further reading:
 
 - [README.md](README.md) — Docker, import/export, WP-CLI
 - `.env.deploy.example` + `scripts/deploy.sh` — Hosting Ukraine theme upload
-- [Project Requirements.md](Project%20Requirements.md) — pages, case/service structure, copy (local; gitignored)
 - [.cursor/plans/messcut_wp_theme_9dd8af69.plan.md](.cursor/plans/messcut_wp_theme_9dd8af69.plan.md) — architecture & phases

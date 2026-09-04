@@ -578,6 +578,29 @@ function messcut_get_partner_logo_asset_url( string $logo_file ): string {
 }
 
 /**
+ * Slug for a partner brand name (marquee data-brand + mobile hide list).
+ */
+function messcut_partner_brand_slug( string $name ): string {
+	$normalized = mb_strtolower( trim( $name ), 'UTF-8' );
+	$normalized = str_replace( array( '\'', '’', '.' ), '', $normalized );
+	$aliases    = array(
+		'аквамарин'  => 'akvamarin',
+		'aquamarine' => 'akvamarin',
+		'akvamarin'  => 'akvamarin',
+		'md fashion' => 'md-fashion',
+		'inshur'     => 'inzhur',
+		'inzhur'     => 'inzhur',
+	);
+
+	if ( isset( $aliases[ $normalized ] ) ) {
+		return $aliases[ $normalized ];
+	}
+
+	$slug = sanitize_title( $name );
+	return '' !== $slug ? $slug : 'brand';
+}
+
+/**
  * Get partner brands for marquee.
  *
  * @return array<int, array{name: string, logo_url: string}>

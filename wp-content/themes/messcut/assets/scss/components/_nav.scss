@@ -115,9 +115,9 @@
 	flex-shrink: 0;
 	width: 2.75rem;
 	height: 2.75rem;
-	border: 1px solid var(--hairline-on-light);
+	border: 1px solid transparent;
 	border-radius: 50%;
-	background: var(--color-white);
+	background: transparent;
 	color: var(--ink);
 	padding: 0;
 	cursor: pointer;
@@ -127,7 +127,7 @@
 		color var(--duration-fast) var(--ease-out);
 
 	&:hover {
-		border-color: var(--color-brown);
+		border-color: transparent;
 		color: var(--color-brown);
 	}
 

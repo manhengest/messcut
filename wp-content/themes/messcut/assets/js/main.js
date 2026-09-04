@@ -488,6 +488,118 @@
 		window.addEventListener('resize', fillTrack);
 	});
 
+	document.querySelectorAll('[data-cases-loop]').forEach(function (track) {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			return;
+		}
+
+		var originals = Array.prototype.slice.call(track.children);
+		if (originals.length < 2) {
+			return;
+		}
+
+		var mq = window.matchMedia('(max-width: 767.98px)');
+		var primed = false;
+		var jumping = false;
+
+		function teardown() {
+			track.querySelectorAll('[data-cases-clone]').forEach(function (node) {
+				node.remove();
+			});
+			primed = false;
+		}
+
+		function setWidth() {
+			var firstReal = originals[0];
+			var firstEnd = track.querySelector('[data-cases-clone="end"]');
+			if (!firstReal || !firstEnd) {
+				return 0;
+			}
+			return firstEnd.offsetLeft - firstReal.offsetLeft;
+		}
+
+		function jumpBy(delta) {
+			if (!delta) {
+				return;
+			}
+			jumping = true;
+			var snap = track.style.scrollSnapType;
+			track.style.scrollSnapType = 'none';
+			track.scrollLeft += delta;
+			window.requestAnimationFrame(function () {
+				track.style.scrollSnapType = snap;
+				jumping = false;
+			});
+		}
+
+		function onScroll() {
+			if (!primed || jumping || !mq.matches) {
+				return;
+			}
+
+			var firstReal = originals[0];
+			var firstEnd = track.querySelector('[data-cases-clone="end"]');
+			var width = setWidth();
+			if (!firstReal || !firstEnd || width <= 0) {
+				return;
+			}
+
+			if (track.scrollLeft >= firstEnd.offsetLeft) {
+				jumpBy(-width);
+			} else if (track.scrollLeft < firstReal.offsetLeft - 2) {
+				jumpBy(width);
+			}
+		}
+
+		function setup() {
+			teardown();
+			if (!mq.matches) {
+				return;
+			}
+
+			var startFrag = document.createDocumentFragment();
+			var endFrag = document.createDocumentFragment();
+
+			originals.forEach(function (node) {
+				var startClone = node.cloneNode(true);
+				startClone.setAttribute('data-cases-clone', 'start');
+				startClone.setAttribute('aria-hidden', 'true');
+				startClone.querySelectorAll('a').forEach(function (link) {
+					link.setAttribute('tabindex', '-1');
+				});
+				startFrag.appendChild(startClone);
+
+				var endClone = node.cloneNode(true);
+				endClone.setAttribute('data-cases-clone', 'end');
+				endClone.setAttribute('aria-hidden', 'true');
+				endClone.querySelectorAll('a').forEach(function (link) {
+					link.setAttribute('tabindex', '-1');
+				});
+				endFrag.appendChild(endClone);
+			});
+
+			track.insertBefore(startFrag, track.firstChild);
+			track.appendChild(endFrag);
+
+			jumping = true;
+			track.style.scrollSnapType = 'none';
+			track.scrollLeft = originals[0].offsetLeft;
+			window.requestAnimationFrame(function () {
+				track.style.scrollSnapType = '';
+				jumping = false;
+				primed = true;
+			});
+		}
+
+		track.addEventListener('scroll', onScroll, { passive: true });
+		if (typeof mq.addEventListener === 'function') {
+			mq.addEventListener('change', setup);
+		} else if (typeof mq.addListener === 'function') {
+			mq.addListener(setup);
+		}
+		setup();
+	});
+
 	var painFunnel = document.querySelector('[data-pain-funnel]');
 	if (painFunnel) {
 		var vessel = painFunnel.querySelector('[data-pain-vessel]');

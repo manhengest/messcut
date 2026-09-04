@@ -7,8 +7,9 @@
 	isolation: isolate;
 	color: var(--ink);
 	background-color: #fcfbfa;
-	background-image:
-		radial-gradient(ellipse 90% 42% at 50% 8%, rgba(199, 242, 225, 0.55) 0%, transparent 58%);
+	background-image: var(--gradient-section-fade);
+	background-repeat: no-repeat;
+	background-size: 100% 11rem;
 
 	&::before {
 		content: "";
@@ -33,20 +34,21 @@
 	}
 
 	&__title {
-		margin: 0 auto var(--space-lg);
+		margin: 0 0 var(--space-lg);
 		max-width: 16ch;
 		font-family: var(--font-display);
-		font-size: var(--text-2xl);
+		font-size: var(--text-3xl);
 		font-weight: 700;
 		line-height: 1.2;
 		letter-spacing: var(--tracking-heading);
-		text-align: center;
+		text-align: left;
 		text-transform: uppercase;
 
 		@media (min-width: 768px) {
-			margin-bottom: var(--space-xl);
+			margin: 0 auto var(--space-xl);
 			max-width: 18ch;
 			font-size: var(--text-4xl);
+			text-align: center;
 		}
 	}
 
@@ -176,7 +178,7 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-items: start;
 		gap: 0.5rem;
-		width: min(100% - 2rem, 40rem);
+		width: 100%;
 		margin-top: -1.5rem;
 		padding-inline: 0;
 
@@ -191,21 +193,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		gap: var(--space-xxl);
-		padding-top: var(--space-xxl);
+		gap: 100px;
+		padding-top: 100px;
 		padding-bottom: var(--space-xxl);
 
 		@media (min-width: 768px) {
-			gap: var(--space-huge);
 			padding-top: var(--space-huge);
 			padding-bottom: var(--space-huge);
-		}
-
-		.consult-cta {
-			max-width: 330px;
-			margin-top: 0;
-			margin-inline: auto;
-			align-self: center;
 		}
 	}
 
@@ -311,7 +305,7 @@
 	position: relative;
 	min-width: 0;
 	overflow: hidden;
-	border: 1px solid #1a1d1e;
+	border: 0.5px solid #1a1d1e;
 	border-radius: var(--radius-lg);
 	background: var(--color-white);
 	scroll-margin-top: calc(var(--header-height) + var(--space-lg));
@@ -362,7 +356,7 @@
 	&__title {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: var(--text-xs);
+		font-size: var(--text-sm);
 		font-weight: 700;
 		line-height: 1.2;
 		letter-spacing: var(--tracking-heading);
@@ -382,7 +376,7 @@
 		justify-content: center;
 		width: 1.75rem;
 		height: 1.75rem;
-		border: 1px solid #1a1d1e;
+		border: 0.5px solid #1a1d1e;
 		border-radius: 0.5rem;
 		background: transparent;
 		font-family: var(--font-mono);
@@ -428,7 +422,7 @@
 	&__excerpt {
 		margin: 0;
 		font-family: var(--font-body);
-		font-size: var(--text-micro);
+		font-size: var(--text-sm);
 		font-weight: 400;
 		line-height: 1.1;
 		color: var(--ink);
@@ -444,7 +438,7 @@
 		align-items: center;
 		gap: 0.4rem;
 		font-family: var(--font-mono);
-		font-size: 0.625rem;
+		font-size: var(--text-micro);
 		font-weight: 400;
 		letter-spacing: 0;
 		line-height: 1;

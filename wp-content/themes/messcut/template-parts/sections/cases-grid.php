@@ -1,6 +1,6 @@
 <?php
 /**
- * Cases section — Figma 150:2 (dark band, horizontal logo cards).
+ * Cases section — Figma 150:2 (horizontal cards, description over photo).
  *
  * @package Messcut
  *
@@ -11,14 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$limit          = isset( $args['limit'] ) ? (int) $args['limit'] : -1;
-$title          = $args['title'] ?? __( 'Кейси', 'messcut' );
-$show_more      = $args['show_more'] ?? false;
-$on_dark        = ! empty( $args['on_dark'] );
-$section_class  = 'section cases-grid' . ( $on_dark ? ' cases-grid--on-dark' : '' );
+$limit           = isset( $args['limit'] ) ? (int) $args['limit'] : -1;
+$title           = $args['title'] ?? __( 'Кейси', 'messcut' );
+$show_more       = $args['show_more'] ?? false;
+$on_dark         = ! empty( $args['on_dark'] );
+$loop            = ! empty( $args['loop'] );
+$section_class   = 'section cases-grid' . ( $on_dark ? ' cases-grid--on-dark' : '' );
 $more_arrow_path = MESSCUT_DIR . '/assets/img/path/more-arrow.svg';
 $more_arrow_svg  = is_readable( $more_arrow_path ) ? file_get_contents( $more_arrow_path ) : '';
-$query     = messcut_get_cases_query( $limit );
+$query           = messcut_get_cases_query( $limit );
 if ( ! $query->have_posts() ) {
 	return;
 }
@@ -40,44 +41,38 @@ if ( ! $query->have_posts() ) {
 				</a>
 			<?php endif; ?>
 		</div>
-		<div class="cases-grid__track">
+		<div class="cases-grid__track"<?php echo $loop ? ' data-cases-loop' : ''; ?>>
 			<?php
 			while ( $query->have_posts() ) :
 				$query->the_post();
-				$subtitle  = function_exists( 'get_field' ) ? trim( (string) get_field( 'hero_subtitle' ) ) : '';
-				$excerpt   = has_excerpt() ? trim( (string) get_the_excerpt() ) : '';
+				$subtitle    = function_exists( 'get_field' ) ? trim( (string) get_field( 'hero_subtitle' ) ) : '';
+				$excerpt     = has_excerpt() ? trim( (string) get_the_excerpt() ) : '';
 				if ( $excerpt && $subtitle && 0 === strcasecmp( $excerpt, $subtitle ) ) {
 					$excerpt = '';
 				}
-				$has_extra = ( '' !== $subtitle || '' !== $excerpt );
+				$description = '' !== $subtitle ? $subtitle : $excerpt;
 				?>
-				<article class="cases-grid__card" <?php echo $has_extra ? 'data-case-expand' : ''; ?>>
+				<article class="cases-grid__card">
 					<a class="cases-grid__hit" href="<?php the_permalink(); ?>">
-						<span class="cases-grid__brand"><?php the_title(); ?></span>
-					</a>
-					<?php if ( $has_extra ) : ?>
-						<div class="cases-grid__excerpt" data-case-excerpt>
-							<?php if ( $subtitle ) : ?>
-								<p class="cases-grid__excerpt-text"><?php echo esc_html( $subtitle ); ?></p>
+						<span class="cases-grid__copy">
+							<span class="cases-grid__brand"><?php the_title(); ?></span>
+							<?php if ( $description ) : ?>
+								<span class="cases-grid__excerpt-text"><?php echo esc_html( $description ); ?></span>
 							<?php endif; ?>
-							<?php if ( $excerpt ) : ?>
-								<p class="cases-grid__excerpt-extra"><?php echo esc_html( $excerpt ); ?></p>
-							<?php endif; ?>
-							<button
-								type="button"
-								class="cases-grid__plus"
-								data-case-excerpt-toggle
-								aria-expanded="false"
-								aria-label="<?php esc_attr_e( 'Розгорнути', 'messcut' ); ?>"
-							>
-								<span class="cases-grid__plus-icon" aria-hidden="true">+</span>
-							</button>
-						</div>
-					<?php else : ?>
-						<span class="cases-grid__plus" aria-hidden="true">
-							<span class="cases-grid__plus-icon">+</span>
 						</span>
-					<?php endif; ?>
+						<span class="cases-grid__media">
+							<?php
+							messcut_render_post_thumbnail(
+								'medium_large',
+								null,
+								array(
+									'class' => 'cases-grid__photo',
+									'alt'   => '',
+								)
+							);
+							?>
+						</span>
+					</a>
 				</article>
 			<?php endwhile; ?>
 		</div>

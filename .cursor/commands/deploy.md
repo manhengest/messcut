@@ -23,7 +23,7 @@ This command **is** explicit intent to commit relevant files, push, and deploy. 
 
 - `.env.deploy`, `.env.local`, `.env.*.local`
 - `wordpress/`, `wp-content/plugins/`, `wp-content/uploads/`, `node_modules/`
-- `Project Requirements.md`, `.DS_Store`, `*.log`
+- `.DS_Store`, `*.log`
 - Unrelated WIP the user did not ask to ship
 
 If a secret or trash file is already staged, unstage it and warn before continuing.

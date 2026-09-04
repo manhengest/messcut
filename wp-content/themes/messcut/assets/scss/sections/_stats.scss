@@ -147,6 +147,30 @@
 	}
 }
 
+@media (max-width: 767.98px) {
+	.home .stats {
+		overflow-x: clip;
+
+		.stats__mosaic {
+			aspect-ratio: auto;
+			min-height: 100dvh;
+		}
+
+		.stats__title {
+			font-size: calc(32 * 100cqw / 390);
+		}
+
+		.stats__value {
+			font-size: calc(32 * 100cqw / 390);
+		}
+
+		.stats__label {
+			font-size: calc(11 * 100cqw / 390);
+			overflow-wrap: anywhere;
+		}
+	}
+}
+
 /* ——— Partner logo marquee ——— */
 
 .partner-logos {
@@ -201,6 +225,27 @@
 		text-transform: uppercase;
 		color: var(--ink-mute);
 		white-space: nowrap;
+	}
+
+	&__item--caption {
+		display: none;
+	}
+
+	@media (max-width: 767.98px) {
+		&__item[data-brand="lamic"],
+		&__item[data-brand="prostor"],
+		&__item[data-brand="md-fashion"],
+		&__item[data-brand="inzhur"],
+		&__item[data-brand="inshur"],
+		&__item[data-brand="uklon"],
+		&__item[data-brand="akvamarin"],
+		&__item[data-brand="aquamarine"] {
+			display: none;
+		}
+
+		&__item--caption {
+			display: inline-flex;
+		}
 	}
 
 	&__logo {

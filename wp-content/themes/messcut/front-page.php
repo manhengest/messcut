@@ -25,7 +25,7 @@ get_template_part( 'template-parts/sections/cta' );
 get_template_part( 'template-parts/sections/cases-grid', null, array(
 	'limit'     => 6,
 	'show_more' => true,
-	'on_dark'   => true,
+	'loop'      => true,
 ) );
 
 messcut_render_faq( array( 'source' => 'home' ) );

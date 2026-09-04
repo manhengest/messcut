@@ -25,8 +25,6 @@ awesome-design-md/
 # Theme build deps (package.json + lockfile are tracked)
 wp-content/themes/messcut/node_modules/
 
-Project Requirements.md
-
 # Cursor local state (keep plans out of noise; docs live in CLAUDE/README)
 .cursor/plans/
 

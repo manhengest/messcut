@@ -3,13 +3,12 @@
 .cta {
 	border-block: 1px solid var(--hairline-on-dark);
 	padding-block: clamp(2.5rem, 6vw, 4rem);
-	padding-bottom: 200px;
 	scroll-margin-top: var(--header-height);
 
 	&__layout {
 		display: grid;
-		gap: var(--space-xl);
-		max-width: 26rem;
+		gap: var(--space-xxl);
+		max-width: none;
 
 		@media (min-width: 48rem) {
 			max-width: none;
@@ -75,9 +74,13 @@
 	}
 
 	.contact-channels {
-		margin-top: 0;
+		margin-top: var(--space-xl);
 		padding-top: 0;
 		border-top: 0;
+
+		@media (min-width: 48rem) {
+			margin-top: 0;
+		}
 	}
 }
 
@@ -111,6 +114,10 @@
 		letter-spacing: 0;
 		text-transform: none;
 		color: var(--on-primary);
+
+		@media (max-width: 47.98rem) {
+			margin-top: var(--space-xs);
+		}
 	}
 
 	&__cluster {

@@ -45,7 +45,7 @@ $border-width: 3px;
 	padding-inline: 0;
 	color: var(--compare-ink);
 	background-color: var(--compare-canvas);
-	background-image: linear-gradient(180deg, var(--compare-canvas) 0%, #e7efe8 100%);
+	background-image: linear-gradient(180deg, var(--compare-canvas) 0%, #ffffff 100%);
 
 	&__inner {
 		width: min(100%, 56.25rem);
@@ -198,6 +198,44 @@ $border-width: 3px;
 		font-weight: 400;
 		line-height: 1.2;
 		color: var(--compare-ink);
+	}
+
+	@media (max-width: 47.98rem) {
+		&__inner {
+			padding: 50px 1rem 70px;
+		}
+
+		&__title,
+		&__heading {
+			font-size: 1.75rem;
+		}
+
+		&__title {
+			margin-bottom: 30px;
+		}
+
+		&__tabs {
+			margin-bottom: 2.875rem;
+		}
+
+		
+		&__text,
+		&__num,
+		&__plus {
+			font-size: 0.9375rem;
+		}
+
+		&__tab-label {
+			font-size: 14px;
+		}
+
+		&__num {
+			width: 1.25rem;
+		}
+
+		&__points {
+			gap: 1.5rem;
+		}
 	}
 
 	@media (min-width: 48rem) {

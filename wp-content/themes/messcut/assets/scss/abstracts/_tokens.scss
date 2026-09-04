@@ -60,6 +60,7 @@
 	--gradient-band-soft: linear-gradient(180deg, var(--canvas-light) 0%, var(--canvas-light-soft) 100%);
 	--gradient-band-brown: linear-gradient(180deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
 	--gradient-hero: linear-gradient(165deg, var(--canvas-light-soft) 0%, var(--canvas-light) 48%, rgba(199, 242, 225, 0.28) 100%);
+	--gradient-section-fade: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--color-accent) 42%, #fff) 100%);
 
 	/* Typography — Playfair Display (titles) + Golos Text (UI/body) + IBM Plex Mono */
 	--font-display: "Playfair Display", Georgia, "Times New Roman", serif;
