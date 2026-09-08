@@ -23,7 +23,6 @@ DOWNLOADS: dict[str, str] = {
     "prostor.png": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/PROSTOR_logo.svg/500px-PROSTOR_logo.svg.png",
     "socar.png": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Logo_of_SOCAR.svg/960px-Logo_of_SOCAR.svg.png",
     "lamic.png": "https://lamic.com.ua/design/lamic/images/logo.png",
-    "koblevo.png": "https://koblevo.com.ua/wp-content/uploads/2021/07/logo-black.png",
     "md-fashion.png": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/25/86/bb/2586bb08-b30c-f07f-85e6-3d417dd8e7c6/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg",
 }
 

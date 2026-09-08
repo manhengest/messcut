@@ -379,7 +379,6 @@ function messcut_get_partner_brand_logo_files(): array {
 		'Lifecell'    => 'lifecell.png',
 		'Lamic'       => 'lamic.png',
 		'Prostor'     => 'prostor.png',
-		'Koblevo'     => 'koblevo.png',
 		'Socar'       => 'socar.png',
 		'Flint'       => 'flint.png',
 		'Chipster\'s' => 'chipsters.png',

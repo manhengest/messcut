@@ -67,6 +67,10 @@
 		top: calc(101 / 500 * 100%);
 		width: calc(281 / 390 * 100%);
 		gap: calc(4 * 100cqw / 390);
+
+		.stats__label {
+			max-width: 14em;
+		}
 	}
 
 	&__block--50 {
@@ -227,11 +231,24 @@
 		white-space: nowrap;
 	}
 
-	&__item--caption {
+	&__caption {
 		display: none;
+		margin: 0 0 var(--space-sm);
+		padding-inline: var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		letter-spacing: var(--tracking-label);
+		text-transform: uppercase;
+		color: var(--ink-mute);
+		text-align: center;
 	}
 
 	@media (max-width: 767.98px) {
+		&__caption {
+			display: block;
+		}
+
 		&__item[data-brand="lamic"],
 		&__item[data-brand="prostor"],
 		&__item[data-brand="md-fashion"],
@@ -241,10 +258,6 @@
 		&__item[data-brand="akvamarin"],
 		&__item[data-brand="aquamarine"] {
 			display: none;
-		}
-
-		&__item--caption {
-			display: inline-flex;
 		}
 	}
 

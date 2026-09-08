@@ -7,9 +7,6 @@
 	isolation: isolate;
 	color: var(--ink);
 	background-color: #fcfbfa;
-	background-image: var(--gradient-section-fade);
-	background-repeat: no-repeat;
-	background-size: 100% 11rem;
 
 	&::before {
 		content: "";
@@ -35,7 +32,7 @@
 
 	&__title {
 		margin: 0 0 var(--space-lg);
-		max-width: 16ch;
+		max-width: 11ch;
 		font-family: var(--font-display);
 		font-size: var(--text-3xl);
 		font-weight: 700;
@@ -46,7 +43,7 @@
 
 		@media (min-width: 768px) {
 			margin: 0 auto var(--space-xl);
-			max-width: 18ch;
+			max-width: none;
 			font-size: var(--text-4xl);
 			text-align: center;
 		}
@@ -227,15 +224,10 @@
 	&__audience-text {
 		margin: 0;
 		font-family: var(--font-body);
-		font-size: var(--text-sm);
+		font-size: var(--text-base);
 		font-weight: 400;
-		line-height: 1.2;
+		line-height: var(--lh-body);
 		color: var(--ink);
-
-		@media (min-width: 768px) {
-			font-size: var(--text-lg);
-			line-height: var(--lh-body);
-		}
 	}
 
 	&__ticker {
@@ -356,15 +348,11 @@
 	&__title {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: var(--text-sm);
+		font-size: var(--text-lg);
 		font-weight: 700;
 		line-height: 1.2;
 		letter-spacing: var(--tracking-heading);
 		text-transform: uppercase;
-
-		@media (min-width: 768px) {
-			font-size: var(--text-lg);
-		}
 	}
 
 	&__toggle {
@@ -422,15 +410,10 @@
 	&__excerpt {
 		margin: 0;
 		font-family: var(--font-body);
-		font-size: var(--text-sm);
+		font-size: var(--text-base);
 		font-weight: 400;
-		line-height: 1.1;
+		line-height: var(--lh-body);
 		color: var(--ink);
-
-		@media (min-width: 768px) {
-			font-size: var(--text-sm);
-			line-height: var(--lh-body);
-		}
 	}
 
 	&__link {
@@ -438,17 +421,13 @@
 		align-items: center;
 		gap: 0.4rem;
 		font-family: var(--font-mono);
-		font-size: var(--text-micro);
+		font-size: var(--text-base);
 		font-weight: 400;
 		letter-spacing: 0;
 		line-height: 1;
 		text-transform: uppercase;
 		text-decoration: none;
 		color: var(--ink);
-
-		@media (min-width: 768px) {
-			font-size: var(--text-xs);
-		}
 
 		&:hover {
 			color: var(--color-brown);

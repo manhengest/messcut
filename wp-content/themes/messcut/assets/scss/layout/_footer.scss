@@ -5,6 +5,7 @@
 	overflow: hidden;
 	padding-block: clamp(2.5rem, 8vw, 4rem) 2rem;
 	border-top: 1px solid var(--hairline-on-dark);
+	font-size: var(--text-base);
 	color: var(--on-primary);
 
 	@media (min-width: 48rem) {
@@ -57,7 +58,7 @@
 		margin: 0;
 		max-width: 36ch;
 		font-family: var(--font-body);
-		font-size: 0.875rem;
+		font-size: var(--text-base);
 		font-weight: 400;
 		line-height: 1.2;
 		color: var(--color-accent);
@@ -77,15 +78,20 @@
 		border: 0;
 	}
 
+	.contact-channels__label {
+		font-size: var(--text-base);
+	}
+
 	.contact-channels__links {
 		flex-wrap: nowrap;
 	}
 
 	.contact-channels__link {
 		flex: 1 1 0;
-		max-width: 5.75rem;
+		min-height: 2.75rem;
+		padding: 0.625rem 1.5rem;
 		font-family: var(--font-body);
-		font-size: var(--text-micro);
+		font-size: var(--text-base);
 		font-weight: 400;
 		letter-spacing: 0;
 		text-transform: none;
@@ -95,7 +101,7 @@
 	&__legal {
 		margin-top: 0.5rem;
 		font-family: var(--font-body);
-		font-size: var(--text-xs);
+		font-size: var(--text-base);
 		font-weight: 400;
 		letter-spacing: 0;
 		line-height: 1.2;

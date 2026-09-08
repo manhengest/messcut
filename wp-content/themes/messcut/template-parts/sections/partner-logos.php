@@ -31,13 +31,13 @@ $classes = $embed ? 'hero__partners partner-logos partner-logos--hero' : 'sectio
 			<h3 class="partner-logos__title"><?php echo esc_html( $title ); ?></h3>
 		<?php endif; ?>
 <?php endif; ?>
+		<?php if ( $embed ) : ?>
+			<p class="partner-logos__caption"><?php echo esc_html( $caption ); ?></p>
+		<?php endif; ?>
 		<div class="partner-logos__track-wrap">
 			<div class="partner-logos__track" data-marquee aria-hidden="true">
 				<?php for ( $copy = 0; $copy < 2; $copy++ ) : ?>
 					<div class="partner-logos__group" data-marquee-group>
-						<span class="partner-logos__item partner-logos__item--caption">
-							<?php echo esc_html( $caption ); ?>
-						</span>
 						<?php foreach ( $brands as $brand ) : ?>
 							<span class="partner-logos__item" data-brand="<?php echo esc_attr( messcut_partner_brand_slug( $brand['name'] ) ); ?>">
 								<?php if ( ! empty( $brand['logo_url'] ) ) : ?>
