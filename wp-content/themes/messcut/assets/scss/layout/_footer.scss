@@ -5,7 +5,7 @@
 	overflow: hidden;
 	padding-block: clamp(2.5rem, 8vw, 4rem) 2rem;
 	border-top: 1px solid var(--hairline-on-dark);
-	font-size: var(--text-base);
+	font-size: 14px;
 	color: var(--on-primary);
 
 	@media (min-width: 48rem) {
@@ -58,7 +58,7 @@
 		margin: 0;
 		max-width: 36ch;
 		font-family: var(--font-body);
-		font-size: var(--text-base);
+		font-size: 14px;
 		font-weight: 400;
 		line-height: 1.2;
 		color: var(--color-accent);
@@ -79,19 +79,15 @@
 	}
 
 	.contact-channels__label {
-		font-size: var(--text-base);
-	}
-
-	.contact-channels__links {
-		flex-wrap: nowrap;
+		font-size: 14px;
 	}
 
 	.contact-channels__link {
-		flex: 1 1 0;
-		min-height: 2.75rem;
+		flex: unset;
+		min-height: auto;
 		padding: 0.625rem 1.5rem;
 		font-family: var(--font-body);
-		font-size: var(--text-base);
+		font-size: 14px;
 		font-weight: 400;
 		letter-spacing: 0;
 		text-transform: none;
@@ -101,17 +97,19 @@
 	&__legal {
 		margin-top: 0.5rem;
 		font-family: var(--font-body);
-		font-size: var(--text-base);
+		font-size: 14px;
 		font-weight: 400;
 		letter-spacing: 0;
 		line-height: 1.2;
 		text-transform: none;
 		text-decoration: none;
 		color: var(--on-primary);
+		opacity: 0.6;
 
 		&:hover {
 			color: var(--on-primary);
 			text-decoration: underline;
+			opacity: 1;
 		}
 
 		@media (min-width: 48rem) {

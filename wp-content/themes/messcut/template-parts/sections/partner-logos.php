@@ -11,10 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$embed   = ! empty( $args['embed'] );
-$title   = array_key_exists( 'title', $args ) ? (string) $args['title'] : __( 'Бренди, з якими працювала наша команда', 'messcut' );
-$caption = __( 'Бренди, з якими працювала наша команда', 'messcut' );
-$brands  = messcut_get_partner_brands();
+$embed      = ! empty( $args['embed'] );
+$title      = array_key_exists( 'title', $args ) ? (string) $args['title'] : __( 'Бренди, з якими працювала наша команда', 'messcut' );
+$caption    = __( 'Бренди, з якими працювала наша команда', 'messcut' );
+$brands    = messcut_get_partner_brands();
+$mark_path = MESSCUT_DIR . '/assets/img/path/mark.png';
+$mark_url  = is_readable( $mark_path ) ? MESSCUT_URI . '/assets/img/path/mark.png?v=' . (string) filemtime( $mark_path ) : '';
 
 if ( empty( $brands ) ) {
 	return;
@@ -31,9 +33,6 @@ $classes = $embed ? 'hero__partners partner-logos partner-logos--hero' : 'sectio
 			<h3 class="partner-logos__title"><?php echo esc_html( $title ); ?></h3>
 		<?php endif; ?>
 <?php endif; ?>
-		<?php if ( $embed ) : ?>
-			<p class="partner-logos__caption"><?php echo esc_html( $caption ); ?></p>
-		<?php endif; ?>
 		<div class="partner-logos__track-wrap">
 			<div class="partner-logos__track" data-marquee aria-hidden="true">
 				<?php for ( $copy = 0; $copy < 2; $copy++ ) : ?>
@@ -51,6 +50,31 @@ $classes = $embed ? 'hero__partners partner-logos partner-logos--hero' : 'sectio
 				<?php endfor; ?>
 			</div>
 		</div>
+		<?php if ( $embed ) : ?>
+			<div class="partner-logos__caption" data-marquee-root>
+				<p class="screen-reader-text"><?php echo esc_html( $caption ); ?></p>
+				<div class="partner-logos__caption-wrap">
+					<div class="partner-logos__caption-track" data-marquee aria-hidden="true">
+						<?php for ( $copy = 0; $copy < 2; $copy++ ) : ?>
+							<div class="partner-logos__caption-group" data-marquee-group>
+								<span class="partner-logos__caption-item"><?php echo esc_html( $caption ); ?></span>
+								<?php if ( $mark_url ) : ?>
+									<img
+										class="partner-logos__caption-mark"
+										src="<?php echo esc_url( $mark_url ); ?>"
+										alt=""
+										width="8"
+										height="15"
+										decoding="async"
+										draggable="false"
+									>
+								<?php endif; ?>
+							</div>
+						<?php endfor; ?>
+					</div>
+				</div>
+			</div>
+		<?php endif; ?>
 <?php if ( $embed ) : ?>
 </div>
 <?php else : ?>

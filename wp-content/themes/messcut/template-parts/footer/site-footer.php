@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $tagline     = messcut_get_localized_option( 'footer_tagline', __( 'Стратегічний маркетинг для брендів, які хочуть зростати системно.', 'messcut' ) );
 $linkedin    = messcut_get_option( 'linkedin', '' );
 $facebook    = messcut_get_option( 'facebook', '' );
-$instagram_1 = messcut_get_option( 'instagram_1', '' );
+$instagram_1 = untrailingslashit( (string) messcut_get_option( 'instagram_1', '' ) );
 $privacy_url = messcut_page_url( 'polityka-konfidentsiynosti' );
 
 $has_telegram = (bool) messcut_telegram();

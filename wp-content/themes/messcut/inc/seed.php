@@ -81,7 +81,7 @@ function messcut_seed_options(): void {
 		'telegram'             => '@messcutstrategy',
 		'whatsapp'             => '+38 (095) 477-11-22',
 		'email'                => 'admin@messcut.com',
-		'instagram_1'          => 'https://www.instagram.com/valeria.messcut/',
+		'instagram_1'          => 'https://www.instagram.com/valeria.messcut',
 		'instagram_2'          => 'https://www.instagram.com/messcut.strategy/',
 		'footer_tagline'       => 'Стратегічний маркетинг для брендів, які хочуть зростати системно.',
 		'footer_about'         => 'Поєднуємо маркетинг, доведений наукою, стратегічне мислення та глибоке розуміння споживача, щоб створювати бренди, які залишаються в пам\'яті та приносять бізнес-результат.',

@@ -962,7 +962,7 @@ function messcut_render_faq( array $args = array() ): void {
 		array(
 			'items' => $items,
 			'title' => messcut_get_faq_title( $args ),
-			'text'  => $args['text'] ?? __( 'Відповідаємо на найпоширеніші запитання про бренд-стратегію та маркетинг.', 'messcut' ),
+			'text'  => $args['text'] ?? __( 'Найпоширеніші запитання про бренд-стратегію та маркетинг', 'messcut' ),
 		)
 	);
 }

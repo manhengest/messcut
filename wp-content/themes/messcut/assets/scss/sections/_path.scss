@@ -282,7 +282,7 @@
 	&__ticker-mark {
 		display: block;
 		flex-shrink: 0;
-		width: 10px;
+		width: auto;
 		height: 15px;
 		object-fit: contain;
 		pointer-events: none;

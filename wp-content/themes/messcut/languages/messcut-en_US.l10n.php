@@ -49,7 +49,7 @@ return array(
 		'Отримайте план розвитку вашого бренду'                                       => array( 'Get a plan for your brand’s growth' ),
 		'Крок 1/2'                                                                     => array( 'Step 1/2' ),
 		'Крок 2/2'                                                                     => array( 'Step 2/2' ),
-		'Відповідаємо на найпоширеніші запитання про бренд-стратегію та маркетинг.'     => array( 'We answer the most common questions about brand strategy and marketing.' ),
+		'Найпоширеніші запитання про бренд-стратегію та маркетинг'     => array( 'Most common questions about brand strategy and marketing' ),
 		'Звʼяжіться з нами зручним способом'                                           => array( 'Contact us in a way that works for you' ),
 		'Слідкуйте за нами в соц.мережах'                                               => array( 'Follow us on social media' ),
 		'Політика конфіденційності'                                                     => array( 'Privacy Policy' ),

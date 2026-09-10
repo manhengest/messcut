@@ -194,7 +194,8 @@
 }
 
 .partner-logos--hero {
-	.partner-logos__track-wrap {
+	.partner-logos__track-wrap,
+	.partner-logos__caption-wrap {
 		mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 	}
 
@@ -204,11 +205,20 @@
 		filter: brightness(0);
 		opacity: 0.38;
 	}
+
+	.partner-logos__caption-item {
+		opacity: 0.38;
+	}
+
+	.partner-logos__caption-mark {
+		filter: brightness(0);
+		opacity: 0.38;
+	}
 }
 
 @media (max-width: 767.98px) {
 	.hero.hero--has-video > .hero__partners {
-		padding-block: var(--space-sm) var(--space-md);
+		padding-block: var(--space-sm) var(--space-lg);
 	}
 
 	.hero.hero--has-video .partner-logos--hero .partner-logos__logo {
@@ -217,7 +227,13 @@
 		opacity: 0.42;
 	}
 
-	.hero.hero--has-video .partner-logos--hero .partner-logos__caption {
+	.hero.hero--has-video .partner-logos--hero .partner-logos__caption-item {
 		color: var(--on-primary);
+		opacity: 0.42;
+	}
+
+	.hero.hero--has-video .partner-logos--hero .partner-logos__caption-mark {
+		filter: brightness(0) invert(1);
+		opacity: 0.42;
 	}
 }

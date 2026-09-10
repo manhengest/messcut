@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $items = $args['items'] ?? array();
 $title = $args['title'] ?? __( 'FAQ', 'messcut' );
-$text  = $args['text'] ?? __( 'Відповідаємо на найпоширеніші запитання про бренд-стратегію та маркетинг.', 'messcut' );
+$text  = $args['text'] ?? __( 'Найпоширеніші запитання про бренд-стратегію та маркетинг', 'messcut' );
 
 if ( empty( $items ) ) {
 	return;
@@ -47,7 +47,7 @@ $folder = get_template_directory_uri() . '/assets/img/faq/folder.svg';
 					}
 					$item_id = 'faq-item-' . (int) $index;
 					?>
-					<details class="faq__item"<?php echo 0 === (int) $index ? ' open' : ''; ?>>
+					<details class="faq__item">
 						<summary class="faq__question" id="<?php echo esc_attr( $item_id ); ?>-summary">
 							<span class="faq__question-text"><?php echo esc_html( $question ); ?></span>
 							<span class="faq__icon" aria-hidden="true"></span>
