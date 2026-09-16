@@ -41,6 +41,8 @@ if ( ! $query->have_posts() ) {
 				</a>
 			<?php endif; ?>
 		</div>
+	</div>
+	<div class="container">
 		<div class="cases-grid__track"<?php echo $loop ? ' data-cases-loop' : ''; ?>>
 			<?php
 			while ( $query->have_posts() ) :

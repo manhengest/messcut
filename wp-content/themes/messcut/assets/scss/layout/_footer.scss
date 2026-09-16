@@ -26,6 +26,7 @@
 		align-items: flex-start;
 		gap: 50px;
 		max-width: 26rem;
+		margin-inline: auto;
 
 		@media (min-width: 48rem) {
 			max-width: none;

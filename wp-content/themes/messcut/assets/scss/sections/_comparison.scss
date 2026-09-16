@@ -249,7 +249,7 @@ $border-width: 3px;
 		}
 
 		&__tabs {
-			max-width: 28rem;
+			width: 100%;
 			margin-bottom: 2.75rem;
 		}
 
@@ -258,9 +258,12 @@ $border-width: 3px;
 			padding: 0.75rem;
 		}
 
-		&__tab-label,
+		&__tab-label {
+			font-size: 1.5rem;
+		}
+
 		&__text {
-			font-size: 0.875rem;
+			font-size: 1rem;
 		}
 
 		&__logo .site-logo__img {

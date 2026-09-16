@@ -64,7 +64,7 @@
 
 	&__block--94 {
 		left: calc(32 / 390 * 100%);
-		top: calc(101 / 500 * 100%);
+		top: calc(95 / 500 * 100%);
 		width: calc(281 / 390 * 100%);
 		gap: calc(4 * 100cqw / 390);
 
@@ -232,7 +232,7 @@
 	}
 
 	&__caption {
-		display: none;
+		display: block;
 		margin: var(--space-sm) 0 0;
 		overflow: hidden;
 	}
@@ -267,7 +267,7 @@
 		align-items: center;
 		flex-shrink: 0;
 		font-family: var(--font-mono);
-		font-size: var(--text-xl);
+		font-size: 0.875rem;
 		font-weight: 500;
 		line-height: 1;
 		letter-spacing: var(--tracking-label);
@@ -287,10 +287,6 @@
 	}
 
 	@media (max-width: 767.98px) {
-		&__caption {
-			display: block;
-		}
-
 		&__item[data-brand="lamic"],
 		&__item[data-brand="prostor"],
 		&__item[data-brand="md-fashion"],

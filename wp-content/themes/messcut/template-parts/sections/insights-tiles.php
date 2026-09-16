@@ -45,8 +45,8 @@ if ( ! $query->have_posts() ) {
 }
 ?>
 <section class="section insights-tiles">
-	<div class="container">
-		<?php if ( $show_title || $show_more ) : ?>
+	<?php if ( $show_title || $show_more ) : ?>
+		<div class="container">
 			<div class="insights-tiles__header">
 				<?php if ( $show_title ) : ?>
 					<h2 class="insights-tiles__title"><?php echo esc_html( $title ); ?></h2>
@@ -64,7 +64,9 @@ if ( ! $query->have_posts() ) {
 					</a>
 				<?php endif; ?>
 			</div>
-		<?php endif; ?>
+		</div>
+	<?php endif; ?>
+	<div class="container">
 		<div class="insights-tiles__track">
 			<?php
 			while ( $query->have_posts() ) :
@@ -97,7 +99,6 @@ if ( ! $query->have_posts() ) {
 				</article>
 			<?php endwhile; ?>
 		</div>
+		<?php wp_reset_postdata(); ?>
 	</div>
 </section>
-<?php
-wp_reset_postdata();

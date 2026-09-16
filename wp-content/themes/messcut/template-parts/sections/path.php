@@ -124,14 +124,18 @@ $arrow_url  = is_readable( $arrow_path ) ? MESSCUT_URI . '/assets/img/path/card-
 		</div>
 	</div>
 
-	<div class="path__audience container">
-		<?php messcut_render_consult_cta(); ?>
+	<div class="path__audience">
+		<div class="container">
+			<?php messcut_render_consult_cta(); ?>
+		</div>
 
-		<div class="path__audience-copy">
-			<h2 class="path__audience-title"><?php echo esc_html( $audience_title ); ?></h2>
-			<?php if ( $audience_text ) : ?>
-				<p class="path__audience-text"><?php echo esc_html( $audience_text ); ?></p>
-			<?php endif; ?>
+		<div class="container">
+			<div class="path__audience-copy">
+				<h2 class="path__audience-title"><?php echo esc_html( $audience_title ); ?></h2>
+				<?php if ( $audience_text ) : ?>
+					<p class="path__audience-text"><?php echo esc_html( $audience_text ); ?></p>
+				<?php endif; ?>
+			</div>
 		</div>
 	</div>
 

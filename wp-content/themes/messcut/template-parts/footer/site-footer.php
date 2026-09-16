@@ -22,7 +22,8 @@ $has_contact  = $has_telegram || $has_whatsapp || $has_email;
 $has_social   = $has_telegram || $facebook || $linkedin || $instagram_1;
 ?>
 <footer class="site-footer surface--gradient-dark">
-	<div class="container site-footer__inner">
+	<div class="container">
+		<div class="site-footer__inner">
 		<div class="site-footer__brand">
 			<?php messcut_render_logo( 'footer', array( 'class' => 'site-logo site-logo--footer', 'width' => 329, 'height' => 326 ) ); ?>
 			<?php if ( $tagline ) : ?>
@@ -84,5 +85,6 @@ $has_social   = $has_telegram || $facebook || $linkedin || $instagram_1;
 		<a class="site-footer__legal" href="<?php echo esc_url( $privacy_url ); ?>">
 			<?php esc_html_e( 'Політика конфіденційності', 'messcut' ); ?>
 		</a>
+		</div>
 	</div>
 </footer>
