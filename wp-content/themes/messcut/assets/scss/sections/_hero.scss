@@ -4,7 +4,7 @@
 	position: relative;
 	display: flex;
 	align-items: center;
-	min-height: 100svh;
+	min-height: var(--app-height);
 	padding-block: calc(var(--header-height) + var(--space-huge)) var(--space-huge);
 	overflow: hidden;
 	border-bottom: 1px solid var(--hairline-on-light);
@@ -102,7 +102,7 @@
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: stretch;
-		min-height: 100svh;
+		min-height: var(--app-height);
 		padding-block: 150px;
 		background-color: var(--mesh-charcoal);
 		background-image: none;

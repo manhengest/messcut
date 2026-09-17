@@ -1,6 +1,33 @@
 (function () {
 	'use strict';
 
+	var appHeightMq = window.matchMedia('(max-width: 767.98px)');
+	var appHeightWidth = 0;
+
+	function setAppHeight(force) {
+		if (!appHeightMq.matches) {
+			document.documentElement.style.removeProperty('--app-height');
+			appHeightWidth = 0;
+			return;
+		}
+		if (!force && appHeightWidth && window.innerWidth === appHeightWidth) {
+			return;
+		}
+		appHeightWidth = window.innerWidth;
+		document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+	}
+
+	setAppHeight(true);
+	window.addEventListener('resize', function () {
+		setAppHeight(false);
+	});
+	window.addEventListener('orientationchange', function () {
+		appHeightWidth = 0;
+		window.setTimeout(function () {
+			setAppHeight(true);
+		}, 300);
+	});
+
 	function compareTabsRoot(from) {
 		return from && from.closest ? from.closest('[data-compare-tabs]') : null;
 	}

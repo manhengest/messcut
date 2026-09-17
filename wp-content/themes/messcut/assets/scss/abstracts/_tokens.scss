@@ -111,6 +111,9 @@
 	--container-narrow: 720px;
 
 	--header-height: 4.5625rem;
+	/* Locked on mobile load (see main.js). Fallback stays stable when browser chrome shows. */
+	--app-height: 100vh;
+	--app-height: 100svh;
 	--focus-ring: 0 0 0 2px rgba(199, 242, 225, 0.65);
 	--ring-hairline: 0 0 5px 5px rgba(0, 0, 0, 0.1);
 

@@ -1,18 +1,19 @@
 ---
 name: deploy
-description: Review the local diff, block on must-fix or should-fix findings, then build, push, and deploy the MESSCUT theme to Hosting Ukraine.
+description: Review the local diff, block on must-fix or should-fix findings, then build, push, deploy the MESSCUT theme, and sync WordPress content to Hosting Ukraine.
 ---
 
-# /deploy — review, build, push, host
+# /deploy — review, build, push, host, content
 
-Ship the MESSCUT theme only after a local-diff review with **zero must-fix and zero should-fix** findings. Then build CSS, commit/push, and upload to Hosting Ukraine.
+Ship the MESSCUT theme only after a local-diff review with **zero must-fix and zero should-fix** findings. Then build CSS, commit/push, upload the theme to Hosting Ukraine, and align production **posts + ACF text** with local Docker WordPress.
 
 This command **is** explicit intent to commit relevant files, push, and deploy. Do not ask for confirmation of those steps. Stop immediately on a blocking finding, a failed build, a failed push, or a failed deploy.
 
 ## Hard rules
 
 - Never commit or push secrets: `.env.deploy`, `.env.local`, credentials, keys.
-- Never deploy WordPress core, plugins, `uploads/`, `wp-config.php`, or the local database. Hosting upload is **theme only** via `./scripts/deploy.sh`.
+- Never deploy WordPress core, plugins, `uploads/`, `wp-config.php`, or the full local database. Hosting upload is **theme only** via `./scripts/deploy.sh`.
+- Content sync (`./scripts/sync-wp-content.sh`) updates **editorial content only**: `service`, `case_study`, `article`, `page` posts plus ACF options (text/repeaters). It does **not** copy leads, users, uploads, media fields, or `form_recipient_email`.
 - Never run `inc/seed*.php` on production.
 - Never force-push to `main` / `master`. Never `--force` / `--force-with-lease` unless the user explicitly asks in this turn.
 - Never skip hooks (`--no-verify`).
@@ -38,7 +39,7 @@ If a secret or trash file is already staged, unstage it and warn before continui
 
 Map Bugbot/security severities: Critical / High / Medium → **Must fix** or **Should fix** (both block). Low / Note / Nit → Nice to have (do not block). If a finding is labeled must-fix or should-fix, it blocks regardless of tool wording.
 
-**On any Must fix or Should fix → STOP.** Print the blocked report. Do not continue to build, commit, push, or `./scripts/deploy.sh`.
+**On any Must fix or Should fix → STOP.** Print the blocked report. Do not continue to build, commit, push, `./scripts/deploy.sh`, or `./scripts/sync-wp-content.sh`.
 
 ## Workflow (execute in order)
 
@@ -50,8 +51,9 @@ Copy and track progress:
 - [ ] 2. Code review (block on must/should fix)
 - [ ] 3. Build
 - [ ] 4. Commit + push all relevant changes
-- [ ] 5. Deploy to Hosting Ukraine
-- [ ] 6. Report
+- [ ] 5. Deploy theme to Hosting Ukraine
+- [ ] 6. Sync WordPress content to production
+- [ ] 7. Report
 ```
 
 ### 1. Inspect repo + local diff
@@ -136,7 +138,24 @@ Requires `.env.deploy` (gitignored). Theme-only tar-over-SSH; do not replace thi
 
 After CPT/rewrite template changes, remind: WP admin → Settings → Permalinks → Save.
 
-### 6. Report
+### 6. Sync WordPress content
+
+Run **after** a successful theme upload when local Docker has the copy you want live (titles, excerpts, bodies, FAQ, hero text, service pains, etc.). Theme deploy alone does **not** change the database.
+
+Prerequisites: Docker stack up locally (`docker compose up -d`), `.env.deploy` with `DEPLOY_PATH` set.
+
+```bash
+./scripts/sync-wp-content.sh --dry-run   # optional: export + counts only
+./scripts/sync-wp-content.sh
+```
+
+Implementation: `scripts/export-wp-content.php` (WP-CLI `eval-file` in Docker) → JSON → `scripts/apply-wp-content.php` on the server via SSH (same credentials as `deploy.sh`). Matches posts by `post_type` + `post_name` (+ Polylang `lang` when present).
+
+**On failure → STOP** and include script output in the report. Do not claim content is aligned.
+
+Spot-check after sync (example): path section second service card title should match local (e.g. `маркетинг-супровід` not `Управління маркетингом`).
+
+### 7. Report
 
 Lead with **SUCCESS** or **BLOCKED**.
 
@@ -150,6 +169,7 @@ Lead with **SUCCESS** or **BLOCKED**.
 - Commit: `<sha>` `<message>` (or "none — already committed")
 - Pushed: yes → `<remote>/<branch>` (or "skipped — no remote")
 - Hosting: theme uploaded via `./scripts/deploy.sh`
+- Content: synced via `./scripts/sync-wp-content.sh` (or "skipped — theme-only" if user asked not to sync)
 - Skipped files: <list or "none">
 ```
 
@@ -162,7 +182,7 @@ Lead with **SUCCESS** or **BLOCKED**.
 - Must fix / should fix:
   1. <issue> — <file:line> — <why it blocks>
 - Nice to have (non-blocking): ...
-- Not pushed / not deployed
+- Not pushed / not deployed / content not synced
 - Next actions:
   1. <concrete fix>
   2. Re-run /deploy after fix

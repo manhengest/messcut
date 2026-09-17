@@ -80,6 +80,27 @@ function messcut_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'messcut_enqueue_assets' );
 
 /**
+ * Lock mobile viewport height before first paint so sections do not
+ * shrink when the browser chrome (top/bottom bars) shows on scroll.
+ */
+function messcut_print_app_height_script(): void {
+	if ( is_admin() ) {
+		return;
+	}
+	?>
+<script>
+(function () {
+	if (!window.matchMedia || !window.matchMedia('(max-width: 767.98px)').matches) {
+		return;
+	}
+	document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+})();
+</script>
+	<?php
+}
+add_action( 'wp_head', 'messcut_print_app_height_script', 1 );
+
+/**
  * Whether the local BrowserSync server is reachable from this PHP process.
  *
  * Inside Docker, BrowserSync runs on the host (:3000), so we probe

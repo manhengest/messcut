@@ -157,7 +157,7 @@
 
 		.stats__mosaic {
 			aspect-ratio: auto;
-			min-height: 100dvh;
+			min-height: var(--app-height);
 		}
 
 		.stats__title {
