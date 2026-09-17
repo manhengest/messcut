@@ -179,6 +179,8 @@
 		width: 100%;
 		margin-top: -1.5rem;
 		padding-inline: 0;
+		// Room for outer box-shadow stroke so it isn't clipped by siblings.
+		padding-bottom: 1px;
 
 		@media (min-width: 768px) {
 			width: min(100% - 2rem, 48rem);
@@ -297,21 +299,22 @@
 .path-card {
 	position: relative;
 	min-width: 0;
-	overflow: hidden;
-	border: 0.5px solid #1a1d1e;
+	// Outer shadow stroke — Safari drops 0.5–1px borders under overflow/radius.
+	border: 0;
 	border-radius: var(--radius-lg);
 	background: var(--color-white);
+	box-shadow: 0 0 0 1px #1a1d1e;
 	scroll-margin-top: calc(var(--header-height) + var(--space-lg));
 	transition:
 		background var(--duration-fast) var(--ease-out),
-		border-color var(--duration-fast) var(--ease-out);
+		box-shadow var(--duration-fast) var(--ease-out);
 
 	&:not([open]):hover {
 		background: color-mix(in srgb, var(--color-accent) 28%, var(--color-white));
 	}
 
 	&[open] {
-		border-color: transparent;
+		box-shadow: none;
 		background: var(--color-accent);
 	}
 
@@ -365,7 +368,7 @@
 		justify-content: center;
 		width: 1.75rem;
 		height: 1.75rem;
-		border: 0.5px solid #1a1d1e;
+		border: 1px solid #1a1d1e;
 		border-radius: 0.5rem;
 		background: transparent;
 		font-family: var(--font-mono);
