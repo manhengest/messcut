@@ -292,8 +292,15 @@ body.has-nav-open {
 		padding: 0;
 		border: 0;
 		background: transparent;
+		isolation: auto;
+		color: inherit;
 		overflow: visible;
 		transform: translate(-50%, -50%);
+
+		&::after {
+			content: none;
+			display: none;
+		}
 
 		&.is-open {
 			position: absolute;
