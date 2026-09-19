@@ -36,7 +36,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: var(--space-md);
-		width: min(100% - 2rem, var(--container));
+		width: min(100% - 2 * var(--container-gutter), var(--container));
 		margin-inline: auto;
 		padding-block: var(--space-md);
 

@@ -28,8 +28,13 @@
 		line-height: 1.2;
 		letter-spacing: var(--tracking-heading);
 		text-transform: uppercase;
+		text-align: left;
 		color: var(--color-black);
 		max-width: none;
+
+		@media (min-width: 768px) {
+			font-size: 3rem;
+		}
 	}
 
 	&__more {
@@ -273,6 +278,12 @@
 
 .cases-grid {
 	background-color: #fff;
+
+	@media (min-width: 768px) {
+		.home & .cases-grid__card:nth-child(n + 4) {
+			display: none;
+		}
+	}
 
 	&__card {
 		align-items: stretch;

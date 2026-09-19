@@ -14,7 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 $title    = $args['title'] ?? messcut_get_localized_option( 'home_hero_title', __( 'Бренд-стратегія та науковий маркетинг', 'messcut' ) );
 $subtitle = $args['subtitle'] ?? messcut_get_localized_option( 'home_hero_subtitle', __( 'Будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень', 'messcut' ) );
 $cta      = $args['cta_label'] ?? messcut_cta_label( 'discuss' );
-$descriptor = $args['cta_descriptor'] ?? __( '30-хвилинна стратегічна зустріч', 'messcut' );
 
 $video      = messcut_get_option( 'home_hero_video', null );
 $poster     = messcut_get_option( 'home_hero_poster', null );
@@ -64,9 +63,6 @@ if ( $video_url ) {
 			<?php endif; ?>
 			<div class="hero__cta-wrap">
 				<a class="button button--accent" href="#lead-form"><?php echo esc_html( $cta ); ?></a>
-				<?php if ( $descriptor ) : ?>
-					<p class="hero__cta-descriptor"><?php echo esc_html( $descriptor ); ?></p>
-				<?php endif; ?>
 			</div>
 		</div>
 	</div>

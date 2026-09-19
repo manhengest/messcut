@@ -107,8 +107,9 @@
 	--radius-lg: 12px;
 	--radius-pill: 10px;
 
-	--container: 1440px;
+	--container: 1140px;
 	--container-narrow: 720px;
+	--container-gutter: 1rem;
 
 	--header-height: 4.5625rem;
 	/* Locked on mobile load (see main.js). Fallback stays stable when browser chrome shows. */
@@ -120,6 +121,12 @@
 	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 	--duration-fast: 180ms;
 	--duration-med: 320ms;
+}
+
+@media (min-width: 768px) {
+	:root {
+		--container-gutter: 2rem;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

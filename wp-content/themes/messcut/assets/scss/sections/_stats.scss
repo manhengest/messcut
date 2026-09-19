@@ -82,7 +82,7 @@
 
 	&__block--nonstop {
 		left: calc(141 / 390 * 100%);
-		top: calc(220 / 500 * 100%);
+		top: calc(200 / 500 * 100%);
 		width: calc(98 / 390 * 100%);
 		gap: calc(4 * 100cqw / 390);
 
@@ -151,13 +151,96 @@
 	}
 }
 
+@media (min-width: 768px) {
+	.stats {
+		/* 13" laptop (1440×900). min() keeps short viewports at 100vh. */
+		height: min(var(--app-height), 56.25rem);
+		padding-top: var(--header-height);
+		overflow: hidden;
+
+		&__mosaic {
+			width: min(100% - 2 * var(--container-gutter), var(--container));
+			max-width: none;
+			height: 100%;
+			aspect-ratio: auto;
+			container-type: size;
+			--stats-scale: min(100cqw / 390, 100cqh / 500);
+		}
+
+		&__title {
+			left: 0;
+			width: max-content;
+			max-width: 100%;
+			font-size: clamp(2rem, calc(24 * var(--stats-scale)), 3rem);
+			text-align: left;
+		}
+
+		&__block {
+			width: max-content;
+			z-index: 1;
+		}
+
+		&__value {
+			font-size: clamp(1.5rem, calc(28 * var(--stats-scale)), 2.75rem);
+		}
+
+		&__label {
+			max-width: 18em;
+			font-size: clamp(0.75rem, calc(10 * var(--stats-scale)), 1rem);
+			overflow-wrap: anywhere;
+		}
+
+		&__block--94,
+		&__block--50,
+		&__block--nonstop,
+		&__block--ratio,
+		&__block--6 {
+			width: max-content;
+		}
+
+		&__block--94 {
+			top: calc(82 / 500 * 100%);
+			max-width: calc(200 * var(--stats-scale));
+			gap: calc(4 * var(--stats-scale));
+
+			.stats__label {
+				max-width: 16em;
+			}
+		}
+
+		&__block--50 {
+			max-width: calc(200 * var(--stats-scale));
+			gap: calc(4 * var(--stats-scale));
+		}
+
+		&__block--nonstop {
+			max-width: calc(110 * var(--stats-scale));
+			gap: calc(4 * var(--stats-scale));
+
+			.stats__label {
+				max-width: 11em;
+			}
+		}
+
+		&__block--ratio {
+			max-width: calc(140 * var(--stats-scale));
+			gap: calc(4 * var(--stats-scale));
+		}
+
+		&__block--6 {
+			max-width: calc(200 * var(--stats-scale));
+			gap: calc(4 * var(--stats-scale));
+		}
+	}
+}
+
 @media (max-width: 767.98px) {
 	.home .stats {
 		overflow-x: clip;
 
 		.stats__mosaic {
 			aspect-ratio: auto;
-			min-height: var(--app-height);
+			min-height: 900px;
 		}
 
 		.stats__title {

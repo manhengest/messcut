@@ -45,16 +45,6 @@
 		animation: heroFadeUp var(--duration-med) var(--ease-out) 0.2s both;
 	}
 
-	&__cta-descriptor {
-		margin: 0;
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		font-weight: 500;
-		letter-spacing: var(--tracking-label);
-		text-transform: uppercase;
-		color: var(--ink-mute);
-	}
-
 	&__video-wrap {
 		display: none;
 		pointer-events: none;
@@ -115,7 +105,7 @@
 		}
 
 		.container {
-			width: min(100% - 2rem, var(--container));
+			width: min(100% - 2 * var(--container-gutter), var(--container));
 		}
 
 		.hero__title {
@@ -145,10 +135,6 @@
 		.hero__cta-wrap {
 			align-items: flex-start;
 			width: 100%;
-		}
-
-		.hero__cta-descriptor {
-			display: none;
 		}
 
 		.button {
