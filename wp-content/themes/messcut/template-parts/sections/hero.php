@@ -62,7 +62,12 @@ if ( $video_url ) {
 				<p class="hero__subtitle"><?php echo esc_html( $subtitle ); ?></p>
 			<?php endif; ?>
 			<div class="hero__cta-wrap">
-				<a class="button button--accent" href="#lead-form"><?php echo esc_html( $cta ); ?></a>
+				<a class="button button--accent" href="#lead-form">
+					<?php echo esc_html( $cta ); ?>
+					<?php if ( ! empty( $args['cta_arrow'] ) ) : ?>
+						<span class="button__arrow" aria-hidden="true">→</span>
+					<?php endif; ?>
+				</a>
 			</div>
 		</div>
 	</div>

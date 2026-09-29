@@ -49,6 +49,7 @@ function messcut_run_seed(): void {
 	messcut_seed_service_pains( $service_ids );
 	$case_ids    = messcut_seed_cases( $service_ids );
 	messcut_seed_articles();
+	messcut_seed_case_articles();
 	messcut_seed_comparison( $service_ids );
 	messcut_seed_pages( $case_ids );
 	messcut_sync_menus();
@@ -253,6 +254,57 @@ function messcut_seed_article_types(): array {
 }
 
 /**
+ * Link case studies to related insight articles by slug.
+ */
+function messcut_seed_case_articles(): void {
+	if ( ! function_exists( 'update_field' ) ) {
+		return;
+	}
+
+	foreach ( messcut_get_case_seed_data() as $slug => $data ) {
+		if ( empty( $data['articles'] ) || ! is_array( $data['articles'] ) ) {
+			continue;
+		}
+
+		$case = get_page_by_path( $slug, OBJECT, 'case_study' );
+		if ( ! $case ) {
+			continue;
+		}
+
+		$ids = array();
+		foreach ( $data['articles'] as $article_slug ) {
+			$article = get_page_by_path( (string) $article_slug, OBJECT, 'article' );
+			if ( $article ) {
+				$ids[] = (int) $article->ID;
+			}
+		}
+
+		if ( ! $ids ) {
+			continue;
+		}
+
+		messcut_seed_update_post_fields( (int) $case->ID, array( 'related_articles' => $ids ) );
+
+		if ( ! function_exists( 'pll_get_post' ) ) {
+			continue;
+		}
+
+		$en_case = pll_get_post( (int) $case->ID, 'en' );
+		if ( ! $en_case || (int) $en_case === (int) $case->ID ) {
+			continue;
+		}
+
+		$en_ids = array();
+		foreach ( $ids as $id ) {
+			$translated = pll_get_post( $id, 'en' );
+			$en_ids[]   = $translated ? (int) $translated : $id;
+		}
+
+		messcut_seed_update_post_fields( (int) $en_case, array( 'related_articles' => $en_ids ) );
+	}
+}
+
+/**
  * Seed insights (blog) articles.
  */
 function messcut_seed_articles(): void {
@@ -346,7 +398,7 @@ function messcut_seed_pages( array $case_ids ): void {
 		'',
 		'page-approach.php',
 		array(
-			'approach_content' => '<p>В основі нашої роботи – маркетинг, доведений наукою та поведінкова економіка. Допомагаємо брендам зростати через: реальну цінність для людей, системний підхід та стратегії, креатив не заради краси, а заради ефективності.</p>',
+			'approach_content' => '<p>Досліджуємо, як люди приймають рішення, що впливає на їхню поведінку та як це працює в конкретному бізнесі. На цій основі будуємо маркетинг, який має логіку, систему й зрозумілу ціль.</p>',
 		)
 	);
 

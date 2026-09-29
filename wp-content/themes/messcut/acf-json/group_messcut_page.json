@@ -27,6 +27,80 @@
                     "parent_repeater": "field_page_values_override"
                 }
             ]
+        },
+        {
+            "key": "field_page_team",
+            "label": "Команда",
+            "name": "team_members",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "Додати спеціаліста",
+            "instructions": "Плитка: фото, короткий опис і лого брендів. Кнопка «Більше» відкриває суперсилу, роки досвіду та навчання.",
+            "sub_fields": [
+                {
+                    "key": "field_page_team_name",
+                    "label": "Імʼя",
+                    "name": "name",
+                    "type": "text",
+                    "parent_repeater": "field_page_team"
+                },
+                {
+                    "key": "field_page_team_photo",
+                    "label": "Фото",
+                    "name": "photo",
+                    "type": "image",
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "parent_repeater": "field_page_team"
+                },
+                {
+                    "key": "field_page_team_summary",
+                    "label": "Короткий опис",
+                    "name": "summary",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": "",
+                    "parent_repeater": "field_page_team"
+                },
+                {
+                    "key": "field_page_team_logos",
+                    "label": "Лого брендів",
+                    "name": "brand_logos",
+                    "type": "gallery",
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "min": 0,
+                    "max": 12,
+                    "parent_repeater": "field_page_team"
+                },
+                {
+                    "key": "field_page_team_superpower",
+                    "label": "Суперсила",
+                    "name": "superpower",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": "",
+                    "parent_repeater": "field_page_team"
+                },
+                {
+                    "key": "field_page_team_years",
+                    "label": "Років досвіду",
+                    "name": "years",
+                    "type": "text",
+                    "parent_repeater": "field_page_team"
+                },
+                {
+                    "key": "field_page_team_education",
+                    "label": "Навчання",
+                    "name": "education",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": "",
+                    "parent_repeater": "field_page_team"
+                }
+            ]
         }
     ],
     "location": [

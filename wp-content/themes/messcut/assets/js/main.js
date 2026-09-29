@@ -914,4 +914,53 @@
 			});
 		}
 	}
+
+	function teamDialogById(id) {
+		if (!id) {
+			return null;
+		}
+		var dialog = document.getElementById(id);
+		return dialog && dialog.tagName === 'DIALOG' ? dialog : null;
+	}
+
+	function setTeamOpener(dialog, expanded) {
+		if (!dialog || !dialog.id) {
+			return;
+		}
+		var opener = document.querySelector('[data-team-open][aria-controls="' + dialog.id + '"]');
+		if (opener) {
+			opener.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+		}
+	}
+
+	document.addEventListener('click', function (event) {
+		var opener = event.target.closest ? event.target.closest('[data-team-open]') : null;
+		if (opener) {
+			var dialog = teamDialogById(opener.getAttribute('aria-controls'));
+			if (dialog && typeof dialog.showModal === 'function') {
+				dialog.showModal();
+				setTeamOpener(dialog, true);
+			}
+			return;
+		}
+
+		var closer = event.target.closest ? event.target.closest('[data-team-close]') : null;
+		if (closer) {
+			var openDialog = closer.closest('dialog');
+			if (openDialog && openDialog.open) {
+				openDialog.close();
+			}
+			return;
+		}
+
+		if (event.target.matches && event.target.matches('dialog.team-dialog') && event.target.open) {
+			event.target.close();
+		}
+	});
+
+	document.querySelectorAll('dialog.team-dialog').forEach(function (dialog) {
+		dialog.addEventListener('close', function () {
+			setTeamOpener(dialog, false);
+		});
+	});
 })();

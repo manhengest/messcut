@@ -417,26 +417,69 @@ function messcut_get_en_case_translations(): array {
 			'services' => array( 'brand-strategy', 'marketing-support' ),
 			'fields'   => array(
 				'hero_subtitle' => 'How we built the CHOOZY brand in a category where everyone says the same thing',
-				'intro'         => '<p>CHOOZY came to us before the business launched. There was no brand, positioning, marketing strategy, or communication system yet — only an idea to create a modern children’s goods space for parents who value quality, aesthetics, and mindful parenting.</p>',
+				'intro'         => '<p>CHOOZY came to us before the business launched. There was no brand, positioning, marketing strategy, or communication system — only an idea to create a modern children’s goods space for parents who choose quality, aesthetics, and mindful parenting.</p><p>We had to find a place for the brand in a market where most companies use the same messages about safety, care, and quality.</p><p>The work started with strategic research and grew into a full collaboration: from building the brand platform to developing the company as an external marketing director (Fractional CMO).</p>',
 				'results'       => array(
-					array( 'text' => '+250% growth in marketing ROI over the first 6 months' ),
-					array( 'text' => 'Improved LTV:CAC ratio' ),
-					array( 'text' => 'Growing repeat purchase rate' ),
-					array( 'text' => 'Earned media mentions from influencers' ),
-					array( 'text' => 'Brand platform ready for scaling' ),
-				),
-				'challenge'     => '<p>The market did not need another children’s brand. We had to find new value for parents and children.</p>',
-				'research'      => '<p>Category analysis: market, competitors, parent behavior, purchase motivations, and choice barriers.</p>',
-				'insight'       => '<p>Parents want to raise independent children. CHOOZY could help kids learn to choose within safe boundaries.</p>',
-				'case_sections' => array(
 					array(
-						'acf_fc_layout' => 'text_section',
-						'title'         => 'Brand strategy',
-						'content'       => '<p>The brand was built around developing children’s independence through choice.</p>',
+						'value' => '+250%',
+						'text'  => 'growth in marketing ROI over the first 6 months',
+					),
+					array(
+						'value' => '↑ LTV : CAC',
+						'text'  => 'improved ratio of customer lifetime value to acquisition cost',
+					),
+					array(
+						'value' => '↑ Repeat Purchase Rate',
+						'text'  => 'steady growth in the share of repeat purchases',
+					),
+					array(
+						'value' => 'Earned Media',
+						'text'  => 'the brand started receiving organic influencer mentions',
+					),
+					array(
+						'value' => 'Brand Platform',
+						'text'  => 'a brand foundation built for further business scaling',
 					),
 				),
-				'cta_title'     => 'Facing a similar challenge?',
-				'cta_text'      => 'Fill out a short form and we will discuss your project and possible growth scenarios.',
+				'mid_cta_title' => 'Planning a new brand launch, or ready to rethink an existing one?',
+				'mid_cta_text'  => 'We help businesses find competitive advantages, build strong brands, and create marketing systems that work over the long term.',
+				'client_task'   => '<p>The main challenge was to build a brand with its own territory in the market — one that would not compete only on price, assortment, or standard messages about product quality.</p><p>Together with the client we defined the key strategic goals:</p><ul><li>form a strong brand positioning;</li><li>build a brand platform for long-term development;</li><li>create a marketing system that can scale with the business;</li><li>lay the foundation for ongoing marketing leadership as a Fractional CMO.</li></ul>',
+				'process_steps' => array(
+					array(
+						'title' => 'Stage 1. Research',
+						'text'  => 'A full analysis of the market, category, competitors, and consumer behavior.',
+					),
+					array(
+						'title' => 'Stage 2. Finding the strategic insight',
+						'text'  => 'Identifying an unmet audience need and the brand’s role in customers’ lives.',
+					),
+					array(
+						'title' => 'Stage 3. Building the brand strategy',
+						'text'  => 'Shaping the mission, positioning, key messages, and brand platform.',
+					),
+					array(
+						'title' => 'Stage 4. Developing the marketing system',
+						'text'  => 'Creating the go-to-market strategy, KPI system, marketing plan, and analytics.',
+					),
+					array(
+						'title' => 'Stage 5. Marketing Support',
+						'text'  => 'Ongoing work as an external marketing director: managing marketing processes, optimizing investment, and finding new growth points.',
+					),
+				),
+				'challenge'     => '<p>The children’s goods market is one of the most competitive. Most brands use the same arguments: quality, safety, care, natural ingredients. For a new player that is an even bigger challenge: without a clear strategy the brand risks dissolving among dozens of similar offers and competing on price alone.</p><p>That is why we deliberately rejected an approach that starts with a logo or identity. The first task was to define the brand’s role in the lives of modern parents and find a strategic advantage competitors did not occupy.</p><p>Only after that did we move on to the brand platform, positioning, and marketing system that became the basis for CHOOZY’s further growth.</p>',
+				'research'      => '<p>Every project starts with research. It shows how the audience thinks, which factors shape choice, and where there is room to build a competitive advantage.</p><p>For CHOOZY we ran a full strategic analysis to find a non-obvious opportunity in a crowded children’s goods category.</p><p>Within the research we analyzed:</p><ul><li>market structure and the main category segments;</li><li>competitor positioning and communication;</li><li>behavioral models of modern parents;</li><li>factors that influence the choice of children’s goods;</li><li>barriers at the point of purchase;</li><li>international and local market trends;</li><li>opportunities for brand differentiation.</li></ul>',
+				'insight'       => '<p>During the research we noticed a pattern.</p><p><strong>Parents want to raise independent children.</strong></p><p>They want to let a child make their own choice, while staying confident that the choice happens within safe boundaries.</p><p>That is where the strategic opportunity appeared.</p><p>CHOOZY could help with more than buying things.</p><p><strong>CHOOZY could help a child learn to choose.</strong></p><p>This insight became the foundation of the entire brand strategy that followed.</p>',
+				'brand_strategy'=> '<p>We built the brand around the idea of developing a child’s independence through choice.</p><p>That made it possible to form:</p><ul><li>clear positioning;</li><li>a difference from competitors;</li><li>a communication space of its own;</li><li>an emotional connection with parents;</li><li>a platform for long-term development.</li></ul><p>Instead of competing on the category’s rational attributes, the brand gained its own territory of meaning.</p>',
+				'brand_mission' => '<p>Help children learn to make their own choices, and help parents support that process through a well-built brand and environment.</p>',
+				'positioning'   => '<p>We built the brand around the idea of developing a child’s independence through choice.</p><p>This positioning let CHOOZY move beyond standard category communication and form a space of meaning of its own.</p>',
+				'visual_identity' => '<p>One of the core principles of modern scientific marketing is creating and reinforcing brand associations.</p><p>After the positioning was set, we worked on distinctive brand assets:</p><ul><li>the name CHOOZY;</li><li>the brand character Choozik;</li><li>a system of visual codes;</li><li>key messages;</li><li>communication scenarios.</li></ul><p>Every element served one job — to lock in the connection between the brand and the audience.</p>',
+				'marketing_strategy' => '<p>After the brand platform was in place, we moved on to the marketing system.</p><p>We developed:</p><ul><li>a go-to-market strategy;</li><li>a marketing plan;</li><li>a KPI system;</li><li>a channel structure;</li><li>an analytics system;</li><li>brand development priorities.</li></ul><p>The goal was not only to drive the first sales, but to create a system that would scale with the business.</p>',
+				'results_detail' => '<p>The brand strategy became the foundation for CHOOZY’s further development. After launch we kept working on the marketing system, optimizing processes and testing new growth points.</p><p>In the first six months of collaboration we achieved:</p><ul><li><strong>+250%</strong> Overall growth in marketing ROI over 6 months.</li><li><strong>Higher LTV:CAC</strong> The ratio of customer lifetime value to acquisition cost improved, and acquisition pays back several times over.</li><li><strong>More repeat purchases</strong> Repeat purchase frequency increased — one of the signs of long-term customer relationships.</li><li><strong>Organic mentions</strong> The brand started receiving organic influencer mentions without separate campaigns to recruit them.</li><li><strong>A platform for scale</strong> A brand platform and marketing system that became the basis for further business growth.</li></ul>',
+				'marketing_support' => '<p>After launch we continued as an external marketing director.</p><p>The role included:</p><ul><li>managing marketing processes;</li><li>coordinating contractors;</li><li>analyzing channel performance;</li><li>testing new hypotheses;</li><li>optimizing marketing investment;</li><li>finding new sources of growth.</li></ul><p>This format made it possible not only to deliver the brand strategy, but to embed it in how the business actually works.</p>',
+				'case_demonstrates' => '<p>Competitive advantage comes from a clear understanding of the brand’s role in the customer’s life.</p><p>Strategic research, the insight it produced, and the brand platform built around that insight created the basis for the company’s long-term development and a marketing system that scales with the business.</p>',
+				'specialist_name' => 'Valeriia Chemerys',
+				'faq_title'     => 'FAQ',
+				'cta_title'     => 'Let’s discuss your project',
+				'cta_text'      => 'If you are launching a new brand or looking for new growth points in an existing business, we start with what matters: what actually influences your customers’ choice. Fill out a short form and we will discuss your project and possible development scenarios.',
 			),
 		),
 		'sloway'    => array(
@@ -445,19 +488,65 @@ function messcut_get_en_case_translations(): array {
 			'services' => array( 'brand-strategy' ),
 			'fields'   => array(
 				'hero_subtitle' => 'How we turned a mattress from a sleep product into a platform for modern living',
-				'intro'         => '<p>Most mattress brands sell sleep. SLOWAY — the chance to rethink the role of the bed in modern life.</p>',
-				'challenge'     => '<p>The mattress category is rational: firmness, materials, technology. We needed a new way to see the category.</p>',
-				'research'      => '<p>Category and consumer behavior analysis: how people use the bed today.</p>',
-				'insight'       => '<p>People do not buy a mattress — they buy a comfortable space for living. The bed is not only for sleep.</p>',
-				'case_sections' => array(
+				'intro'         => '<p>What do mattress brands sound like? They talk about orthopedic features, materials, back support, and comfort.</p><p>When SLOWAY came to us, we saw a chance to build a brand that would rethink the role of the bed in modern life.</p>',
+				'results'       => array(
 					array(
-						'acf_fc_layout' => 'text_section',
-						'title'         => 'Brand strategy',
-						'content'       => '<p><strong>“We are in no hurry.”</strong> — a cultural territory around slow living and rest without guilt.</p>',
+						'value' => 'Brand platform',
+						'text'  => 'A new brand platform that moves beyond the mattress category.',
+					),
+					array(
+						'value' => 'Associations',
+						'text'  => 'The brand gained a wider system of mental associations.',
+					),
+					array(
+						'value' => 'Demand',
+						'text'  => 'The brand can shape demand beyond people who are shopping for a mattress right now.',
 					),
 				),
+				'mid_cta_title' => 'Let’s discuss your project',
+				'mid_cta_text'  => 'If your product has become one more similar player in the market, the brand may need a new role in people’s lives.',
+				'client_task'   => '<p>Create a brand that stands out in the mattress category.</p>',
+				'process_steps' => array(
+					array(
+						'title' => 'Category analysis',
+						'text'  => '',
+					),
+					array(
+						'title' => 'Competitor research',
+						'text'  => '',
+					),
+					array(
+						'title' => 'Consumer behavior analysis',
+						'text'  => '',
+					),
+					array(
+						'title' => 'Cultural shifts in how people live',
+						'text'  => '',
+					),
+					array(
+						'title' => 'Strategic insight',
+						'text'  => '',
+					),
+					array(
+						'title' => 'Brand platform and new positioning',
+						'text'  => '',
+					),
+				),
+				'challenge'     => '<p>Mattresses are one of the most rational home-goods categories.</p><p>In that setting, one more brand with good specifications has almost no chance to stand out. We had to find a new angle on the category.</p>',
+				'research'      => '<p>We studied the category, competitors, and consumer behavior.</p><p>Today people:</p><ul><li>work in bed;</li><li>watch series;</li><li>take online meetings;</li><li>read;</li><li>drink coffee;</li><li>plan the future;</li><li>recover after heavy news;</li><li>look for a sense of safety.</li></ul>',
+				'insight'       => '<p>The analysis made it clear that the modern bed stopped being only a place to sleep a long time ago.</p><p><strong>The bed became a person’s private space, not only a place to rest at night.</strong></p>',
+				'brand_strategy'=> '<p>Instead of competing for a better mattress, the brand took the territory of slow living, rest without guilt, and a person’s right to slow down.</p>',
+				'brand_mission' => '<p>Rethink the role of the bed in modern life and make it a symbol of a comfortable space for living, rest, and psychological recovery.</p>',
+				'positioning'   => '<p>The bed is a place for living, not only for sleep.</p><p>Instead of competing for a better mattress, the brand took the territory of slow living, rest without guilt, and a person’s right to slow down.</p>',
+				'brand_message' => '<p><strong>“We are in no hurry”</strong></p>',
+				'visual_identity' => '<p>The strategy was built around this territory:</p><ul><li>slow living;</li><li>home comfort;</li><li>psychological recovery;</li><li>personal space;</li><li>comfort.</li></ul>',
+				'marketing_strategy' => '',
+				'case_sections' => array(),
+				'results_detail' => '<p>SLOWAY became a brand about a way of living, not only mattresses. That made it possible to:</p><ul><li>widen the category in which the brand is recalled;</li><li>shape demand outside the moment of purchase;</li><li>build a stronger emotional territory for the brand.</li></ul>',
+				'marketing_support' => '',
+				'case_demonstrates' => '<p>We start with people: their behavior, cultural shifts, and the contexts in which they consume.</p><p>Only then do we build a brand that fits naturally into the audience’s life and has a better chance of long-term growth.</p>',
 				'cta_title'     => 'Let’s discuss your project',
-				'cta_text'      => 'We will help find growth opportunities for your brand.',
+				'cta_text'      => 'If you are launching a new brand, or your product has become one more player among many similar ones, the problem may not be marketing. The brand may need a new role in people’s lives. Fill out a short form and we will help find growth points for your business.',
 			),
 		),
 		'payen'     => array(
@@ -523,7 +612,7 @@ function messcut_get_en_page_translations(): array {
 			'content'  => '',
 			'template' => 'page-approach.php',
 			'fields'   => array(
-				'approach_content' => '<p>Our work is grounded in science-based marketing and behavioral economics. We help brands grow through real value for people, a systematic approach, and creativity driven by effectiveness — not aesthetics alone.</p>',
+				'approach_content' => '<p>We study how people make decisions, what shapes their behavior, and how that works in a specific business. From that, we build marketing that has logic, a system, and a clear goal.</p>',
 				'values_override'  => array(
 					array( 'text' => 'structure' ),
 					array( 'text' => 'continuous learning' ),

@@ -12,14 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $limit           = isset( $args['limit'] ) ? (int) $args['limit'] : -1;
+$exclude         = isset( $args['exclude'] ) ? (int) $args['exclude'] : 0;
 $title           = $args['title'] ?? __( 'Кейси', 'messcut' );
 $show_more       = $args['show_more'] ?? false;
+$more_label      = $args['more_label'] ?? __( 'Більше', 'messcut' );
 $on_dark         = ! empty( $args['on_dark'] );
 $loop            = ! empty( $args['loop'] );
 $section_class   = 'section cases-grid' . ( $on_dark ? ' cases-grid--on-dark' : '' );
 $more_arrow_path = MESSCUT_DIR . '/assets/img/path/more-arrow.svg';
 $more_arrow_svg  = is_readable( $more_arrow_path ) ? file_get_contents( $more_arrow_path ) : '';
-$query           = messcut_get_cases_query( $limit );
+$query           = messcut_get_cases_query( $limit, $exclude );
 if ( ! $query->have_posts() ) {
 	return;
 }
@@ -30,7 +32,7 @@ if ( ! $query->have_posts() ) {
 			<h2 class="cases-grid__title"><?php echo esc_html( $title ); ?></h2>
 			<?php if ( $show_more ) : ?>
 				<a class="cases-grid__more" href="<?php echo esc_url( messcut_cases_archive_url() ); ?>">
-					<span><?php esc_html_e( 'Більше', 'messcut' ); ?></span>
+					<span><?php echo esc_html( $more_label ); ?></span>
 					<span class="cases-grid__more-arrow" aria-hidden="true">
 						<?php
 						if ( $more_arrow_svg ) {

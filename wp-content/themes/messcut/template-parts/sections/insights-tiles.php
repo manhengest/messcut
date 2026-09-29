@@ -20,15 +20,26 @@ $show_more       = $args['show_more'] ?? true;
 $more_arrow_path = MESSCUT_DIR . '/assets/img/path/more-arrow.svg';
 $more_arrow_svg  = is_readable( $more_arrow_path ) ? file_get_contents( $more_arrow_path ) : '';
 
+$has_post_ids = isset( $args['post_ids'] );
+$post_ids     = $has_post_ids ? messcut_localized_post_ids( (array) $args['post_ids'] ) : array();
+
+// An explicit list means curated posts only — do not fall back to taxonomy or latest.
+if ( $has_post_ids && ! $post_ids ) {
+	return;
+}
+
 $query_args = array(
-	'post_type'      => 'article',
-	'posts_per_page' => $limit,
-	'post_status'    => 'publish',
-	'orderby'        => 'date',
-	'order'          => 'DESC',
+	'post_type'           => 'article',
+	'posts_per_page'      => $post_ids ? count( $post_ids ) : $limit,
+	'post_status'         => 'publish',
+	'orderby'             => $post_ids ? 'post__in' : 'date',
+	'order'               => 'DESC',
+	'ignore_sticky_posts' => true,
 );
 
-if ( ! empty( $type_ids ) ) {
+if ( $post_ids ) {
+	$query_args['post__in'] = $post_ids;
+} elseif ( ! empty( $type_ids ) ) {
 	$query_args['tax_query'] = array(
 		array(
 			'taxonomy' => 'article_type',

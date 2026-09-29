@@ -117,8 +117,12 @@
 		letter-spacing: var(--tracking-heading);
 		line-height: var(--lh-heading);
 		pointer-events: none;
-			overflow-wrap: break-word;
+		overflow-wrap: break-word;
 		transition: color var(--duration-fast) var(--ease-out);
+
+		&::first-letter {
+			text-transform: uppercase;
+		}
 
 		@media (min-width: 768px) {
 			font-size: var(--text-2xl);

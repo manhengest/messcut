@@ -451,3 +451,7 @@
 .cases-grid:has(+ .insights-tiles) {
 	padding-bottom: 0.75rem;
 }
+
+.case-single > .cases-grid {
+	padding-bottom: calc(clamp(2.25rem, 5vw, 3.5rem) + var(--space-xl));
+}

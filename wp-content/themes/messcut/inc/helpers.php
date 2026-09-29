@@ -311,14 +311,20 @@ function messcut_get_services_query( int $limit = -1 ): WP_Query {
  * @param int $limit Posts limit.
  * @return WP_Query
  */
-function messcut_get_cases_query( int $limit = -1 ): WP_Query {
-	return new WP_Query( array(
+function messcut_get_cases_query( int $limit = -1, int $exclude = 0 ): WP_Query {
+	$args = array(
 		'post_type'      => 'case_study',
 		'posts_per_page' => $limit,
 		'orderby'        => 'menu_order',
 		'order'          => 'ASC',
 		'post_status'    => 'publish',
-	) );
+	);
+
+	if ( $exclude > 0 ) {
+		$args['post__not_in'] = array( $exclude );
+	}
+
+	return new WP_Query( $args );
 }
 
 /**
@@ -467,17 +473,34 @@ function messcut_get_acf( string $key, ?int $post_id = null ): mixed {
 /**
  * Render a titled WYSIWYG block if content exists.
  */
-function messcut_render_content_block( string $title, mixed $content ): void {
-	if ( empty( $content ) ) {
+function messcut_render_content_block( string $title, mixed $content, array $subs = array(), string $class = '' ): void {
+	$subs = array_filter(
+		$subs,
+		static function ( $sub ): bool {
+			return is_string( $sub ) && '' !== trim( wp_strip_all_tags( $sub ) );
+		}
+	);
+
+	if ( empty( $content ) && empty( $subs ) ) {
 		return;
 	}
+
+	$class = trim( (string) preg_replace( '/[^a-z0-9_ -]/', '', $class ) );
 	?>
-	<section class="section content-block">
+	<section class="section content-block<?php echo '' !== $class ? ' ' . esc_attr( $class ) : ''; ?>">
 		<div class="container container--narrow">
 			<?php if ( $title ) : ?>
 				<h2><?php echo esc_html( $title ); ?></h2>
 			<?php endif; ?>
-			<div class="entry-content"><?php echo wp_kses_post( $content ); ?></div>
+			<?php if ( ! empty( $content ) ) : ?>
+				<div class="entry-content"><?php echo wp_kses_post( $content ); ?></div>
+			<?php endif; ?>
+			<?php foreach ( $subs as $sub_title => $sub_content ) : ?>
+				<?php if ( $sub_title ) : ?>
+					<h3><?php echo esc_html( (string) $sub_title ); ?></h3>
+				<?php endif; ?>
+				<div class="entry-content"><?php echo wp_kses_post( $sub_content ); ?></div>
+			<?php endforeach; ?>
 		</div>
 	</section>
 	<?php
@@ -486,12 +509,18 @@ function messcut_render_content_block( string $title, mixed $content ): void {
 /**
  * Render mid-page CTA button linking to lead form.
  */
-function messcut_render_mid_cta( string $label = '' ): void {
-	$label = $label ?: messcut_cta_label( 'discuss' );
+function messcut_render_mid_cta( string $label = '', string $title = '', string $text = '' ): void {
+	$label = $label ?: __( 'Обговорити проєкт', 'messcut' );
 	?>
 	<section class="section mid-cta">
 		<div class="container container--narrow">
-			<p><a class="button button--primary" href="#lead-form"><?php echo esc_html( $label ); ?></a></p>
+			<?php if ( '' !== trim( $title ) ) : ?>
+				<h2 class="mid-cta__title"><?php echo esc_html( $title ); ?></h2>
+			<?php endif; ?>
+			<?php if ( '' !== trim( $text ) ) : ?>
+				<p class="mid-cta__text"><?php echo esc_html( $text ); ?></p>
+			<?php endif; ?>
+			<p class="mid-cta__action"><a class="button button--primary" href="#lead-form"><?php echo esc_html( $label ); ?></a></p>
 		</div>
 	</section>
 	<?php
@@ -547,6 +576,32 @@ function messcut_get_insights_type_ids( ?int $post_id = null ): array {
  */
 function messcut_render_insights_tiles( array $args = array() ): void {
 	get_template_part( 'template-parts/sections/insights-tiles', null, $args );
+}
+
+/**
+ * Map post IDs to the current Polylang language when a translation exists.
+ *
+ * @param array<int, mixed> $ids Post IDs.
+ * @return int[]
+ */
+function messcut_localized_post_ids( array $ids ): array {
+	$ids = array_values( array_filter( array_map( 'intval', $ids ) ) );
+	if ( ! $ids || ! function_exists( 'pll_get_post' ) || ! function_exists( 'pll_current_language' ) ) {
+		return $ids;
+	}
+
+	$lang = pll_current_language();
+	if ( ! is_string( $lang ) || '' === $lang ) {
+		return $ids;
+	}
+
+	$localized = array();
+	foreach ( $ids as $id ) {
+		$translated  = pll_get_post( $id, $lang );
+		$localized[] = $translated ? (int) $translated : $id;
+	}
+
+	return $localized;
 }
 
 /**
@@ -968,10 +1023,159 @@ function messcut_render_faq( array $args = array() ): void {
 }
 
 /**
+ * Normalize an ACF image (array or attachment ID) to src data.
+ *
+ * @param mixed  $image Image field.
+ * @param string $size  Image size.
+ * @return array{url: string, alt: string, width: int, height: int}
+ */
+function messcut_acf_media( mixed $image, string $size = 'large' ): array {
+	$empty = array(
+		'url'    => '',
+		'alt'    => '',
+		'width'  => 0,
+		'height' => 0,
+	);
+
+	if ( is_array( $image ) && ! empty( $image['url'] ) ) {
+		$url    = (string) $image['url'];
+		$width  = (int) ( $image['width'] ?? 0 );
+		$height = (int) ( $image['height'] ?? 0 );
+		if ( ! empty( $image['sizes'][ $size ] ) ) {
+			$url    = (string) $image['sizes'][ $size ];
+			$width  = (int) ( $image['sizes'][ $size . '-width' ] ?? $width );
+			$height = (int) ( $image['sizes'][ $size . '-height' ] ?? $height );
+		}
+
+		return array(
+			'url'    => $url,
+			'alt'    => (string) ( $image['alt'] ?? '' ),
+			'width'  => $width,
+			'height' => $height,
+		);
+	}
+
+	if ( is_numeric( $image ) ) {
+		$src = wp_get_attachment_image_src( (int) $image, $size );
+		if ( ! $src ) {
+			return $empty;
+		}
+
+		return array(
+			'url'    => (string) $src[0],
+			'alt'    => (string) get_post_meta( (int) $image, '_wp_attachment_image_alt', true ),
+			'width'  => (int) $src[1],
+			'height' => (int) $src[2],
+		);
+	}
+
+	return $empty;
+}
+
+/**
+ * Normalize an ACF gallery to a list of image src data.
+ *
+ * @param mixed  $images Gallery field.
+ * @param string $size   Image size.
+ * @return array<int, array{url: string, alt: string, width: int, height: int}>
+ */
+function messcut_acf_gallery( mixed $images, string $size = 'medium' ): array {
+	if ( ! is_array( $images ) ) {
+		return array();
+	}
+
+	$items = array();
+	foreach ( $images as $image ) {
+		$media = messcut_acf_media( $image, $size );
+		if ( '' !== $media['url'] ) {
+			$items[] = $media;
+		}
+	}
+
+	return $items;
+}
+
+/**
+ * First letter of a name, for the photo placeholder.
+ */
+function messcut_name_initial( string $name ): string {
+	$name = trim( $name );
+	if ( '' === $name ) {
+		return '';
+	}
+
+	return mb_strtoupper( mb_substr( $name, 0, 1 ) );
+}
+
+/**
+ * Team shown on the approach page until the ACF repeater is filled.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function messcut_approach_team_defaults(): array {
+	$names = array( 'Валерія', 'Марія', 'Аліна' );
+	$team  = array();
+
+	foreach ( $names as $name ) {
+		$team[] = array(
+			'name'       => $name,
+			'summary'    => '',
+			'superpower' => '',
+			'years'      => '',
+			'education'  => '',
+			'photo'      => array(
+				'url'    => '',
+				'alt'    => '',
+				'width'  => 0,
+				'height' => 0,
+			),
+			'logos'      => array(),
+		);
+	}
+
+	return $team;
+}
+
+/**
+ * Approach-page team: ACF repeater, or the three named defaults.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function messcut_get_approach_team(): array {
+	$rows = function_exists( 'get_field' ) ? get_field( 'team_members' ) : null;
+	if ( ! is_array( $rows ) || empty( $rows ) ) {
+		return messcut_approach_team_defaults();
+	}
+
+	$team = array();
+	foreach ( $rows as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+		$name = trim( (string) ( $row['name'] ?? '' ) );
+		if ( '' === $name ) {
+			continue;
+		}
+
+		$team[] = array(
+			'name'       => $name,
+			'summary'    => trim( (string) ( $row['summary'] ?? '' ) ),
+			'superpower' => trim( (string) ( $row['superpower'] ?? '' ) ),
+			'years'      => trim( (string) ( $row['years'] ?? '' ) ),
+			'education'  => trim( (string) ( $row['education'] ?? '' ) ),
+			'photo'      => messcut_acf_media( $row['photo'] ?? null, 'large' ),
+			'logos'      => messcut_acf_gallery( $row['brand_logos'] ?? array(), 'medium' ),
+		);
+	}
+
+	return $team ? $team : messcut_approach_team_defaults();
+}
+
+/**
  * Render approach CTA link.
  */
-function messcut_render_approach_cta(): void {
-	get_template_part( 'template-parts/sections/approach-cta' );
+function messcut_render_approach_cta( array $args = array() ): void {
+	get_template_part( 'template-parts/sections/approach-cta', null, $args );
 }
 
 /**

@@ -82,6 +82,11 @@
 			color: var(--color-black);
 		}
 	}
+
+	&__arrow {
+		font-family: var(--font-ui);
+		line-height: 1;
+	}
 }
 
 /* Light buttons on brown substrates */

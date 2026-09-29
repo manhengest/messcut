@@ -62,7 +62,8 @@
 	&__vessel {
 		position: relative;
 		width: 100%;
-		height: clamp(22rem, 52vw, 34rem);
+		max-width: 800px;
+		height: clamp(22rem, 52vw, 20rem);
 
 		&.is-ready .path__pill {
 			opacity: 1;
