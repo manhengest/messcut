@@ -73,6 +73,12 @@ body.home .home-insights {
 	font-size: 17px;
 }
 
+.home-hero .cta {
+	align-self: stretch;
+	justify-content: space-between;
+	width: 100%;
+}
+
 .home-hero__stage {
 	position: absolute;
 	top: 0;
@@ -308,6 +314,7 @@ body.home .home-path h2 {
 .path-service h3 {
 	margin: 6px 0 0;
 	font-size: 22px;
+	line-height: 1.5;
 	color: inherit;
 }
 
@@ -321,12 +328,13 @@ body.home .home-path h2 {
 .path-service.is-hot .path-service__body {
 	max-height: 320px;
 	padding-top: 22px;
+	border-top: 1px solid var(--line);
 	opacity: 1;
 }
 
 .path-service p {
 	max-width: 34em;
-	margin: 0 0 18px;
+	margin: 0 0 10px;
 	color: inherit;
 	font-size: 14px;
 }
@@ -377,13 +385,13 @@ body.home .home-path h2 {
 
 .consult-link b {
 	display: block;
-	font-size: 16px;
+	font-size: 13px;
 	font-weight: 500;
 }
 
 .consult-link small {
 	color: var(--muted);
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .consult-link img,
@@ -394,6 +402,7 @@ body.home .home-path h2 {
 	border: 2px solid #fff;
 	border-radius: 50%;
 	object-fit: cover;
+	object-position: top center;
 	background: linear-gradient(135deg, #c7f2e1, #6fdcca);
 	box-shadow: 0 8px 18px -8px rgba(18, 168, 152, 0.7);
 }
@@ -646,6 +655,12 @@ body.home .audience h2 {
 		justify-self: center;
 	}
 
+	.home-hero .cta {
+		align-self: center;
+		justify-content: flex-start;
+		width: auto;
+	}
+
 	.home-hero__lead {
 		font-size: clamp(18px, 1.5vw, 24px);
 		max-width: 24em;
@@ -748,6 +763,10 @@ body.home .audience h2 {
 
 	.path-service h3 {
 		font-size: clamp(28px, 2.8vw, 42px);
+	}
+
+	.path-service p {
+		margin-bottom: 18px;
 	}
 
 	.consult-link {

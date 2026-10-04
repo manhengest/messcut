@@ -236,9 +236,10 @@ foreach ( $payload['posts'] as $row ) {
 		pll_set_post_language( (int) $post_id, $lang );
 	}
 
-	$acf = messcut_sync_resolve( $row['acf'] ?? array() );
-	if ( function_exists( 'update_field' ) && is_array( $acf ) ) {
-		foreach ( $acf as $key => $value ) {
+	// File scope: $acf is ACF's global instance. Reusing that name makes update_field() crash.
+	$fields = messcut_sync_resolve( $row['acf'] ?? array() );
+	if ( function_exists( 'update_field' ) && is_array( $fields ) ) {
+		foreach ( $fields as $key => $value ) {
 			update_field( $key, $value, (int) $post_id );
 		}
 	}

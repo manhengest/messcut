@@ -39,6 +39,17 @@
 		});
 	}
 
+	document.querySelectorAll("[data-accordion]").forEach(function (group) {
+		group.querySelectorAll("details").forEach(function (item) {
+			item.addEventListener("toggle", function () {
+				if (!item.open) return;
+				group.querySelectorAll("details").forEach(function (other) {
+					if (other !== item) other.open = false;
+				});
+			});
+		});
+	});
+
 	document.querySelectorAll("[data-tabs]").forEach(function (tabs) {
 		tabs.querySelectorAll("button").forEach(function (button) {
 			button.addEventListener("click", function () {
