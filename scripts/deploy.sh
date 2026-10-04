@@ -115,6 +115,7 @@ theme_tar() {
     --exclude='browser-sync.config.js' \
     --exclude='.DS_Store' \
     --exclude='*.map' \
+    --exclude='seed-media' \
     -cf - .
 }
 

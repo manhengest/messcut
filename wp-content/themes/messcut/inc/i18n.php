@@ -148,7 +148,7 @@ add_filter( 'pll_the_language_link', 'messcut_pll_language_link', 10, 2 );
  * Create UK + EN languages if Polylang is active but not configured.
  */
 function messcut_polylang_maybe_create_languages(): void {
-	if ( ! function_exists( 'PLL' ) || ! is_admin() ) {
+	if ( ! function_exists( 'PLL' ) ) {
 		return;
 	}
 
@@ -203,6 +203,12 @@ function messcut_polylang_maybe_create_languages(): void {
 		$changed            = true;
 	}
 
+	// Language home is /en/, not /en/{front-page-slug}/.
+	if ( empty( $options['redirect_lang'] ) ) {
+		$options['redirect_lang'] = 1;
+		$changed                  = true;
+	}
+
 	$post_types = array( 'page', 'case_study', 'service', 'article' );
 	if ( empty( $options['post_types'] ) || count( array_diff( $post_types, (array) $options['post_types'] ) ) > 0 ) {
 		$options['post_types'] = array_values( array_unique( array_merge( (array) ( $options['post_types'] ?? array() ), $post_types ) ) );
@@ -213,7 +219,7 @@ function messcut_polylang_maybe_create_languages(): void {
 		update_option( 'polylang', $options );
 	}
 }
-add_action( 'admin_init', 'messcut_polylang_maybe_create_languages', 5 );
+add_action( 'init', 'messcut_polylang_maybe_create_languages', 20 );
 
 /**
  * Admin notice when Polylang is missing.

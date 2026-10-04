@@ -70,7 +70,7 @@ README.md                      # Docker + WP-CLI runbook
 | Type | Archive slug | Notes |
 |------|--------------|--------|
 | `case_study` | `/cases/` | Case pages |
-| `service` | `/services/` | Service pages |
+| `service` | — | Not public. Singular `/services/{slug}/` 301s to `/poslugy/#svc-{slug}` |
 | `article` | `/articles/` | Blog foundation only |
 | `lead` | — | Private UI for form submissions |
 
@@ -88,11 +88,9 @@ Keep CSS variables and `theme.json` in sync.
 | UI / Body | Golos Text | Nav, body copy (Cyrillic via Google Fonts) |
 | Mono | IBM Plex Mono | Buttons, eyebrows, labels, metadata |
 
-**Surfaces:** CSS mesh + grain utilities in `assets/scss/abstracts/_surfaces.scss` — `.surface--gradient-light` (page/sections) and `.surface--gradient-dark` (proof chapter, footer, nav overlay). `.surface--dots` for dotted grids (cases). Do not commit client gradient bitmap refs.
+**Canvas:** `--bg` / `--canvas-ivory` `#f7f9f7`. Mint (`--mint` `#c7f2e1`) is a fill, not body text. Sync `theme.json` background.
 
-**Canvas:** `--canvas-ivory` / `#f7f9f7` (not pure white). Sync `theme.json` background.
-
-Visual patterns follow a light Sanity-inspired system: Playfair Display titles, pill CTAs, colorimetric depth (hairline borders, no drop shadows), brown hover states. Accent colors unchanged.
+Styles are mobile-first. Base rules follow the raw mobile HTML. Differences for desktop go in `@include bp(lg)` (min-width 1001px). Services also collapse at 1100px.
 
 **Colors** (sampled from brand board)
 
@@ -134,7 +132,7 @@ Or by hand:
 ./scripts/deploy.sh
 ```
 
-The script runs `npm run build` first, then swaps the remote theme directory (old tree removed). Excludes `node_modules/`, `assets/scss/`, `*.map`, `browser-sync.config.js`. After CPT or rewrite changes, save **Settings → Permalinks** in WP admin (no WP-CLI on this host). Do not run `inc/seed*.php` on production.
+The script runs `npm run build` first, then swaps the remote theme directory (old tree removed). Excludes `node_modules/`, `assets/scss/`, `*.map`, `browser-sync.config.js`, and `seed-media/`. After CPT or rewrite changes, save **Settings → Permalinks** in WP admin (no WP-CLI on this host). Do not run `inc/seed*.php` on production.
 
 ## Conventions
 
@@ -166,3 +164,17 @@ Further reading:
 - [README.md](README.md) — Docker, import/export, WP-CLI
 - `.env.deploy.example` + `scripts/deploy.sh` — Hosting Ukraine theme upload
 - [.cursor/plans/messcut_wp_theme_9dd8af69.plan.md](.cursor/plans/messcut_wp_theme_9dd8af69.plan.md) — architecture & phases
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as markdown files under `.scratch/<feature>/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five roles: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.

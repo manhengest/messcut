@@ -45,6 +45,7 @@ function messcut_run_seed_i18n(): void {
 	messcut_seed_en_options();
 	$service_map = messcut_seed_en_services();
 	messcut_seed_en_cases( $service_map );
+	messcut_seed_en_articles();
 	messcut_seed_en_pages();
 	messcut_seed_en_menus();
 	flush_rewrite_rules();
@@ -96,7 +97,7 @@ function messcut_seed_en_services(): array {
 	$map          = array();
 
 	foreach ( $translations as $slug => $data ) {
-		$uk_post = get_page_by_path( $slug, OBJECT, 'service' );
+		$uk_post = messcut_get_uk_post_by_slug( $slug, 'service' );
 		if ( ! $uk_post ) {
 			continue;
 		}
@@ -126,7 +127,7 @@ function messcut_seed_en_cases( array $service_map ): void {
 	$translations = messcut_get_en_case_translations();
 
 	foreach ( $translations as $slug => $data ) {
-		$uk_post = get_page_by_path( $slug, OBJECT, 'case_study' );
+		$uk_post = messcut_get_uk_post_by_slug( $slug, 'case_study' );
 		if ( ! $uk_post ) {
 			continue;
 		}
@@ -155,13 +156,74 @@ function messcut_seed_en_cases( array $service_map ): void {
 }
 
 /**
+ * Seed English insight translations.
+ */
+function messcut_seed_en_articles(): void {
+	$translations = array(
+		'strong-brand-positioning' => array(
+			'title'   => 'How to create a strong brand position',
+			'excerpt' => 'Positioning is not about pretty words. It is a clear role for the brand in people’s lives and in the market. Here is how to form a position the audience understands and chooses.',
+		),
+		'research-foundation'      => array(
+			'title'   => 'Why research is the foundation of brand strategy',
+			'excerpt' => 'Strategy without data is a set of hypotheses. These are the research types that matter most at the start of a project, and how to avoid spending the budget on pretty presentations.',
+		),
+		'fractional-cmo'           => array(
+			'title'   => 'What a fractional CMO is, and when a business needs one',
+			'excerpt' => 'A fractional CMO is an external strategist responsible for the system, the team, and the results, without hiring a full-time CMO. When it works, and what to expect from the partnership.',
+		),
+	);
+
+	foreach ( $translations as $slug => $data ) {
+		$uk_post = messcut_get_uk_post_by_slug( $slug, 'article' );
+		if ( ! $uk_post ) {
+			continue;
+		}
+
+		messcut_create_post_translation(
+			(int) $uk_post->ID,
+			'en',
+			array(
+				'post_title'   => $data['title'],
+				'post_excerpt' => $data['excerpt'],
+				'post_content' => (string) $uk_post->post_content,
+			)
+		);
+	}
+}
+
+/**
+ * Ukrainian source post for a slug, even when the English translation shares it.
+ */
+function messcut_get_uk_post_by_slug( string $slug, string $post_type ): ?WP_Post {
+	$posts = get_posts(
+		array(
+			'name'             => $slug,
+			'post_type'        => $post_type,
+			'post_status'      => 'any',
+			'posts_per_page'   => 5,
+			'lang'             => '',
+			'suppress_filters' => true,
+		)
+	);
+
+	foreach ( $posts as $post ) {
+		if ( ! function_exists( 'pll_get_post_language' ) || 'uk' === pll_get_post_language( (int) $post->ID ) ) {
+			return $post;
+		}
+	}
+
+	return $posts[0] ?? null;
+}
+
+/**
  * Seed English pages.
  */
 function messcut_seed_en_pages(): void {
 	$pages = messcut_get_en_page_translations();
 
 	foreach ( $pages as $slug => $data ) {
-		$uk_post = get_page_by_path( $slug );
+		$uk_post = messcut_get_uk_post_by_slug( $slug, 'page' );
 		if ( ! $uk_post ) {
 			continue;
 		}
@@ -169,6 +231,7 @@ function messcut_seed_en_pages(): void {
 		$overrides = array(
 			'post_title'   => $data['title'],
 			'post_content' => $data['content'] ?? '',
+			'post_name'    => $data['slug'] ?? '',
 			'fields'       => $data['fields'] ?? array(),
 		);
 
@@ -194,14 +257,20 @@ function messcut_seed_en_menus(): void {
 	pll_set_term_language( $primary_en, 'en' );
 	pll_set_term_language( $footer_en, 'en' );
 
-	if ( 0 === count( (array) wp_get_nav_menu_items( $primary_en ) ) ) {
-		$menu_items = array(
-			array( 'slug' => 'poslugy', 'title' => 'Services' ),
-			array( 'slug' => 'dosvid', 'title' => 'Experience' ),
-		);
+	if ( function_exists( 'messcut_clear_nav_menu' ) ) {
+		messcut_clear_nav_menu( $primary_en );
+	}
 
-		foreach ( $menu_items as $item ) {
-			$uk_page = get_page_by_path( $item['slug'] );
+	$menu_items = array(
+		array( 'type' => 'page', 'slug' => 'poslugy', 'title' => 'Services' ),
+		array( 'type' => 'archive', 'post_type' => 'case_study', 'title' => 'Case studies' ),
+		array( 'type' => 'page', 'slug' => 'dosvid', 'title' => 'Experience' ),
+		array( 'type' => 'archive', 'post_type' => 'article', 'title' => 'Insights' ),
+	);
+
+	foreach ( $menu_items as $item ) {
+		if ( 'page' === $item['type'] ) {
+			$uk_page = messcut_get_uk_post_by_slug( $item['slug'], 'page' );
 			if ( ! $uk_page || ! function_exists( 'pll_get_post' ) ) {
 				continue;
 			}
@@ -220,7 +289,23 @@ function messcut_seed_en_menus(): void {
 					'menu-item-status'    => 'publish',
 				)
 			);
+			continue;
 		}
+
+		$archive_slug = 'case_study' === $item['post_type'] ? 'cases' : 'articles';
+		$archive      = function_exists( 'pll_home_url' )
+			? trailingslashit( pll_home_url( 'en' ) ) . $archive_slug . '/'
+			: home_url( '/en/' . $archive_slug . '/' );
+		wp_update_nav_menu_item(
+			$primary_en,
+			0,
+			array(
+				'menu-item-title'  => $item['title'],
+				'menu-item-url'    => $archive,
+				'menu-item-type'   => 'custom',
+				'menu-item-status' => 'publish',
+			)
+		);
 	}
 
 	$legal_items = array(
@@ -230,7 +315,7 @@ function messcut_seed_en_menus(): void {
 
 	if ( 0 === count( (array) wp_get_nav_menu_items( $footer_en ) ) ) {
 		foreach ( $legal_items as $item ) {
-			$uk_page = get_page_by_path( $item['slug'] );
+			$uk_page = messcut_get_uk_post_by_slug( $item['slug'], 'page' );
 			if ( ! $uk_page || ! function_exists( 'pll_get_post' ) ) {
 				continue;
 			}
@@ -347,8 +432,22 @@ function messcut_create_post_translation( int $uk_id, string $lang, array $overr
 		update_post_meta( (int) $post_id, '_wp_page_template', $overrides['page_template'] );
 	}
 
-	if ( ! empty( $overrides['fields'] ) && function_exists( 'update_field' ) ) {
+	if ( ! empty( $overrides['fields'] ) ) {
 		messcut_seed_update_post_fields( (int) $post_id, $overrides['fields'] );
+	}
+
+	$uk_post = get_post( $uk_id );
+	$slug    = (string) ( $overrides['post_name'] ?? '' );
+	if ( '' === $slug && $uk_post ) {
+		$slug = $uk_post->post_name . '-en';
+	}
+	if ( '' !== $slug && get_post_field( 'post_name', $post_id ) !== $slug ) {
+		wp_update_post(
+			array(
+				'ID'        => (int) $post_id,
+				'post_name' => $slug,
+			)
+		);
 	}
 
 	return (int) $post_id;
@@ -360,11 +459,15 @@ function messcut_create_post_translation( int $uk_id, string $lang, array $overr
  * @return array<string, array<string, mixed>>
  */
 function messcut_get_en_service_translations(): array {
-	return array(
+	$rows = array(
 		'brand-strategy'    => array(
 			'title'   => 'Brand Strategy',
 			'excerpt' => 'We uncover a brand’s essence, position, mission, contexts, voice, visibility, and aesthetics — the foundation for all further brand promotion.',
 			'fields'  => array(
+				'direction'         => 'branding',
+				'eyebrow'           => 'Stage 01',
+				'teaser'            => 'A strategic foundation for the business in one month',
+				'cta_label'         => 'Get the strategy',
 				'short_description' => 'We uncover a brand’s essence, position, mission, contexts, voice, visibility, and aesthetics — the foundation for all further brand promotion.',
 				'for_whom'          => '<p>For new brands — a clear path to market with audience, competitive landscape, and role defined.</p><p>For existing brands — fewer chaotic decisions, focused resources, and growth built on validated data.</p>',
 				'result'            => '<p>A strategic foundation for marketing, communication, design, content, and business development.</p>',
@@ -375,10 +478,35 @@ function messcut_get_en_service_translations(): array {
 			'title'   => 'Marketing Support',
 			'excerpt' => 'A marketing director fully embedded in your business, building the team and executing strategy to reach business goals.',
 			'fields'  => array(
+				'direction'         => 'marketing',
+				'eyebrow'           => 'Support',
+				'teaser'            => 'A fractional CMO who runs marketing toward measurable growth',
+				'cta_label'         => 'Start support',
 				'short_description' => 'A marketing director fully embedded in your business, building the team and executing strategy to reach business goals.',
 				'for_whom'          => '<p>For new brands — building the right system from day one.</p><p>For existing brands — higher marketing efficiency and scalable results.</p>',
 				'result'            => '<p>A managed marketing system: the team works to a shared plan and decisions are data-driven.</p>',
 				'cta_title'         => 'Discuss Marketing Support',
+			),
+		),
+		'strategy-implementation' => array(
+			'title'   => 'Strategy implementation',
+			'excerpt' => 'We turn the strategy into a 6-month plan, channel examples, and a handover session in two weeks.',
+			'fields'  => array(
+				'teaser'    => 'We turn the strategy into action in two weeks',
+				'eyebrow'   => 'Stage 02',
+				'direction' => 'branding',
+				'cta_label' => 'Available after brand strategy',
+				'locked'    => 1,
+			),
+		),
+		'marketing-audit' => array(
+			'title'   => 'Marketing audit',
+			'excerpt' => 'A two-week diagnosis of channels, unit economics, and a priority growth plan.',
+			'fields'  => array(
+				'teaser'    => 'A two-week marketing diagnosis with a ready action plan',
+				'eyebrow'   => 'Audit',
+				'direction' => 'marketing',
+				'cta_label' => 'Get the audit',
 			),
 		),
 		'consulting'        => array(
@@ -402,6 +530,22 @@ function messcut_get_en_service_translations(): array {
 			),
 		),
 	);
+
+	if ( function_exists( 'messcut_get_service_seed_data' ) ) {
+		$uk = messcut_get_service_seed_data();
+		foreach ( $rows as $slug => $data ) {
+			if ( empty( $uk[ $slug ]['fields'] ) || ! is_array( $uk[ $slug ]['fields'] ) ) {
+				continue;
+			}
+			foreach ( array( 'bullets', 'steps' ) as $key ) {
+				if ( empty( $data['fields'][ $key ] ) && ! empty( $uk[ $slug ]['fields'][ $key ] ) ) {
+					$rows[ $slug ]['fields'][ $key ] = $uk[ $slug ]['fields'][ $key ];
+				}
+			}
+		}
+	}
+
+	return $rows;
 }
 
 /**
@@ -606,9 +750,11 @@ function messcut_get_en_page_translations(): array {
 		'home' => array(
 			'title'   => 'Home',
 			'content' => '',
+			'slug'    => 'home-en',
 		),
 		'dosvid' => array(
 			'title'    => 'Experience',
+			'slug'     => 'experience',
 			'content'  => '',
 			'template' => 'page-approach.php',
 			'fields'   => array(
@@ -622,15 +768,19 @@ function messcut_get_en_page_translations(): array {
 			),
 		),
 		'poslugy' => array(
-			'title'   => 'Services',
-			'content' => '<p>End-to-end services for building and growing brands: from strategy to marketing support.</p>',
+			'title'    => 'Services',
+			'slug'     => 'services',
+			'content'  => '',
+			'template' => 'page-poslugy.php',
 		),
 		'publichna-oferta' => array(
 			'title'   => 'Terms of Service',
+			'slug'    => 'terms',
 			'content' => messcut_get_en_legal_offer_content(),
 		),
 		'polityka-konfidentsiynosti' => array(
 			'title'   => 'Privacy Policy',
+			'slug'    => 'privacy',
 			'content' => messcut_get_en_legal_privacy_content(),
 		),
 	);

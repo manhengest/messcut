@@ -1,0 +1,26 @@
+@use "../abstracts/mixins" as *;
+
+.listing-hero {
+	padding: 48px var(--gutter) 12px;
+}
+
+.listing-hero p {
+	max-width: 36em;
+	margin-top: 16px;
+	color: var(--muted);
+	font-size: 18px;
+}
+
+.listing-band {
+	margin: 48px var(--gutter) 0;
+	padding: 36px 24px;
+	border-radius: 28px;
+	background: linear-gradient(160deg, #d7f7ec, #eef6f1);
+}
+
+.listing-band h2 { margin: 8px 0 18px; }
+
+@include bp(lg) {
+	.listing-hero { padding-top: 80px; }
+	.listing-hero h1 { font-size: clamp(52px, 7vw, 96px); }
+}

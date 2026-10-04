@@ -1,0 +1,67 @@
+@use "../abstracts/mixins" as *;
+
+.insight-card {
+	display: grid;
+	gap: 14px;
+	color: inherit;
+	text-decoration: none;
+}
+
+.insight-card__media {
+	display: grid;
+	align-items: end;
+	min-height: 160px;
+	padding: 16px;
+	border-radius: 22px;
+	background: linear-gradient(145deg, var(--mint), var(--mint-strong));
+	font-family: var(--font-mono);
+}
+
+.insight-card h3 {
+	margin: 0 0 8px;
+	font-size: 24px;
+}
+
+.insight-card p {
+	color: var(--muted);
+	font-size: 15px;
+}
+
+.insight-card__more {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 12px;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.listing-grid {
+	display: grid;
+	gap: 22px;
+}
+
+@include bp(md) {
+	.listing-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@include bp(lg) {
+	.listing-grid {
+		grid-template-columns: 1.3fr 1fr;
+	}
+
+	.insight-card--feature {
+		grid-column: 1 / -1;
+		grid-template-columns: 1.1fr 1fr;
+		align-items: center;
+		gap: 28px;
+	}
+
+	.insight-card--feature .insight-card__media {
+		min-height: 280px;
+	}
+}

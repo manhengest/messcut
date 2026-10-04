@@ -46,17 +46,42 @@ add_action( 'init', 'messcut_maybe_seed_content', 20 );
 function messcut_run_seed(): void {
 	messcut_seed_options();
 	$service_ids = messcut_seed_services();
-	messcut_seed_service_pains( $service_ids );
 	$case_ids    = messcut_seed_cases( $service_ids );
 	messcut_seed_articles();
-	messcut_seed_case_articles();
-	messcut_seed_comparison( $service_ids );
 	messcut_seed_pages( $case_ids );
+	messcut_draft_slug_duplicates( 'case_study' );
+	messcut_draft_slug_duplicates( 'service' );
 	messcut_sync_menus();
+	delete_option( 'messcut_seeded_en' );
 	flush_rewrite_rules();
 
 	if ( function_exists( 'messcut_assign_uk_language' ) && messcut_is_polylang_active() ) {
 		messcut_assign_uk_language( array( 'page', 'case_study', 'service', 'article' ) );
+	}
+}
+
+/**
+ * Draft posts whose slug is `{base}-2` when `{base}` is already published.
+ */
+function messcut_draft_slug_duplicates( string $post_type ): void {
+	$posts = get_posts( array(
+		'post_type'      => $post_type,
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+	) );
+	$bases = array();
+	foreach ( $posts as $post ) {
+		if ( ! preg_match( '/-\d+$/', $post->post_name ) ) {
+			$bases[ $post->post_name ] = true;
+		}
+	}
+	foreach ( $posts as $post ) {
+		if ( preg_match( '/^(.*)-\d+$/', $post->post_name, $matches ) && isset( $bases[ $matches[1] ] ) ) {
+			wp_update_post( array(
+				'ID'          => $post->ID,
+				'post_status' => 'draft',
+			) );
+		}
 	}
 }
 
@@ -66,11 +91,17 @@ function messcut_run_seed(): void {
  * @param array<string, mixed> $fields Fields.
  */
 function messcut_seed_update_options( array $fields ): void {
-	if ( function_exists( 'update_field' ) ) {
-		foreach ( $fields as $key => $value ) {
+	$stored = get_option( 'messcut_site_options', array() );
+	if ( ! is_array( $stored ) ) {
+		$stored = array();
+	}
+	foreach ( $fields as $key => $value ) {
+		if ( function_exists( 'update_field' ) ) {
 			update_field( $key, $value, 'option' );
 		}
+		$stored[ $key ] = $value;
 	}
+	update_option( 'messcut_site_options', $stored, false );
 }
 
 /**
@@ -83,39 +114,10 @@ function messcut_seed_options(): void {
 		'whatsapp'             => '+38 (095) 477-11-22',
 		'email'                => 'admin@messcut.com',
 		'instagram_1'          => 'https://www.instagram.com/valeria.messcut',
-		'instagram_2'          => 'https://www.instagram.com/messcut.strategy/',
 		'footer_tagline'       => 'Стратегічний маркетинг для брендів, які хочуть зростати системно.',
-		'footer_about'         => 'Поєднуємо маркетинг, доведений наукою, стратегічне мислення та глибоке розуміння споживача, щоб створювати бренди, які залишаються в пам\'яті та приносять бізнес-результат.',
 		'form_recipient_email' => 'admin@messcut.com',
-		'cta_discuss_label'    => 'Отримати план розвитку',
-		'cta_consult_label'    => 'Отримати ознайомчу консультацію',
-		'home_hero_title'      => 'Бренд-стратегія та науковий маркетинг',
-		'home_hero_subtitle'   => 'Будуємо маркетингові системи та допомагаємо бізнесу масштабуватися на основі досліджень',
-		'audience_text'        => 'Підприємці, які хочуть розвивати бренд системно, менше ризикувати й приймати рішення на основі досліджень, даних і наукових принципів',
-		'stats'                => array(
-			array( 'value' => '94%', 'label' => 'клієнтів радять нас своїм колегам' ),
-			array( 'value' => '50+', 'label' => 'стратегічних співпраць з великими та малими брендами в різних нішах' ),
-			array( 'value' => 'NON-STOP', 'label' => 'NON-STOP підвищення кваліфікації та вивчення досліджень' ),
-			array( 'value' => '6+', 'label' => 'років практики' ),
-			array( 'value' => '1:2', 'label' => '1 маркетолог = до 2-х проєктів для глибокого занурення у ваш бізнес' ),
-		),
-		'home_ticker'          => array(
-			array( 'text' => 'дослідження' ),
-			array( 'text' => 'стратегія' ),
-			array( 'text' => 'бізнес-показники' ),
-			array( 'text' => 'структура' ),
-		),
 		'partner_brands'       => messcut_get_partner_brands_seed(),
-		'agency_comparison_title' => 'Порівняйте',
-		'agency_comparison_rows'  => messcut_get_agency_comparison_seed(),
-		'home_values'          => array(
-			array( 'text' => 'етичність' ),
-			array( 'text' => 'мотивація' ),
-			array( 'text' => 'структура' ),
-			array( 'text' => 'любов до справи' ),
-		),
-		'home_faq_title'       => 'FAQ',
-		'home_faq'             => messcut_get_faq_seed_data( 'uk' ),
+		'home_faq'             => messcut_get_home_faq_seed(),
 	) );
 }
 
@@ -163,9 +165,31 @@ function messcut_upsert_post( string $post_type, string $slug, array $data ): in
 function messcut_seed_services(): array {
 	$services = messcut_get_service_seed_data();
 	$ids      = array();
+	$keep     = array();
 
 	foreach ( $services as $slug => $data ) {
 		$ids[ $slug ] = messcut_upsert_post( 'service', $slug, $data );
+		$keep[]       = $slug;
+	}
+
+	$existing = get_posts( array(
+		'post_type'      => 'service',
+		'post_status'    => array( 'publish', 'draft', 'private' ),
+		'posts_per_page' => -1,
+	) );
+	foreach ( $existing as $post ) {
+		if ( function_exists( 'pll_get_post_language' ) ) {
+			$lang = pll_get_post_language( (int) $post->ID );
+			if ( $lang && 'uk' !== $lang ) {
+				continue;
+			}
+		}
+		if ( ! in_array( $post->post_name, $keep, true ) ) {
+			wp_update_post( array(
+				'ID'          => $post->ID,
+				'post_status' => 'draft',
+			) );
+		}
 	}
 
 	return $ids;
@@ -207,17 +231,23 @@ function messcut_seed_cases( array $service_ids ): array {
 			continue;
 		}
 
-		if ( ! empty( $data['services'] ) ) {
-			$related = array();
-			foreach ( $data['services'] as $service_slug ) {
-				if ( isset( $service_ids[ $service_slug ] ) ) {
-					$related[] = $service_ids[ $service_slug ];
-				}
-			}
-			messcut_seed_update_post_fields( $post_id, array( 'services_used' => $related ) );
+		$document = messcut_bundled_case_document( $slug );
+		if ( $document ) {
+			messcut_seed_update_post_fields( $post_id, array(
+				'case_document' => wp_json_encode( $document, JSON_UNESCAPED_UNICODE ),
+				'tone'          => $data['tone'] ?? '',
+			) );
+		} elseif ( ! empty( $data['tone'] ) ) {
+			messcut_seed_update_post_fields( $post_id, array( 'tone' => $data['tone'] ) );
 		}
 
 		$ids[ $slug ] = $post_id;
+	}
+
+	if ( isset( $ids['choozy'], $service_ids['marketing-support'] ) ) {
+		messcut_seed_update_post_fields( $service_ids['marketing-support'], array(
+			'proof_case' => $ids['choozy'],
+		) );
 	}
 
 	return $ids;
@@ -332,6 +362,27 @@ function messcut_seed_articles(): void {
 			wp_set_object_terms( $post_id, $terms, 'article_type' );
 		}
 	}
+
+	$keep     = array_keys( $articles );
+	$existing = get_posts( array(
+		'post_type'      => 'article',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+	) );
+	foreach ( $existing as $post ) {
+		if ( function_exists( 'pll_get_post_language' ) ) {
+			$lang = pll_get_post_language( (int) $post->ID );
+			if ( $lang && 'uk' !== $lang ) {
+				continue;
+			}
+		}
+		if ( ! in_array( $post->post_name, $keep, true ) ) {
+			wp_update_post( array(
+				'ID'          => $post->ID,
+				'post_status' => 'draft',
+			) );
+		}
+	}
 }
 
 /**
@@ -374,11 +425,11 @@ function messcut_seed_comparison( array $service_ids ): void {
  * @param array<string, mixed> $fields  Fields.
  */
 function messcut_seed_update_post_fields( int $post_id, array $fields ): void {
-	if ( ! function_exists( 'update_field' ) ) {
-		return;
-	}
 	foreach ( $fields as $key => $value ) {
-		update_field( $key, $value, $post_id );
+		if ( function_exists( 'update_field' ) ) {
+			update_field( $key, $value, $post_id );
+		}
+		update_post_meta( $post_id, $key, $value );
 	}
 }
 
@@ -405,8 +456,16 @@ function messcut_seed_pages( array $case_ids ): void {
 	messcut_upsert_page(
 		'poslugy',
 		'Послуги',
-		'<p>Комплексні послуги для побудови та розвитку брендів: від стратегії до маркетингового супроводу.</p>'
+		'',
+		'page-poslugy.php'
 	);
+
+	$dosvid = get_page_by_path( 'dosvid' );
+	if ( $dosvid ) {
+		messcut_seed_update_post_fields( (int) $dosvid->ID, array(
+			'team_members' => messcut_get_team_seed_data(),
+		) );
+	}
 
 	messcut_upsert_page(
 		'publichna-oferta',

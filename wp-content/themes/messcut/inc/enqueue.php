@@ -36,7 +36,7 @@ add_filter( 'wp_resource_hints', 'messcut_resource_hints', 10, 2 );
  */
 function messcut_enqueue_assets(): void {
 	$css_path = MESSCUT_DIR . '/assets/css/main.css';
-	$js_path  = MESSCUT_DIR . '/assets/js/main.js';
+	$js_path  = MESSCUT_DIR . '/assets/js/core.js';
 
 	wp_enqueue_style(
 		'messcut-fonts',
@@ -54,11 +54,32 @@ function messcut_enqueue_assets(): void {
 
 	wp_enqueue_script(
 		'messcut-main',
-		MESSCUT_URI . '/assets/js/main.js',
+		MESSCUT_URI . '/assets/js/core.js',
 		array(),
 		file_exists( $js_path ) ? (string) filemtime( $js_path ) : MESSCUT_VERSION,
 		true
 	);
+
+	$extra = array();
+	if ( is_front_page() ) {
+		$extra['messcut-home-canvas'] = '/assets/js/home-canvas.js';
+	}
+	if ( messcut_is_translated_page( 'poslugy' ) ) {
+		$extra['messcut-services'] = '/assets/js/services.js';
+	}
+	if ( is_singular( 'case_study' ) ) {
+		$extra['messcut-case'] = '/assets/js/case.js';
+	}
+	foreach ( $extra as $handle => $relative ) {
+		$file = MESSCUT_DIR . $relative;
+		wp_enqueue_script(
+			$handle,
+			MESSCUT_URI . $relative,
+			array( 'messcut-main' ),
+			file_exists( $file ) ? (string) filemtime( $file ) : MESSCUT_VERSION,
+			true
+		);
+	}
 
 	if ( function_exists( 'wp_set_script_translations' ) ) {
 		wp_set_script_translations( 'messcut-main', 'messcut', MESSCUT_DIR . '/languages' );

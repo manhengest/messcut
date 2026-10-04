@@ -10,13 +10,13 @@
 				{ "slug": "white", "color": "#ffffff", "name": "White" },
 				{ "slug": "brown", "color": "#3a261f", "name": "Brown" },
 				{ "slug": "accent", "color": "#c7f2e1", "name": "Turquoise" },
-				{ "slug": "accent-strong", "color": "#9ee5c9", "name": "Turquoise Strong" },
+				{ "slug": "accent-strong", "color": "#8fdcbc", "name": "Turquoise Strong" },
 				{ "slug": "primary", "color": "#000000", "name": "Primary" },
 				{ "slug": "secondary", "color": "#3a261f", "name": "Secondary" },
 				{ "slug": "background", "color": "#f7f9f7", "name": "Background" },
 				{ "slug": "surface", "color": "#f0f3f0", "name": "Surface" },
 				{ "slug": "text", "color": "#000000", "name": "Text" },
-				{ "slug": "text-muted", "color": "#5c5c62", "name": "Text Muted" },
+				{ "slug": "text-muted", "color": "#5d5a57", "name": "Text Muted" },
 				{ "slug": "hairline", "color": "#e0e0e8", "name": "Hairline" }
 			],
 			"gradients": [

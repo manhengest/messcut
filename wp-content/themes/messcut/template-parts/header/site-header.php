@@ -8,60 +8,35 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$show_progress = messcut_is_translated_page( 'poslugy' ) || is_singular( 'case_study' );
 ?>
-<header class="site-header">
-	<div class="site-header__inner">
-		<div class="site-header__brand">
-			<?php messcut_render_logo( 'black', array( 'class' => 'site-logo site-logo--header site-logo--on-light' ) ); ?>
-			<?php messcut_render_logo( 'white', array( 'class' => 'site-logo site-logo--header site-logo--on-dark' ) ); ?>
-		</div>
-
-		<div class="site-header__actions">
-			<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
-			<a class="site-header__cta" href="#lead-form"><?php esc_html_e( 'Звʼязатися', 'messcut' ); ?></a>
-			<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="<?php esc_attr_e( 'Меню', 'messcut' ); ?>">
-				<span class="nav-toggle__icon" aria-hidden="true">
-					<span class="nav-toggle__line"></span>
-					<span class="nav-toggle__line"></span>
-					<span class="nav-toggle__line"></span>
-				</span>
-			</button>
-		</div>
-
-		<div class="site-header__contacts">
-			<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
-			<?php if ( messcut_phone() ) : ?>
-				<a class="site-header__contact" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', messcut_phone() ) ); ?>">
-					<?php echo esc_html( messcut_phone() ); ?>
-				</a>
-			<?php endif; ?>
-			<a class="site-header__cta site-header__cta--desktop" href="#lead-form"><?php esc_html_e( 'Звʼязатися', 'messcut' ); ?></a>
-		</div>
-	</div>
-
-	<nav id="primary-navigation" class="primary-navigation surface--gradient-dark" aria-label="<?php esc_attr_e( 'Головне меню', 'messcut' ); ?>">
-		<div class="primary-navigation__inner">
-			<?php
-			wp_nav_menu( array(
-				'theme_location' => 'primary',
-				'container'      => false,
-				'menu_class'     => 'primary-menu',
-				'fallback_cb'    => 'messcut_fallback_primary_menu',
-			) );
-			?>
-			<div class="primary-navigation__meta">
-				<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
-				<?php if ( messcut_phone() ) : ?>
-					<a class="primary-navigation__contact" href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', messcut_phone() ) ); ?>">
-						<?php echo esc_html( messcut_phone() ); ?>
-					</a>
-				<?php endif; ?>
-				<?php if ( messcut_telegram() ) : ?>
-					<a class="primary-navigation__contact" href="https://t.me/<?php echo esc_attr( ltrim( messcut_telegram(), '@' ) ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php echo esc_html( messcut_telegram() ); ?>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
+<header class="site-header" data-header>
+	<?php messcut_render_logo( 'black', array( 'class' => 'site-header__logo', 'height' => 32, 'width' => 140 ) ); ?>
+	<nav class="site-header__nav" aria-label="<?php esc_attr_e( 'Головне меню', 'messcut' ); ?>">
+		<?php
+		wp_nav_menu( array(
+			'theme_location' => 'primary',
+			'container'      => false,
+			'menu_class'     => 'site-header__menu',
+			'fallback_cb'    => 'messcut_fallback_primary_menu',
+			'depth'          => 1,
+		) );
+		?>
 	</nav>
+	<div class="site-header__tools">
+		<div class="site-header__lang">
+			<?php messcut_render_language_switcher( array( 'variant' => 'compact' ) ); ?>
+		</div>
+		<a class="button button--ghost site-header__cta" href="<?php echo esc_url( messcut_contact_url() ); ?>">
+			<?php esc_html_e( 'Звʼязатися', 'messcut' ); ?>
+		</a>
+		<button class="site-header__burger" type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu" aria-label="<?php esc_attr_e( 'Відкрити меню', 'messcut' ); ?>">
+			<svg width="18" height="14" viewBox="0 0 26 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M1 2h24M1 9h24M1 16h24"/></svg>
+		</button>
+	</div>
+	<?php if ( $show_progress ) : ?>
+		<div class="site-header__progress" data-progress></div>
+	<?php endif; ?>
 </header>
+<?php get_template_part( 'template-parts/header/mobile-menu' ); ?>

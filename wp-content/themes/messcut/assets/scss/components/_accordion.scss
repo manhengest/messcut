@@ -1,0 +1,32 @@
+.accordion details {
+	border-top: 1px solid var(--line);
+}
+
+.accordion summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 18px 0;
+	cursor: pointer;
+	list-style: none;
+	font-size: 17px;
+}
+
+.accordion summary::-webkit-details-marker {
+	display: none;
+}
+
+.accordion summary i {
+	font-style: normal;
+	transition: transform 0.25s;
+}
+
+.accordion details[open] summary i {
+	transform: rotate(45deg);
+}
+
+.accordion details p {
+	margin: 0 0 18px;
+	color: var(--muted);
+}

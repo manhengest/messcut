@@ -1,137 +1,30 @@
 :root {
-	/* Messcut brand palette */
-	--color-black: #000000;
-	--color-white: #ffffff;
-	--color-brown: #3a261f;
-	--color-accent: #c7f2e1;
-	--color-accent-hover: color-mix(in srgb, var(--color-accent) 90%, #000);
-	--color-accent-soft: rgba(199, 242, 225, 0.45);
-	--color-accent-strong: #9ee5c9;
-	--color-accent-dim: rgba(58, 38, 31, 0.35);
-
-	/* Light canvas (default page) */
-	--canvas-ivory: #f7f9f7;
-	--canvas-light: var(--canvas-ivory);
-	--canvas-light-soft: #f0f3f0;
-	--canvas-light-muted: #e4e8e4;
-
-	/* Mesh ref colors */
-	--mesh-teal: #84b9b9;
-	--mesh-mint: #d4e9d7;
-	--mesh-dusty-mint: #a8c2b8;
-	--mesh-sage: #b2c9b6;
-	--mesh-bronze: #8e6d5e;
-	--mesh-cream: #dcdcd0;
-	--mesh-charcoal: #1a1412;
-	--mesh-umber: #5e4237;
-
-	/* Brown substrates */
-	--substrate-brown: #3a261f;
-	--substrate-brown-deep: #2a1a15;
-
-	/* Ink on light surfaces */
-	--ink: #000000;
-	--ink-mute: #5c5c62;
-	--hairline-on-light: #e0e0e8;
-	--hairline-accent: rgba(199, 242, 225, 0.55);
-
-	/* Light text on brown / dark substrates */
-	--on-primary: #ffffff;
-	--on-primary-mute: rgba(255, 255, 255, 0.78);
-	--hairline-on-dark: rgba(255, 255, 255, 0.18);
-
-	/* Semantic (light default) */
-	--color-primary: var(--ink);
-	--color-secondary: var(--color-brown);
-	--color-bg: var(--canvas-light);
-	--color-surface: var(--canvas-light-soft);
-	--color-text: var(--ink);
-	--color-text-muted: var(--ink-mute);
-	--color-border: var(--hairline-on-light);
-
-	/* Legacy aliases → light canvas */
-	--canvas-night: var(--canvas-light);
-	--canvas-night-soft: var(--canvas-light-soft);
-	--canvas-brown: var(--substrate-brown-deep);
-
-	--gradient-brand: linear-gradient(135deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
-	--gradient-accent: linear-gradient(160deg, rgba(199, 242, 225, 0.28) 0%, var(--canvas-light) 55%, rgba(199, 242, 225, 0.12) 100%);
-	--gradient-backdrop: linear-gradient(180deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
-	--gradient-band-soft: linear-gradient(180deg, var(--canvas-light) 0%, var(--canvas-light-soft) 100%);
-	--gradient-band-brown: linear-gradient(180deg, var(--substrate-brown) 0%, var(--substrate-brown-deep) 100%);
-	--gradient-hero: linear-gradient(165deg, var(--canvas-light-soft) 0%, var(--canvas-light) 48%, rgba(199, 242, 225, 0.28) 100%);
-	--gradient-section-fade: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--color-accent) 42%, #fff) 100%);
-
-	/* Typography — Playfair Display (titles) + Golos Text (UI/body) + IBM Plex Mono */
-	--font-display: "Playfair Display", Georgia, "Times New Roman", serif;
-	--font-ui: "Golos Text", "Helvetica Neue", Helvetica, sans-serif;
+	--bg: #f7f9f7;
+	--fg: #000000;
+	--muted: #5d5a57;
+	--line: rgba(0, 0, 0, 0.12);
+	--card: #ffffff;
+	--mint: #c7f2e1;
+	--mint-strong: #8fdcbc;
+	--brown: #3a261f;
+	--ink: #141010;
+	--ivory: #f6f4f0;
+	--footer: #f3efe9;
+	--gutter: 20px;
+	--header-h: 68px;
+	--font-display: "Playfair Display", Georgia, serif;
 	--font-body: "Golos Text", "Helvetica Neue", Helvetica, sans-serif;
 	--font-mono: "IBM Plex Mono", ui-monospace, monospace;
-
-	/* Type scale */
-	--text-micro: 0.6875rem;
-	--text-xs: 0.75rem;
-	--text-sm: 0.8125rem;
-	--text-base: 1rem;
-	--text-lg: 1.125rem;
-	--text-xl: 1.25rem;
-	--text-2xl: 1.5rem;
-	--text-3xl: 2rem;
-	--text-4xl: clamp(2rem, 4.5vw, 3rem);
-	--text-display: clamp(2.375rem, 7vw, 4.5rem);
-
-	--lh-tight: 1.1;
-	--lh-heading: 1.24;
-	--lh-body: 1.5;
-
-	--tracking-tight: -0.02em;
-	--tracking-heading: -0.01em;
-	--tracking-display: -0.015em;
-	--tracking-label: 0.04em;
-
-	/* Spacing scale — 8px base */
-	--space-xxs: 0.25rem;
-	--space-xs: 0.5rem;
-	--space-sm: 0.75rem;
-	--space-md: 1rem;
-	--space-lg: 1.5rem;
-	--space-xl: 2rem;
-	--space-xxl: 3rem;
-	--space-huge: 4rem;
-	--space-band: clamp(3rem, 8vw, 7.5rem);
-
-	/* Radius — Sanity scale */
-	--radius-xs: 3px;
-	--radius-sm: 5px;
-	--radius-md: 6px;
-	--radius-lg: 12px;
-	--radius-pill: 10px;
-
-	--container: 1140px;
-	--container-narrow: 720px;
-	--container-gutter: 1rem;
-
-	--header-height: 4.5625rem;
-	/* Locked on mobile load (see main.js). Fallback stays stable when browser chrome shows. */
-	--app-height: 100vh;
-	--app-height: 100svh;
-	--focus-ring: 0 0 0 2px rgba(199, 242, 225, 0.65);
-	--ring-hairline: 0 0 5px 5px rgba(0, 0, 0, 0.1);
-
-	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-	--duration-fast: 180ms;
-	--duration-med: 320ms;
+	--canvas-ivory: var(--bg);
+	--color-black: var(--fg);
+	--color-white: var(--card);
+	--color-brown: var(--brown);
+	--color-accent: var(--mint);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1001px) {
 	:root {
-		--container-gutter: 2rem;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	:root {
-		--duration-fast: 0ms;
-		--duration-med: 0ms;
+		--gutter: clamp(40px, 5.5vw, 140px);
+		--header-h: 84px;
 	}
 }

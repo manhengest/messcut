@@ -41,6 +41,44 @@ function messcut_setup(): void {
 add_action( 'after_setup_theme', 'messcut_setup' );
 
 /**
+ * English translations of poslugy and dosvid keep the same page templates.
+ *
+ * @param string $template Resolved template path.
+ */
+function messcut_translated_page_template( string $template ): string {
+	$map = array(
+		'poslugy' => 'page-poslugy.php',
+		'dosvid'  => 'page-approach.php',
+	);
+
+	foreach ( $map as $slug => $file ) {
+		if ( ! messcut_is_translated_page( $slug ) ) {
+			continue;
+		}
+		$path = get_theme_file_path( $file );
+		if ( is_readable( $path ) ) {
+			return $path;
+		}
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'messcut_translated_page_template' );
+
+/**
+ * Local installs sometimes come up with plain permalinks after a core restore.
+ */
+function messcut_ensure_permalinks(): void {
+	if ( get_option( 'permalink_structure' ) ) {
+		return;
+	}
+
+	update_option( 'permalink_structure', '/%postname%/' );
+	flush_rewrite_rules( false );
+}
+add_action( 'init', 'messcut_ensure_permalinks', 99 );
+
+/**
  * Flush rewrite rules on theme switch.
  */
 function messcut_after_switch_theme(): void {

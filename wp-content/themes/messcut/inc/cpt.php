@@ -31,8 +31,11 @@ function messcut_register_post_types(): void {
 				'add_new_item'  => __( 'Додати послугу', 'messcut' ),
 				'edit_item'     => __( 'Редагувати послугу', 'messcut' ),
 			),
-			'rewrite' => array( 'slug' => 'services', 'with_front' => false ),
-			'menu_icon' => 'dashicons-admin-tools',
+			'rewrite'            => array( 'slug' => 'services', 'with_front' => false ),
+			'menu_icon'          => 'dashicons-admin-tools',
+			'public'             => true,
+			'publicly_queryable' => true,
+			'has_archive'        => false,
 		),
 		'article' => array(
 			'labels' => array(
@@ -62,22 +65,37 @@ function messcut_register_post_types(): void {
 	foreach ( $post_types as $slug => $config ) {
 		$is_lead = 'lead' === $slug;
 
-		register_post_type( $slug, array_merge( array(
+		register_post_type( $slug, array(
 			'labels'              => $config['labels'],
-			'public'              => ! $is_lead,
-			'publicly_queryable'  => ! $is_lead,
+			'public'              => $config['public'] ?? ! $is_lead,
+			'publicly_queryable'  => $config['publicly_queryable'] ?? ! $is_lead,
 			'show_ui'             => true,
 			'show_in_menu'        => $is_lead ? $config['show_in_menu'] : true,
 			'show_in_rest'        => ! $is_lead,
-			'has_archive'         => ! $is_lead,
+			'has_archive'         => $config['has_archive'] ?? ! $is_lead,
 			'rewrite'             => $config['rewrite'] ?? false,
 			'menu_icon'           => $config['menu_icon'] ?? 'dashicons-admin-post',
 			'supports'            => $config['supports'] ?? array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'page-attributes' ),
 			'menu_position'       => 5,
-		), $is_lead ? array() : array() ) );
+		) );
 	}
 }
 add_action( 'init', 'messcut_register_post_types' );
+
+/**
+ * Old service URLs land on the services hub anchor.
+ */
+function messcut_redirect_service_urls(): void {
+	if ( ! is_singular( 'service' ) ) {
+		return;
+	}
+
+	$slug   = (string) get_post_field( 'post_name', get_queried_object_id() );
+	$target = messcut_page_url( 'poslugy' ) . '#svc-' . $slug;
+	wp_redirect( $target, 301 );
+	exit;
+}
+add_action( 'template_redirect', 'messcut_redirect_service_urls' );
 
 /**
  * Register article type taxonomy for Insights filtering.

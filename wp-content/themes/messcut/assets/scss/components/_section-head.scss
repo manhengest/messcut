@@ -1,0 +1,20 @@
+@use "../abstracts/mixins" as *;
+
+.section-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 18px;
+}
+
+.section-head .button--outline {
+	padding: 12px 20px;
+	border-color: rgba(17, 17, 17, 0.75);
+	font-size: 13px;
+	letter-spacing: 0.06em;
+}
+
+.section-head h2 {
+	margin: 0;
+}

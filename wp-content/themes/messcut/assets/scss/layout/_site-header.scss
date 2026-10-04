@@ -1,0 +1,153 @@
+@use "../abstracts/mixins" as *;
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: var(--header-h);
+	padding: 14px var(--gutter);
+	background: rgba(247, 249, 247, 0.72);
+	border-bottom: 1px solid transparent;
+	backdrop-filter: blur(16px);
+	transition: border-color 0.3s, background 0.3s;
+}
+
+.site-header.is-scrolled {
+	border-bottom-color: var(--line);
+}
+
+.site-header__logo img {
+	display: block;
+	height: 26px;
+	width: auto;
+}
+
+.site-header__nav {
+	display: none;
+}
+
+.site-header__nav ul {
+	display: flex;
+	gap: 36px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-header__nav a {
+	color: var(--fg);
+	font-size: 15px;
+	text-decoration: none;
+	opacity: 0.8;
+}
+
+.site-header__nav a:hover,
+.site-header__nav a[aria-current="page"] {
+	opacity: 1;
+}
+
+.site-header__tools {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.site-header__lang {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	color: var(--muted);
+}
+
+.site-header__lang a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.site-header__cta.button {
+	display: none;
+}
+
+.site-header__burger {
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--fg);
+	cursor: pointer;
+}
+
+.site-header__progress {
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	height: 2px;
+	width: 0;
+	background: linear-gradient(90deg, var(--mint-strong), var(--fg));
+}
+
+.language-switcher__list {
+	display: flex;
+	align-items: baseline;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	white-space: nowrap;
+}
+
+.language-switcher__item + .language-switcher__item::before {
+	content: "/";
+	margin: 0 0.15em;
+	color: var(--muted);
+	font-weight: 600;
+}
+
+.language-switcher__link {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0;
+	color: var(--muted);
+	text-decoration: none;
+}
+
+.language-switcher--compact a.language-switcher__link:hover {
+	color: var(--fg);
+}
+
+@include bp(lg) {
+	.site-header {
+		padding: 20px var(--gutter);
+		gap: 32px;
+	}
+
+	.site-header__logo img {
+		height: 32px;
+	}
+
+	.site-header__nav {
+		display: flex;
+		gap: 36px;
+		margin-inline: auto;
+	}
+
+	.site-header__tools {
+		gap: 20px;
+	}
+
+	.site-header__cta.button {
+		display: inline-flex;
+	}
+
+	.site-header__burger {
+		display: none;
+	}
+}
