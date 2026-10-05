@@ -320,7 +320,18 @@ function messcut_get_partner_logo_asset_url( string $logo_file ): string {
 }
 
 /**
- * @return array<int, array{name: string, logo_url: string}>
+ * White wordmarks on a transparent canvas disappear on the white pill.
+ *
+ * @param string $logo_file Filename or URL path.
+ */
+function messcut_partner_logo_is_light( string $logo_file ): bool {
+	$path = (string) parse_url( $logo_file, PHP_URL_PATH );
+	$base = strtolower( basename( '' !== $path ? $path : $logo_file ) );
+	return in_array( $base, array( 'comfy.png', 'chipsters.png' ), true );
+}
+
+/**
+ * @return array<int, array{name: string, logo_url: string, light: bool}>
  */
 function messcut_get_partner_brands(): array {
 	$rows = messcut_get_option( 'partner_brands', array() );
@@ -337,15 +348,21 @@ function messcut_get_partner_brands(): array {
 		if ( '' === $name ) {
 			continue;
 		}
-		$url = '';
+		$url  = '';
+		$file = '';
 		if ( is_array( $row['logo'] ?? null ) && ! empty( $row['logo']['url'] ) ) {
-			$url = (string) $row['logo']['url'];
+			$url  = (string) $row['logo']['url'];
+			$file = $url;
 		}
 		if ( '' === $url ) {
 			$file = (string) ( $row['logo_file'] ?? ( $files[ $name ] ?? '' ) );
 			$url  = messcut_get_partner_logo_asset_url( $file );
 		}
-		$brands[] = array( 'name' => $name, 'logo_url' => $url );
+		$brands[] = array(
+			'name'     => $name,
+			'logo_url' => $url,
+			'light'    => messcut_partner_logo_is_light( $file ),
+		);
 	}
 	return $brands;
 }

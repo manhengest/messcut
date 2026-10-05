@@ -145,6 +145,11 @@
 	letter-spacing: 0.05em;
 }
 
+.lead-form [data-lead-next] {
+	width: 100%;
+	justify-content: center;
+}
+
 .lead-form .button--outline {
 	padding: 15px 28px;
 	border: 1px solid rgba(0, 0, 0, 0.3);
@@ -212,5 +217,9 @@
 		grid-row: 1 / span 2;
 		order: 0;
 		padding: clamp(24px, 2.6vw, 44px);
+	}
+
+	.lead-form [data-lead-next] {
+		width: auto;
 	}
 }

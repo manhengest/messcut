@@ -91,6 +91,11 @@
 	object-fit: contain;
 }
 
+/* White marks (Comfy, Chipsters) sit on a transparent canvas and vanish on the white pill. */
+.brands-marquee__item--light img {
+	filter: grayscale(1) brightness(0);
+}
+
 .keyword-marquee__track span {
 	padding: 16px 20px;
 	font-family: var(--font-display);

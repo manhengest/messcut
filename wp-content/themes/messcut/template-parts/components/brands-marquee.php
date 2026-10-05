@@ -27,7 +27,15 @@ if ( ! $brands ) {
 		<?php for ( $copy = 0; $copy < 2; $copy++ ) : ?>
 			<div class="brands-marquee__group">
 				<?php foreach ( $brands as $brand ) : ?>
-					<span class="brands-marquee__item<?php echo empty( $brand['logo_url'] ) ? ' brands-marquee__item--word' : ''; ?>">
+					<?php
+					$item_class = 'brands-marquee__item';
+					if ( empty( $brand['logo_url'] ) ) {
+						$item_class .= ' brands-marquee__item--word';
+					} elseif ( ! empty( $brand['light'] ) ) {
+						$item_class .= ' brands-marquee__item--light';
+					}
+					?>
+					<span class="<?php echo esc_attr( $item_class ); ?>">
 						<?php if ( ! empty( $brand['logo_url'] ) ) : ?>
 							<img src="<?php echo esc_url( $brand['logo_url'] ); ?>" alt="<?php echo esc_attr( $brand['name'] ); ?>">
 						<?php else : ?>
