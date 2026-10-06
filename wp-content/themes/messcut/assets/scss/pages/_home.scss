@@ -51,9 +51,9 @@ body.home .home-insights {
 	inset: 0;
 	pointer-events: none;
 	background:
-		radial-gradient(34% 62% at 92% 0%, #1b0d07 0, rgba(27, 13, 7, 0.92) 35%, rgba(27, 13, 7, 0) 100%),
-		radial-gradient(38% 52% at 88% 108%, #2a150c 0, rgba(42, 21, 12, 0.9) 40%, rgba(42, 21, 12, 0) 100%),
-		radial-gradient(34% 62% at 30% 40%, #f1fbf2 0, rgba(241, 251, 242, 0.85) 35%, rgba(241, 251, 242, 0) 100%);
+		radial-gradient(120% 110% at 108% -2%, rgba(27, 13, 7, 0.72) 0%, rgba(27, 13, 7, 0.28) 34%, rgba(27, 13, 7, 0) 72%),
+		radial-gradient(130% 100% at 114% 110%, rgba(42, 21, 12, 0.5) 0%, rgba(42, 21, 12, 0.16) 36%, rgba(42, 21, 12, 0) 74%),
+		radial-gradient(56% 70% at 18% 36%, #f1fbf2 0%, rgba(241, 251, 242, 0.8) 34%, rgba(241, 251, 242, 0) 78%);
 }
 
 .home-hero > *:not(.home-hero__stage) {
@@ -174,9 +174,9 @@ body.home .home-insights {
 
 .stat-cell--nonstop::before {
 	background:
-		radial-gradient(60% 120% at 100% 100%, rgba(18, 168, 152, 0.75), rgba(18, 168, 152, 0) 70%),
-		radial-gradient(40% 80% at 0 0, rgba(111, 220, 202, 0.25), transparent 70%),
-		linear-gradient(150deg, #3a261f, #160a05);
+		radial-gradient(70% 100% at 100% 0%, rgba(111, 220, 202, 0.55), transparent 70%),
+		radial-gradient(60% 90% at 0% 100%, rgba(215, 247, 236, 0.18), transparent 70%),
+		linear-gradient(150deg, #0e6f66, #0b4f49 60%, #0a3a36);
 }
 
 .stat-cell--nonstop b { color: var(--mint); }
@@ -640,6 +640,13 @@ body.home .audience h2 {
 }
 
 @include bp(lg) {
+	.home-hero::before {
+		background:
+			radial-gradient(34% 62% at 92% 0%, #1b0d07 0, rgba(27, 13, 7, 0.92) 35%, rgba(27, 13, 7, 0) 100%),
+			radial-gradient(38% 52% at 88% 108%, #2a150c 0, rgba(42, 21, 12, 0.9) 40%, rgba(42, 21, 12, 0) 100%),
+			radial-gradient(34% 62% at 30% 40%, #f1fbf2 0, rgba(241, 251, 242, 0.85) 35%, rgba(241, 251, 242, 0) 100%);
+	}
+
 	.home-hero {
 		display: grid;
 		grid-template-columns: 1fr;

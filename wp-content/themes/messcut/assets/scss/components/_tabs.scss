@@ -60,10 +60,34 @@
 }
 
 .comparison-card--ms {
-	background: linear-gradient(155deg, #3a261f, #1c1512);
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	background: transparent;
 	color: #f6f4f0;
 	border-color: transparent;
-	box-shadow: 0 40px 60px -34px rgba(58, 38, 31, 0.7);
+	box-shadow: 0 40px 60px -34px rgba(14, 111, 102, 0.6);
+}
+
+.comparison-card--ms::before,
+.comparison-card--ms::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.comparison-card--ms::before {
+	background:
+		radial-gradient(90% 70% at 100% 0%, rgba(111, 220, 202, 0.5), transparent 65%),
+		linear-gradient(155deg, #0e6f66, #0b4f49 60%, #0a3a36);
+}
+
+.comparison-card--ms::after {
+	opacity: 0.22;
+	mix-blend-mode: multiply;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .comparison-card__title {
