@@ -13,11 +13,6 @@
 			{"key": "field_opt_partner_name", "label": "Назва", "name": "name", "type": "text"},
 			{"key": "field_opt_partner_logo", "label": "Логотип", "name": "logo", "type": "image", "return_format": "array"},
 			{"key": "field_opt_partner_file", "label": "Файл у темі", "name": "logo_file", "type": "text"}
-		]},
-		{"key": "field_messcut_home_faq_title", "label": "FAQ: заголовок", "name": "home_faq_title", "type": "text", "default_value": "FAQ"},
-		{"key": "field_messcut_home_faq", "label": "FAQ", "name": "home_faq", "type": "repeater", "layout": "block", "button_label": "Додати питання", "sub_fields": [
-			{"key": "field_messcut_home_faq_question", "label": "Питання", "name": "question", "type": "text"},
-			{"key": "field_messcut_home_faq_answer", "label": "Відповідь", "name": "answer", "type": "wysiwyg", "tabs": "all", "toolbar": "basic", "media_upload": 0}
 		]}
 	],
 	"location": [[{"param": "options_page", "operator": "==", "value": "messcut-settings"}]],
@@ -30,5 +25,5 @@
 	"active": true,
 	"description": "",
 	"show_in_rest": 0,
-	"modified": 1791200000
+	"modified": 1791210001
 }

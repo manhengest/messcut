@@ -46,6 +46,14 @@ function messcut_acf_options_page(): void {
 		'capability' => 'edit_theme_options',
 		'redirect'   => false,
 	) );
+
+	acf_add_options_sub_page( array(
+		'page_title' => __( 'FAQ', 'messcut' ),
+		'menu_title' => __( 'FAQ', 'messcut' ),
+		'menu_slug'  => 'messcut-faq',
+		'parent_slug' => 'messcut-settings',
+		'post_id'    => 'options',
+	) );
 }
 add_action( 'acf/init', 'messcut_acf_options_page' );
 

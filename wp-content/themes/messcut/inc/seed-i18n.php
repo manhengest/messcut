@@ -84,6 +84,7 @@ function messcut_seed_en_options(): void {
 				array( 'text' => 'passion for the craft' ),
 			),
 			'en_home_faq_title'     => 'FAQ',
+			'en_home_faq_intro'     => 'Common questions about brand strategy and marketing',
 			'en_home_faq'           => messcut_get_faq_seed_data( 'en' ),
 		)
 	);

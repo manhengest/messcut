@@ -93,6 +93,7 @@ function messcut_pll_register_strings(): void {
 		'home_hero_subtitle' => messcut_get_option( 'home_hero_subtitle', '' ),
 		'audience_text'      => messcut_get_option( 'audience_text', '' ),
 		'home_faq_title'     => messcut_get_option( 'home_faq_title', '' ),
+		'home_faq_intro'     => messcut_get_option( 'home_faq_intro', '' ),
 	);
 
 	foreach ( $strings as $name => $string ) {

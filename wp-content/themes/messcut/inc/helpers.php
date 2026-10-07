@@ -229,6 +229,38 @@ function messcut_get_articles_query( int $limit = 3 ): WP_Query {
 }
 
 /**
+ * FAQ block title from theme options.
+ */
+function messcut_get_faq_title(): string {
+	$title = trim( (string) messcut_get_option( 'home_faq_title', '' ) );
+	if ( '' === $title ) {
+		return __( 'FAQ', 'messcut' );
+	}
+
+	if ( function_exists( 'messcut_pll_string' ) ) {
+		return messcut_pll_string( $title, 'home_faq_title' );
+	}
+
+	return $title;
+}
+
+/**
+ * FAQ block intro from theme options.
+ */
+function messcut_get_faq_intro(): string {
+	$intro = trim( (string) messcut_get_option( 'home_faq_intro', '' ) );
+	if ( '' === $intro ) {
+		return __( 'Найпоширеніші запитання про бренд-стратегію та маркетинг', 'messcut' );
+	}
+
+	if ( function_exists( 'messcut_pll_string' ) ) {
+		return messcut_pll_string( $intro, 'home_faq_intro' );
+	}
+
+	return $intro;
+}
+
+/**
  * @return array<int, array{q: string, a: string}>
  */
 function messcut_get_faq_items(): array {
@@ -404,6 +436,91 @@ function messcut_acf_gallery( mixed $images, string $size = 'medium' ): array {
 }
 
 /**
+ * Copy that replaces empty or placeholder team fields.
+ *
+ * @return array<string, string>
+ */
+function messcut_team_copy( string $name ): array {
+	$copy = array(
+		'Валерія' => array(
+			'role'       => 'Стратегічний директор',
+			'years'      => '6 років',
+			'superpower' => 'Створювати системний порядок',
+		),
+		'Марія' => array(
+			'role'       => 'Бренд-менеджер',
+			'years'      => '6 років',
+			'superpower' => 'Помічати неочевидне на ринку',
+		),
+		'Аліна' => array(
+			'role'       => 'Маркетолог',
+			'years'      => '5 років',
+			'superpower' => 'Скрупульозність у деталях',
+		),
+	);
+	return $copy[ $name ] ?? array();
+}
+
+function messcut_team_text( string $name, string $key, string $value ): string {
+	$placeholders = array(
+		'role'       => 'Роль / посада',
+		'years'      => 'X років',
+		'superpower' => 'Супер-сила спеціаліста',
+	);
+	$value = trim( $value );
+	$copy  = messcut_team_copy( $name );
+	$is_placeholder = '' === $value || ( isset( $placeholders[ $key ] ) && $value === $placeholders[ $key ] );
+	if ( $is_placeholder && isset( $copy[ $key ] ) ) {
+		$value = $copy[ $key ];
+	}
+	if ( '' === $value && isset( $placeholders[ $key ] ) ) {
+		$value = $placeholders[ $key ];
+	}
+	return __( $value, 'messcut' );
+}
+
+/**
+ * Theme portrait used when the team photo field is empty.
+ *
+ * @return array{url: string, alt: string}
+ */
+function messcut_team_theme_photo( string $name ): array {
+	$files = array(
+		'Валерія' => 'valeria.webp',
+		'Марія' => 'maria.webp',
+		'Аліна' => 'alina.webp',
+	);
+	$file = $files[ $name ] ?? '';
+	$path = MESSCUT_DIR . '/assets/img/' . $file;
+	if ( '' === $file || str_contains( $file, '..' ) || ! is_readable( $path ) ) {
+		return array( 'url' => '', 'alt' => '' );
+	}
+	return array(
+		'url' => MESSCUT_URI . '/assets/img/' . $file,
+		'alt' => $name,
+	);
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function messcut_team_member( string $name, string $role, string $years, string $superpower, mixed $photo, mixed $logos ): array {
+	$media = messcut_acf_media( $photo );
+	if ( '' === $media['url'] ) {
+		$media = messcut_team_theme_photo( $name );
+	}
+	$gallery = messcut_acf_gallery( $logos );
+	return array(
+		'name'       => $name,
+		'role'       => messcut_team_text( $name, 'role', $role ),
+		'years'      => messcut_team_text( $name, 'years', $years ),
+		'superpower' => messcut_team_text( $name, 'superpower', $superpower ),
+		'photo'      => $media,
+		'logos'      => $gallery ? $gallery : messcut_team_placeholder_logos( $name ),
+	);
+}
+
+/**
  * @return array<int, array<string, mixed>>
  */
 function messcut_get_approach_team(): array {
@@ -418,25 +535,24 @@ function messcut_get_approach_team(): array {
 			if ( '' === $name ) {
 				continue;
 			}
-			$role = trim( (string) ( $row['role'] ?? $row['summary'] ?? '' ) );
-			$team[] = array(
-				'name'       => $name,
-				'role'       => '' !== $role ? __( $role, 'messcut' ) : __( 'Роль / посада', 'messcut' ),
-				'years'      => __( trim( (string) ( $row['years'] ?? '' ) ), 'messcut' ),
-				'superpower' => __( trim( (string) ( $row['superpower'] ?? '' ) ), 'messcut' ),
-				'photo'      => messcut_acf_media( $row['photo'] ?? null ),
-				'logos'      => messcut_acf_gallery( $row['brand_logos'] ?? array() ),
+			$team[] = messcut_team_member(
+				$name,
+				(string) ( $row['role'] ?? $row['summary'] ?? '' ),
+				(string) ( $row['years'] ?? '' ),
+				(string) ( $row['superpower'] ?? '' ),
+				$row['photo'] ?? null,
+				$row['brand_logos'] ?? array()
 			);
 		}
 	}
 	if ( $team ) {
 		return $team;
 	}
-	return array(
-		array( 'name' => 'Валерія', 'role' => __( 'Роль / посада', 'messcut' ), 'years' => __( 'X років', 'messcut' ), 'superpower' => __( 'Супер-сила спеціаліста', 'messcut' ), 'photo' => array( 'url' => '', 'alt' => '' ), 'logos' => array() ),
-		array( 'name' => 'Марія', 'role' => __( 'Роль / посада', 'messcut' ), 'years' => __( 'X років', 'messcut' ), 'superpower' => __( 'Супер-сила спеціаліста', 'messcut' ), 'photo' => array( 'url' => '', 'alt' => '' ), 'logos' => array() ),
-		array( 'name' => 'Аліна', 'role' => __( 'Роль / посада', 'messcut' ), 'years' => __( 'X років', 'messcut' ), 'superpower' => __( 'Супер-сила спеціаліста', 'messcut' ), 'photo' => array( 'url' => '', 'alt' => '' ), 'logos' => array() ),
-	);
+	$fallback = array();
+	foreach ( array( 'Валерія', 'Марія', 'Аліна' ) as $name ) {
+		$fallback[] = messcut_team_member( $name, '', '', '', null, array() );
+	}
+	return $fallback;
 }
 
 /**
@@ -469,6 +585,7 @@ function messcut_get_service_groups(): array {
 				'url'   => get_permalink( $proof_id ),
 				'stat'  => (string) messcut_get_acf( 'proof_stat', $id ),
 				'label' => (string) messcut_get_acf( 'proof_label', $id ),
+				'case'  => get_the_title( $proof_id ),
 			);
 		}
 		$by_direction[ $direction ][] = array(

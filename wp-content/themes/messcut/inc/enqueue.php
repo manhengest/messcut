@@ -66,9 +66,11 @@ function messcut_enqueue_assets(): void {
 	}
 	if ( messcut_is_translated_page( 'poslugy' ) ) {
 		$extra['messcut-services'] = '/assets/js/services.js';
+		$extra['messcut-rail'] = '/assets/js/rail.js';
 	}
 	if ( is_singular( 'case_study' ) ) {
 		$extra['messcut-case'] = '/assets/js/case.js';
+		$extra['messcut-rail'] = '/assets/js/rail.js';
 	}
 	foreach ( $extra as $handle => $relative ) {
 		$file = MESSCUT_DIR . $relative;
@@ -78,6 +80,18 @@ function messcut_enqueue_assets(): void {
 			array( 'messcut-main' ),
 			file_exists( $file ) ? (string) filemtime( $file ) : MESSCUT_VERSION,
 			true
+		);
+	}
+
+	if ( isset( $extra['messcut-case'] ) ) {
+		wp_localize_script(
+			'messcut-case',
+			'messcutCase',
+			array(
+				'stage' => __( 'Етап %1$d / %2$d', 'messcut' ),
+				'prev'  => __( 'Назад', 'messcut' ),
+				'next'  => __( 'Далі', 'messcut' ),
+			)
 		);
 	}
 

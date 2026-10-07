@@ -1,0 +1,49 @@
+@use "../abstracts/mixins" as *;
+
+.chapter-rail {
+	position: fixed;
+	top: 50%;
+	right: 10px;
+	z-index: 12;
+	display: grid;
+	gap: 8px;
+	padding: 8px 3px;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.55);
+	transform: translateY(-50%);
+	opacity: 0;
+	backdrop-filter: blur(8px);
+	transition: opacity 0.35s ease;
+}
+
+.chapter-rail.is-on { opacity: 1; }
+
+.chapter-rail a {
+	width: 6px;
+	height: 6px;
+	border-radius: 99px;
+	background: rgba(58, 38, 31, 0.25);
+}
+
+.chapter-rail a.is-done { background: var(--mint-strong); }
+
+.chapter-rail__bead {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 3px;
+	width: 6px;
+	height: 6px;
+	border-radius: 99px;
+	background: #1f8f68;
+	transform-origin: center center;
+	pointer-events: none;
+}
+
+@include bp(lg) {
+	.chapter-rail { right: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.chapter-rail { transition: none; }
+}

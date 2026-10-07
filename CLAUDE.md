@@ -146,6 +146,15 @@ The script runs `npm run build` first, then swaps the remote theme directory (ol
 - Seed helpers (`inc/seed*.php`) are for local bootstrap — do not treat as production migration.
 - Commits: conventional (`feat`, `fix`, `chore`, …).
 
+**Images.** Process every raster before it is used on the site, including images attached in chat:
+
+1. **Resize** the longest edge to twice the rendered CSS size. Cap photos at 1600px; cap logos, marks, and avatars at 800px.
+2. **Compress** and **convert** to WebP at quality 80.
+3. **Rename** to lowercase kebab-case that names the subject (`valeria.webp`, `choozy-hero.webp`) and save under `assets/img/` (or the folder already used for that asset).
+4. Point templates and fields at the `.webp`.
+
+Done when the theme references the WebP and the original JPEG or PNG is not in the repo. Keep SVG logos as SVG.
+
 ## Do not
 
 - Put secrets in the repo (beyond local `.env` defaults). `.env.deploy` stays gitignored.

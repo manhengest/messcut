@@ -19,6 +19,7 @@ $messcut_includes = array(
 	'i18n',
 	'enqueue',
 	'helpers',
+	'team-logos',
 	'cpt',
 	'acf',
 	'forms',

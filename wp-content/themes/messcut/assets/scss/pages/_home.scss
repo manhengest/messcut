@@ -14,7 +14,7 @@ body.home .section-head h2 {
 	margin: 0;
 }
 
-body.home .home-faq p {
+.home-faq p {
 	color: var(--muted);
 }
 
@@ -51,9 +51,9 @@ body.home .home-insights {
 	inset: 0;
 	pointer-events: none;
 	background:
-		radial-gradient(120% 110% at 108% -2%, rgba(27, 13, 7, 0.72) 0%, rgba(27, 13, 7, 0.28) 34%, rgba(27, 13, 7, 0) 72%),
-		radial-gradient(130% 100% at 114% 110%, rgba(42, 21, 12, 0.5) 0%, rgba(42, 21, 12, 0.16) 36%, rgba(42, 21, 12, 0) 74%),
-		radial-gradient(56% 70% at 18% 36%, #f1fbf2 0%, rgba(241, 251, 242, 0.8) 34%, rgba(241, 251, 242, 0) 78%);
+		radial-gradient(75% 48% at 100% 0%, rgba(27, 13, 7, 0.85), rgba(27, 13, 7, 0.5) 30%, rgba(27, 13, 7, 0.18) 60%, rgba(27, 13, 7, 0) 100%),
+		radial-gradient(85% 42% at 100% 100%, rgba(42, 21, 12, 0.8), rgba(42, 21, 12, 0.45) 30%, rgba(42, 21, 12, 0.15) 60%, rgba(42, 21, 12, 0) 100%),
+		radial-gradient(95% 55% at 10% 42%, rgba(241, 251, 242, 0.9), rgba(241, 251, 242, 0.5) 35%, rgba(241, 251, 242, 0.15) 65%, rgba(241, 251, 242, 0) 100%);
 }
 
 .home-hero > *:not(.home-hero__stage) {
@@ -594,7 +594,9 @@ body.home .audience h2 {
 }
 
 .home-faq h2 {
-	margin-bottom: 14px;
+	margin: 0 0 14px;
+	font-size: clamp(38px, 4.2vw, 68px);
+	line-height: 1.04;
 }
 
 .home-faq__grid > div:first-child > p {

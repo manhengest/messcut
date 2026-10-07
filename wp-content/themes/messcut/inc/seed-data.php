@@ -222,15 +222,26 @@ function messcut_get_faq_seed_data( string $lang = 'uk' ): array {
  * @return array<int, array<string, string>>
  */
 function messcut_get_team_seed_data(): array {
-	$people = array( 'Валерія', 'Марія', 'Аліна' );
-	$rows   = array();
-	foreach ( $people as $name ) {
-		$rows[] = array(
-			'name'       => $name,
-			'role'       => 'Роль / посада',
-			'years'      => 'X років',
-			'superpower' => 'Супер-сила спеціаліста',
-		);
+	$people = array(
+		'Валерія' => array(
+			'role'       => 'Стратегічний директор',
+			'years'      => '6 років',
+			'superpower' => 'Створювати системний порядок',
+		),
+		'Марія'   => array(
+			'role'       => 'Бренд-менеджер',
+			'years'      => '6 років',
+			'superpower' => 'Помічати неочевидне на ринку',
+		),
+		'Аліна'   => array(
+			'role'       => 'Маркетолог',
+			'years'      => '5 років',
+			'superpower' => 'Скрупульозність у деталях',
+		),
+	);
+	$rows = array();
+	foreach ( $people as $name => $copy ) {
+		$rows[] = array_merge( array( 'name' => $name ), $copy );
 	}
 	return $rows;
 }

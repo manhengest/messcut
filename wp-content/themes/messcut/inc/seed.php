@@ -117,6 +117,8 @@ function messcut_seed_options(): void {
 		'footer_tagline'       => 'Стратегічний маркетинг для брендів, які хочуть зростати системно.',
 		'form_recipient_email' => 'admin@messcut.com',
 		'partner_brands'       => messcut_get_partner_brands_seed(),
+		'home_faq_title'       => 'FAQ',
+		'home_faq_intro'       => 'Найпоширеніші запитання про бренд-стратегію та маркетинг',
 		'home_faq'             => messcut_get_home_faq_seed(),
 	) );
 }

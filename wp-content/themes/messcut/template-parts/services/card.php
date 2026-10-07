@@ -18,7 +18,12 @@ $locked = ! empty( $service['locked'] );
 	<?php if ( ! empty( $service['proof'] ) ) : ?>
 		<a class="service-card__proof" href="<?php echo esc_url( $service['proof']['url'] ); ?>">
 			<b><?php echo esc_html( $service['proof']['stat'] ); ?></b>
-			<span><?php echo esc_html( $service['proof']['label'] ); ?></span>
+			<span>
+				<?php echo esc_html( $service['proof']['label'] ); ?>
+				<?php if ( ! empty( $service['proof']['case'] ) ) : ?>
+					<small><?php echo esc_html( sprintf( __( 'Кейс %s', 'messcut' ), $service['proof']['case'] ) ); ?> →</small>
+				<?php endif; ?>
+			</span>
 		</a>
 	<?php endif; ?>
 	<?php if ( ! empty( $service['bullets'] ) ) : ?>
@@ -29,21 +34,23 @@ $locked = ! empty( $service['locked'] );
 		</ul>
 	<?php endif; ?>
 	<?php if ( ! empty( $service['steps'] ) ) : ?>
-		<button class="service-card__more" type="button" aria-expanded="false" data-details><span><?php esc_html_e( 'Детальніше', 'messcut' ); ?></span><i>↓</i></button>
+		<button class="service-card__more" type="button" aria-expanded="false" data-details data-open="<?php esc_attr_e( 'Детальніше', 'messcut' ); ?>" data-close="<?php esc_attr_e( 'Згорнути', 'messcut' ); ?>"><span><?php esc_html_e( 'Детальніше', 'messcut' ); ?></span><i>↓</i></button>
 		<div class="service-card__details">
-			<ol>
-				<?php foreach ( $service['steps'] as $step_index => $step ) : ?>
-					<li>
-						<b><span><?php echo esc_html( sprintf( '%02d', $step_index + 1 ) ); ?></span> <?php echo esc_html( $step['title'] ); ?></b>
-						<p><?php echo esc_html( $step['text'] ); ?></p>
-					</li>
-				<?php endforeach; ?>
-			</ol>
+			<div>
+				<ol>
+					<?php foreach ( $service['steps'] as $step_index => $step ) : ?>
+						<li>
+							<b><span><?php echo esc_html( sprintf( '%02d', $step_index + 1 ) ); ?></span> <?php echo esc_html( $step['title'] ); ?></b>
+							<p><?php echo esc_html( $step['text'] ); ?></p>
+						</li>
+					<?php endforeach; ?>
+				</ol>
+			</div>
 		</div>
 	<?php endif; ?>
 	<?php if ( $locked ) : ?>
-		<span class="button button--outline"><?php esc_html_e( 'Доступно після бренд-стратегії', 'messcut' ); ?></span>
+		<span class="service-card__cta is-disabled"><?php esc_html_e( 'Доступно після бренд-стратегії', 'messcut' ); ?></span>
 	<?php else : ?>
-		<a class="cta" href="#lead-form"><?php echo esc_html( $service['cta'] ); ?> <b>→</b></a>
+		<a class="service-card__cta" href="#lead-form"><?php echo esc_html( $service['cta'] ); ?> <b>→</b></a>
 	<?php endif; ?>
 </article>
