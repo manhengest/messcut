@@ -606,7 +606,7 @@ function messcut_render_case_block( mixed $block ): void {
  */
 function messcut_render_case_lead( array $doc ): void {
 	$cta    = is_array( $doc['cta'] ?? null ) ? $doc['cta'] : array();
-	$expert = is_array( $doc['expert'] ?? null ) ? $doc['expert'] : array( 'name' => 'Валерія', 'photo' => 'assets/img/valeria.jpg' );
+	$expert = is_array( $doc['expert'] ?? null ) ? $doc['expert'] : array( 'name' => 'Валерія', 'photo' => 'assets/img/valeria.webp' );
 	$photo  = messcut_media_url( (string) ( $expert['photo'] ?? '' ) );
 	?>
 	<section class="case-section case-lead" id="lead-form" data-chapter>
@@ -708,7 +708,10 @@ function messcut_media_url( string $path ): string {
 	}
 	if ( str_starts_with( $path, 'seed-media/' ) ) {
 		$basename = substr( $path, strlen( 'seed-media/' ) );
-		$path = 'valeria.jpg' === $basename ? 'assets/img/valeria.jpg' : 'assets/img/cases/' . $basename;
+		$path = 'valeria.jpg' === $basename ? 'assets/img/valeria.webp' : 'assets/img/cases/' . $basename;
+	}
+	if ( str_ends_with( strtolower( $path ), 'valeria.jpg' ) ) {
+		$path = 'assets/img/valeria.webp';
 	}
 	$file = MESSCUT_DIR . '/' . ltrim( $path, '/' );
 	if ( ! is_readable( $file ) ) {

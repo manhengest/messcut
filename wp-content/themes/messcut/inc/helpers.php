@@ -486,7 +486,7 @@ function messcut_team_text( string $name, string $key, string $value ): string {
  */
 function messcut_team_theme_photo( string $name ): array {
 	$files = array(
-		'Валерія' => 'valeria.webp',
+		'Валерія' => 'valeria-team.webp',
 		'Марія' => 'maria.webp',
 		'Аліна' => 'alina.webp',
 	);

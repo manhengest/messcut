@@ -35,7 +35,7 @@ $services = array(
 		'text'  => __( 'Формуємо чітку стратегію: суть бренду та головну ідею, його позицію, місію, контексти з аудиторіями, голос, помітність і естетику.', 'messcut' ),
 	),
 );
-$avatar = MESSCUT_URI . '/assets/img/valeria.jpg';
+$avatar = MESSCUT_URI . '/assets/img/valeria.webp';
 ?>
 <section class="section home-path">
 	<h2><?php esc_html_e( 'Оберіть запит — і ми підсвітимо послугу, з якої варто почати', 'messcut' ); ?></h2>

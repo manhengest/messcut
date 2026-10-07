@@ -5,7 +5,7 @@
  * @package Messcut
  */
 
-$photo = MESSCUT_URI . '/assets/img/valeria.jpg';
+$photo = MESSCUT_URI . '/assets/img/valeria.webp';
 $telegram = messcut_telegram_url();
 ?>
 <section class="services-cta" id="lead-form">
