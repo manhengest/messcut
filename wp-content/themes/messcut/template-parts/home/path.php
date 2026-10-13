@@ -38,6 +38,7 @@ $services = array(
 $avatar = MESSCUT_URI . '/assets/img/valeria.webp';
 ?>
 <section class="section home-path">
+	<div class="container">
 	<h2><?php esc_html_e( 'Оберіть запит — і ми підсвітимо послугу, з якої варто почати', 'messcut' ); ?></h2>
 	<div class="request-funnel" data-funnel>
 		<?php foreach ( $rows as $row ) : ?>
@@ -58,7 +59,7 @@ $avatar = MESSCUT_URI . '/assets/img/valeria.webp';
 				</div>
 				<div class="path-service__body">
 					<p><?php echo esc_html( $service['text'] ); ?></p>
-					<a href="<?php echo esc_url( messcut_page_url( 'poslugy' ) . '#' . $service['id'] ); ?>"><?php esc_html_e( 'Детальніше', 'messcut' ); ?> <i>↗</i></a>
+					<a href="<?php echo esc_url( messcut_page_url( 'poslugy' ) . '#' . $service['id'] ); ?>"><?php esc_html_e( 'Детальніше', 'messcut' ); ?> <?php messcut_render_link_arrow_icon(); ?></a>
 				</div>
 			</article>
 		<?php endforeach; ?>
@@ -71,4 +72,5 @@ $avatar = MESSCUT_URI . '/assets/img/valeria.webp';
 		</div>
 		<span class="consult-link__go" aria-hidden="true">→</span>
 	</a>
+	</div>
 </section>

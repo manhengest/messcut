@@ -264,8 +264,8 @@ function messcut_seed_en_menus(): void {
 
 	$menu_items = array(
 		array( 'type' => 'page', 'slug' => 'poslugy', 'title' => 'Services' ),
-		array( 'type' => 'archive', 'post_type' => 'case_study', 'title' => 'Case studies' ),
 		array( 'type' => 'page', 'slug' => 'dosvid', 'title' => 'Experience' ),
+		array( 'type' => 'archive', 'post_type' => 'case_study', 'title' => 'Case studies' ),
 		array( 'type' => 'archive', 'post_type' => 'article', 'title' => 'Insights' ),
 	);
 

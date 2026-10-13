@@ -131,30 +131,35 @@ function messcut_get_case_seed_data(): array {
 			'excerpt' => 'Як ми перетворили матрац із товару для сну на платформу для сучасного способу життя',
 			'order'   => 2,
 			'tone'    => '#e3efe9,#9fc9b6',
+			'photo'   => 'assets/img/cases/sloway-photo.webp',
 		),
 		'boostera' => array(
 			'title'   => 'Boostera',
 			'excerpt' => 'Як ми перетворили мовну школу на бренд для людей, які хочуть більшого від життя',
 			'order'   => 3,
 			'tone'    => '#c7f2e1,#8fdcbc',
+			'photo'   => 'assets/img/cases/boostera-photo.webp',
 		),
 		'antytezys' => array(
 			'title'   => 'Antytezys',
 			'excerpt' => 'Як ми створили бренд, який переосмислює жіночність через силу, а не через слабкість',
 			'order'   => 4,
 			'tone'    => '#eadccf,#c9a891',
+			'photo'   => 'assets/img/cases/antytezys-photo.webp',
 		),
 		'payen' => array(
 			'title'   => 'Payen',
 			'excerpt' => 'Як ми запустили бренд доглядової косметики з нуля та побудували систему для його масштабування',
 			'order'   => 5,
 			'tone'    => '#f1e6dc,#d7bca6',
+			'photo'   => 'assets/img/cases/payen-photo.webp',
 		),
 		'hottier' => array(
 			'title'   => 'Hottier',
 			'excerpt' => 'Як ми знайшли вільну позицію між культом ідеального тіла та body positivity і перетворили її на бренд спортивного одягу',
 			'order'   => 6,
 			'tone'    => '#c7f2e1,#b7a79b',
+			'photo'   => 'assets/img/cases/hottier-photo.webp',
 		),
 	);
 }

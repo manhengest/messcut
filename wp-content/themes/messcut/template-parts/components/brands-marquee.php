@@ -15,6 +15,7 @@ if ( ! $brands ) {
 }
 ?>
 <section class="section brands-marquee" aria-label="<?php esc_attr_e( 'Бренди, з якими працювала наша команда', 'messcut' ); ?>">
+	<div class="container">
 	<div class="brands-marquee__label">
 		<div class="brands-marquee__label-track">
 			<?php for ( $copy = 0; $copy < 10; $copy++ ) : ?>
@@ -45,5 +46,6 @@ if ( ! $brands ) {
 				<?php endforeach; ?>
 			</div>
 		<?php endfor; ?>
+	</div>
 	</div>
 </section>

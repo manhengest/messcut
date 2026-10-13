@@ -6,6 +6,7 @@
  */
 ?>
 <section class="section lead-section" id="lead">
+	<div class="container">
 	<div class="lead-section__copy">
 		<h2><?php esc_html_e( 'Отримайте план розвитку вашого бренду', 'messcut' ); ?></h2>
 		<p class="lead-section__format"><span><?php esc_html_e( 'У форматі 30-хв стратегічної зустрічі', 'messcut' ); ?></span></p>
@@ -18,5 +19,6 @@
 			<a href="<?php echo esc_url( messcut_whatsapp_url() ); ?>">WhatsApp</a>
 			<a href="<?php echo esc_url( 'mailto:' . messcut_email() ); ?>">Email</a>
 		</div>
+	</div>
 	</div>
 </section>

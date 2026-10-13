@@ -57,14 +57,12 @@
 	text-transform: uppercase;
 }
 
-.case-card__more i {
-	display: grid;
-	place-items: center;
+.case-card__more .link-arrow-icon {
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
 	background: var(--mint);
-	font-style: normal;
+	color: #000;
 }
 
 .card-rail {

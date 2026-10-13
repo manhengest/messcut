@@ -18,6 +18,6 @@ $index   = isset( $args['index'] ) ? (int) $args['index'] : 1;
 	<div class="insight-card__body">
 		<h3><?php echo esc_html( get_the_title( $post_id ) ); ?></h3>
 		<p><?php echo esc_html( get_the_excerpt( $post_id ) ); ?></p>
-		<span class="insight-card__more"><?php esc_html_e( 'Читати', 'messcut' ); ?> <i>↗</i></span>
+		<span class="insight-card__more"><?php esc_html_e( 'Читати', 'messcut' ); ?> <?php messcut_render_link_arrow_icon(); ?></span>
 	</div>
 </a>

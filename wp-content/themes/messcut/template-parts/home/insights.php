@@ -8,6 +8,7 @@
 $query = messcut_get_articles_query( 3 );
 ?>
 <section class="section home-insights">
+	<div class="container">
 	<?php
 	get_template_part( 'template-parts/components/section-head', null, array(
 		'title' => __( 'Інсайти', 'messcut' ),
@@ -24,5 +25,6 @@ $query = messcut_get_articles_query( 3 );
 		}
 		wp_reset_postdata();
 		?>
+	</div>
 	</div>
 </section>

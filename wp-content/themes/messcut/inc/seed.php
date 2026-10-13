@@ -545,8 +545,8 @@ function messcut_sync_menus(): void {
 
 	$primary_items = array(
 		array( 'type' => 'page', 'slug' => 'poslugy', 'title' => 'Послуги' ),
-		array( 'type' => 'archive', 'url' => get_post_type_archive_link( 'case_study' ), 'title' => 'Кейси' ),
 		array( 'type' => 'page', 'slug' => 'dosvid', 'title' => 'Досвід та підхід' ),
+		array( 'type' => 'archive', 'url' => get_post_type_archive_link( 'case_study' ), 'title' => 'Кейси' ),
 		array( 'type' => 'archive', 'url' => get_post_type_archive_link( 'article' ), 'title' => 'Інсайти' ),
 	);
 

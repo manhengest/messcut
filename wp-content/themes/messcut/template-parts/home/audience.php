@@ -13,11 +13,13 @@ $words = array(
 );
 ?>
 <section class="section home-audience">
+	<div class="container">
 	<div class="audience">
 		<div class="audience__copy">
 			<h2><?php esc_html_e( 'Хто нас обирає', 'messcut' ); ?></h2>
 			<p class="audience__text"><?php esc_html_e( 'Підприємці, які хочуть розвивати бренд системно, менше ризикувати й приймати рішення на основі досліджень, даних і наукових принципів', 'messcut' ); ?></p>
 		</div>
+	</div>
 	</div>
 </section>
 <div class="keyword-marquee">

@@ -1,22 +1,15 @@
 /**
- * Header, menu, progress, sticky CTA, tabs, accordion, funnel, lead form.
+ * Header, menu, sticky CTA, tabs, accordion, funnel, lead form.
  */
 (function () {
 	document.documentElement.classList.add("js");
 
-	var header = document.querySelector("[data-header]");
 	var menu = document.querySelector("[data-mobile-menu]");
 	var openBtn = document.querySelector("[data-menu-open]");
-	var progress = document.querySelector("[data-progress]");
 	var sticky = document.querySelector("[data-sticky-cta]");
 
 	function onScroll() {
 		var y = window.scrollY || 0;
-		if (header) header.classList.toggle("is-scrolled", y > 8);
-		if (progress) {
-			var max = document.documentElement.scrollHeight - window.innerHeight;
-			progress.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
-		}
 		if (sticky) sticky.classList.toggle("is-visible", y > 500);
 	}
 	onScroll();

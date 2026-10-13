@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$show_progress = messcut_is_translated_page( 'poslugy' ) || is_singular( 'case_study' );
 ?>
 <header class="site-header" data-header>
+	<div class="container site-header__bar">
 	<?php messcut_render_logo( 'black', array( 'class' => 'site-header__logo', 'height' => 32, 'width' => 140 ) ); ?>
 	<nav class="site-header__nav" aria-label="<?php esc_attr_e( 'Головне меню', 'messcut' ); ?>">
 		<?php
@@ -35,8 +35,6 @@ $show_progress = messcut_is_translated_page( 'poslugy' ) || is_singular( 'case_s
 			<svg width="18" height="14" viewBox="0 0 26 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M1 2h24M1 9h24M1 16h24"/></svg>
 		</button>
 	</div>
-	<?php if ( $show_progress ) : ?>
-		<div class="site-header__progress" data-progress></div>
-	<?php endif; ?>
+	</div>
 </header>
 <?php get_template_part( 'template-parts/header/mobile-menu' ); ?>

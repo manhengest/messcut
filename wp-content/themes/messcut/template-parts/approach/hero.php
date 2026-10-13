@@ -6,6 +6,7 @@
  */
 ?>
 <section class="approach-hero">
+	<div class="container">
 	<h1><?php echo wp_kses( __( 'Розвиваємо бренди з <em>науковим</em> підходом', 'messcut' ), array( 'em' => array() ) ); ?></h1>
 	<p class="approach-hero__lead"><?php esc_html_e( 'Ефективність у цифрах з чіткою стратегією', 'messcut' ); ?></p>
 	<a class="cta" href="#lead"><?php esc_html_e( 'Обговорити проєкт', 'messcut' ); ?> <b>→</b></a>
@@ -22,5 +23,6 @@
 		</div>
 		<div class="glass-chip glass-chip--one"><b>94%</b><span><?php esc_html_e( 'клієнтів радять нас колегам', 'messcut' ); ?></span></div>
 		<div class="glass-chip glass-chip--two"><b>50+</b><span><?php esc_html_e( 'стратегічних співпраць', 'messcut' ); ?></span></div>
+	</div>
 	</div>
 </section>

@@ -1,0 +1,11 @@
+.link-arrow-icon {
+	display: grid;
+	flex: none;
+	place-items: center;
+
+	svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+}

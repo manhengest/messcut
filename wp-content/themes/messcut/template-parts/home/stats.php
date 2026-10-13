@@ -14,6 +14,7 @@ $cells = array(
 );
 ?>
 <section class="section home-stats">
+	<div class="container">
 	<h2><?php esc_html_e( 'Чому нас обирають?', 'messcut' ); ?></h2>
 	<div class="home-stats__grid">
 		<?php foreach ( $cells as $cell ) : ?>
@@ -22,5 +23,6 @@ $cells = array(
 				<p><?php echo esc_html( $cell[2] ); ?></p>
 			</div>
 		<?php endforeach; ?>
+	</div>
 	</div>
 </section>

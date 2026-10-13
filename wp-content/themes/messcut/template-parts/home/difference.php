@@ -31,6 +31,7 @@ $cards = array(
 );
 ?>
 <section class="section home-diff">
+	<div class="container">
 	<h2><?php esc_html_e( 'У чому різниця?', 'messcut' ); ?></h2>
 	<div class="tabs" data-tabs role="tablist">
 		<?php foreach ( $tabs as $key => $label ) : ?>
@@ -54,5 +55,6 @@ $cards = array(
 				</ol>
 			</article>
 		<?php endforeach; ?>
+	</div>
 	</div>
 </section>

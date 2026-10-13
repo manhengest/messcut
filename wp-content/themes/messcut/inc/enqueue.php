@@ -68,6 +68,9 @@ function messcut_enqueue_assets(): void {
 		$extra['messcut-services'] = '/assets/js/services.js';
 		$extra['messcut-rail'] = '/assets/js/rail.js';
 	}
+	if ( messcut_is_translated_page( 'dosvid' ) ) {
+		$extra['messcut-rail'] = '/assets/js/rail.js';
+	}
 	if ( is_singular( 'case_study' ) ) {
 		$extra['messcut-case'] = '/assets/js/case.js';
 		$extra['messcut-rail'] = '/assets/js/rail.js';

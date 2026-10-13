@@ -8,6 +8,7 @@
 $team = messcut_get_approach_team();
 ?>
 <section class="section approach-team" id="team">
+	<div class="container">
 	<h2><?php esc_html_e( 'Команда', 'messcut' ); ?></h2>
 	<div class="card-rail">
 		<?php foreach ( $team as $member ) : ?>
@@ -82,5 +83,6 @@ $team = messcut_get_approach_team();
 				<?php endif; ?>
 			</article>
 		<?php endforeach; ?>
+	</div>
 	</div>
 </section>

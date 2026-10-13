@@ -4,13 +4,13 @@
 	font-size: 14px;
 }
 
-.page-approach .section > h2 {
+.page-approach .section > .container > h2 {
 	margin: 0 0 16px;
 }
 
 .approach-hero {
 	position: relative;
-	padding: 44px var(--gutter) 48px;
+	padding: 44px 0 48px;
 	overflow: hidden;
 	background: linear-gradient(160deg, #d7f7ec, #6fdcca 55%, #12a898);
 }
@@ -40,6 +40,11 @@
 	margin: 0 0 28px;
 	color: var(--muted);
 	font-size: 17px;
+}
+
+.approach-hero > .container > .cta {
+	justify-content: space-between;
+	width: 100%;
 }
 
 .approach-hero__stage {
@@ -397,25 +402,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 22px 0;
+	padding: 18px 0;
 	border-top: 1px solid var(--line);
 	font-family: var(--font-display);
-	font-size: 24px;
+	font-size: 20px;
 	text-decoration: none;
 }
 
 .approach-services a:last-child { border-bottom: 1px solid var(--line); }
 
-.approach-services a span {
-	display: grid;
-	place-items: center;
-	width: 40px;
-	height: 40px;
+.approach-services a .link-arrow-icon {
+	width: 36px;
+	height: 36px;
 	border-radius: 999px;
 	background: var(--mint);
 	color: #000;
-	font-family: var(--font-body);
-	font-size: 16px;
 }
 
 .approach-cases .case-card__media {
@@ -438,10 +439,10 @@
 
 @include bp(lg) {
 	.page-approach .section {
-		padding: 112px var(--gutter);
+		padding: 112px 0;
 	}
 
-	.page-approach .section > h2 {
+	.page-approach .section > .container > h2 {
 		margin: 0 0 20px;
 		font-size: clamp(38px, 4.2vw, 68px);
 		line-height: 1.04;
@@ -449,18 +450,28 @@
 
 	.approach-hero {
 		display: grid;
+		align-content: center;
+		min-height: 720px;
+		padding: 110px 0 120px;
+	}
+
+	.approach-hero > .container {
+		display: grid;
 		grid-template-columns: 1.05fr 0.95fr;
 		column-gap: 80px;
 		align-content: center;
-		min-height: 720px;
-		padding: 110px var(--gutter) 120px;
 	}
 
-	.approach-hero > h1,
-	.approach-hero > .approach-hero__lead,
-	.approach-hero > .cta {
+	.approach-hero > .container > h1,
+	.approach-hero > .container > .approach-hero__lead,
+	.approach-hero > .container > .cta {
 		grid-column: 1;
 		justify-self: start;
+	}
+
+	.approach-hero > .container > .cta {
+		justify-content: flex-start;
+		width: auto;
 	}
 
 	.approach-hero h1 {
@@ -509,18 +520,18 @@
 		width: 200px;
 	}
 
-	.approach-principles {
+	.approach-principles > .container {
 		display: grid;
 		grid-template-columns: 1.3fr 1fr;
 		gap: 24px;
 	}
 
-	.approach-principles > h2,
-	.approach-principles > .approach-principles__lead {
+	.approach-principles > .container > h2,
+	.approach-principles > .container > .approach-principles__lead {
 		grid-column: 1 / -1;
 	}
 
-	.approach-principles > h2 { margin-bottom: 0; }
+	.approach-principles > .container > h2 { margin-bottom: 0; }
 
 	.approach-principles__lead {
 		max-width: 40em;
@@ -620,14 +631,13 @@
 	.approach-cases { padding-top: 0; }
 
 	.approach-services a {
-		padding: 36px 0;
-		font-size: clamp(30px, 3.4vw, 56px);
+		padding: 28px 0;
+		font-size: clamp(24px, 2.6vw, 42px);
 	}
 
-	.approach-services a span {
-		width: 56px;
-		height: 56px;
-		font-size: 20px;
+	.approach-services a .link-arrow-icon {
+		width: 44px;
+		height: 44px;
 	}
 
 	.approach-cases .card-rail {

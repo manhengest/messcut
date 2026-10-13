@@ -1,6 +1,6 @@
 @use "../abstracts/mixins" as *;
 
-.lead-section {
+.lead-section > .container {
 	display: grid;
 	gap: 28px;
 }
@@ -200,7 +200,7 @@
 }
 
 @include bp(lg) {
-	.lead-section {
+	.lead-section > .container {
 		grid-template-columns: 1fr 1.1fr;
 		column-gap: 5vw;
 		align-items: start;

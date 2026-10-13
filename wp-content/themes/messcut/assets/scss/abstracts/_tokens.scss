@@ -10,7 +10,8 @@
 	--ink: #141010;
 	--ivory: #f6f4f0;
 	--footer: #f3efe9;
-	--gutter: 20px;
+	--gutter: 15px;
+	--container-max: 1170px;
 	--header-h: 52px;
 	--font-display: "Playfair Display", Georgia, serif;
 	--font-body: "Golos Text", "Helvetica Neue", Helvetica, sans-serif;
@@ -24,7 +25,6 @@
 
 @media (min-width: 1001px) {
 	:root {
-		--gutter: clamp(40px, 5.5vw, 140px);
 		--header-h: 84px;
 	}
 }

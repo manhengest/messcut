@@ -16,11 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<nav class="mobile-menu__nav" aria-label="<?php esc_attr_e( 'Головне меню', 'messcut' ); ?>">
 		<?php foreach ( messcut_nav_items() as $item ) : ?>
-			<a href="<?php echo esc_url( $item['url'] ); ?>"><?php echo esc_html( $item['label'] ); ?> <span>↗</span></a>
+			<a href="<?php echo esc_url( $item['url'] ); ?>">
+				<?php echo esc_html( $item['label'] ); ?>
+				<?php messcut_render_link_arrow_icon( array( 'class' => 'mobile-menu__nav-icon' ) ); ?>
+			</a>
 		<?php endforeach; ?>
 	</nav>
-	<div class="mobile-menu__phone">
-		<?php esc_html_e( 'Телефон', 'messcut' ); ?>
-		<b><a href="<?php echo esc_url( 'tel:' . preg_replace( '/\s+/', '', messcut_phone() ) ); ?>"><?php echo esc_html( messcut_phone() ); ?></a></b>
+	<div class="mobile-menu__cta">
+		<a class="button button--light mobile-menu__telegram" href="<?php echo esc_url( messcut_telegram_url() ); ?>">
+			<?php esc_html_e( 'Написати в Telegram', 'messcut' ); ?>
+			<b>→</b>
+		</a>
 	</div>
 </div>

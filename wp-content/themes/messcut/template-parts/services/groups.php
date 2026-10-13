@@ -13,6 +13,7 @@ $groups = messcut_get_service_groups();
 	$tone        = $is_branding ? 'service-group--branding' : 'service-group--marketing';
 	$services    = $group['services'];
 	?>
+	<div class="container">
 	<section class="service-group <?php echo esc_attr( $tone ); ?><?php echo 0 === $index ? ' is-open' : ''; ?>" data-service-group id="<?php echo esc_attr( $group['id'] ); ?>">
 		<button class="service-group__toggle" type="button" aria-expanded="<?php echo 0 === $index ? 'true' : 'false'; ?>">
 			<span class="service-group__intro">
@@ -37,4 +38,5 @@ $groups = messcut_get_service_groups();
 			</div>
 		</div>
 	</section>
+	</div>
 <?php endforeach; ?>

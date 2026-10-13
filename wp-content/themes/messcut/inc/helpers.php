@@ -173,8 +173,8 @@ function messcut_insights_archive_url(): string {
 function messcut_nav_items(): array {
 	return array(
 		array( 'url' => messcut_page_url( 'poslugy' ), 'label' => __( 'Послуги', 'messcut' ) ),
-		array( 'url' => messcut_cases_archive_url(), 'label' => __( 'Кейси', 'messcut' ) ),
 		array( 'url' => messcut_approach_url(), 'label' => __( 'Досвід та підхід', 'messcut' ) ),
+		array( 'url' => messcut_cases_archive_url(), 'label' => __( 'Кейси', 'messcut' ) ),
 		array( 'url' => messcut_insights_archive_url(), 'label' => __( 'Інсайти', 'messcut' ) ),
 	);
 }
@@ -617,6 +617,24 @@ function messcut_get_service_groups(): array {
 			'text'     => __( 'Наводимо фокус у маркетингу: визначаємо пріоритети та наступні кроки', 'messcut' ),
 			'services' => $by_direction['marketing'],
 		),
+	);
+}
+
+/**
+ * Diagonal link arrow (same SVG as mobile menu nav).
+ *
+ * @param array{class?: string} $args Optional extra class names on the wrapper.
+ */
+function messcut_render_link_arrow_icon( array $args = array() ): void {
+	$classes = array( 'link-arrow-icon' );
+	if ( ! empty( $args['class'] ) ) {
+		foreach ( preg_split( '/\s+/', trim( (string) $args['class'] ), -1, PREG_SPLIT_NO_EMPTY ) as $class ) {
+			$classes[] = $class;
+		}
+	}
+	printf(
+		'<span class="%s" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.5 11.5L11.5 4.5M11.5 4.5H6.25M11.5 4.5V9.75" stroke="currentColor" stroke-width="0.65" stroke-linecap="round" stroke-linejoin="round"/></svg></span>',
+		esc_attr( implode( ' ', array_unique( $classes ) ) )
 	);
 }
 

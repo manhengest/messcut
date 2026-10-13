@@ -16,6 +16,9 @@ add_filter(
 );
 
 get_header();
+?>
+<nav class="chapter-rail" data-rail=".approach-hero, .approach-principles, .approach-team, .approach-services, .approach-cases" aria-label="<?php esc_attr_e( 'Розділи сторінки', 'messcut' ); ?>"></nav>
+<?php
 get_template_part( 'template-parts/approach/hero' );
 get_template_part( 'template-parts/approach/principles' );
 get_template_part( 'template-parts/approach/team' );

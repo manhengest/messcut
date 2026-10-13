@@ -24,7 +24,7 @@
 }
 
 .services-hero {
-	padding: calc(var(--header-h) + 28px) var(--gutter) 8px;
+	padding: calc(var(--header-h) + 28px) 0 8px;
 	overflow: hidden;
 }
 
@@ -65,7 +65,7 @@
 .crumb span:last-child { color: var(--fg); }
 
 .service-group {
-	margin: 0 var(--gutter) 18px;
+	margin: 0 0 18px;
 	border-radius: 32px;
 	padding: 22px 18px 18px;
 }
@@ -406,7 +406,7 @@
 }
 
 .services-cta {
-	margin: 30px var(--gutter) 76px;
+	margin: 30px 0 76px;
 	padding: 36px 24px 26px;
 	border-radius: 28px;
 	background: #0f0d0c;
@@ -513,8 +513,9 @@
 }
 
 .services-cta__tg {
-	display: inline-block;
-	margin-top: 18px;
+	display: block;
+	width: fit-content;
+	margin: 18px auto 0;
 	padding-bottom: 3px;
 	border-bottom: 1px solid rgba(246, 244, 240, 0.35);
 	color: rgba(246, 244, 240, 0.8);
@@ -603,7 +604,7 @@
 	.services-cta {
 		display: grid;
 		grid-template-columns: 1fr;
-		margin: 40px var(--gutter) 120px;
+		margin: 40px 0 120px;
 		padding: 56px;
 		border-radius: 40px;
 	}
@@ -678,5 +679,8 @@
 	.services-cta__tg { grid-column: 2; }
 
 	.services-cta h2 { margin-top: 18px; }
-	.services-cta__tg { justify-self: start; }
+	.services-cta__tg {
+		justify-self: start;
+		margin: 18px 0 0;
+	}
 }

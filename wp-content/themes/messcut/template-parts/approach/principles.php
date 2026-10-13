@@ -12,6 +12,7 @@ $principles = array(
 );
 ?>
 <section class="section approach-principles">
+	<div class="container">
 	<h2><?php esc_html_e( 'Наш підхід', 'messcut' ); ?></h2>
 	<p class="approach-principles__lead"><?php esc_html_e( 'Досліджуємо, як люди приймають рішення, що впливає на їхню поведінку та як це працює в конкретному бізнесі. На цій основі будуємо маркетинг, який має логіку, систему й зрозумілу ціль.', 'messcut' ); ?></p>
 	<?php foreach ( $principles as $index => $principle ) : ?>
@@ -21,4 +22,5 @@ $principles = array(
 			<p><?php echo esc_html( $principle[2] ); ?></p>
 		</div>
 	<?php endforeach; ?>
+	</div>
 </section>

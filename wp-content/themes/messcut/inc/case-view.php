@@ -272,19 +272,20 @@ function messcut_render_case_study( int $post_id ): void {
 		$doc = messcut_legacy_case_document( $post_id );
 	}
 	if ( ! $doc ) {
-		echo '<section class="section prose">';
+		echo '<section class="section prose"><div class="container">';
 		the_content();
-		echo '</section>';
+		echo '</div></section>';
 		return;
 	}
 
 	$hero  = is_array( $doc['hero'] ?? null ) ? $doc['hero'] : array();
 	$brand = (string) ( $doc['brand'] ?? get_the_title( $post_id ) );
-	$photo = messcut_media_url( (string) ( $doc['photo'] ?? '' ) );
+	$photo = messcut_get_case_photo_url( $post_id, $doc );
 	$logo  = messcut_media_url( (string) ( $doc['logo'] ?? '' ) );
 	?>
 	<nav class="chapter-rail" data-rail="[data-chapter]" aria-label="<?php esc_attr_e( 'Розділи кейсу', 'messcut' ); ?>"></nav>
 	<section class="case-hero" id="intro" data-chapter>
+		<div class="container">
 		<p class="crumb"><a href="<?php echo esc_url( messcut_cases_archive_url() ); ?>"><?php esc_html_e( 'Кейси', 'messcut' ); ?></a><span>/</span><span><?php echo esc_html( $brand ); ?></span></p>
 		<h1><?php echo esc_html( (string) ( $hero['titleBefore'] ?? '' ) ); ?> <em><?php echo esc_html( (string) ( $hero['em'] ?? $brand ) ); ?></em> <?php echo esc_html( (string) ( $hero['titleAfter'] ?? '' ) ); ?></h1>
 		<?php if ( ! empty( $hero['subtitle'] ) ) : ?>
@@ -307,6 +308,7 @@ function messcut_render_case_study( int $post_id ): void {
 			<?php endif; ?>
 		</div>
 		<?php echo messcut_case_paragraphs( $hero['intro'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		</div>
 	</section>
 	<?php
 	messcut_render_case_results( $doc );
@@ -349,6 +351,7 @@ function messcut_render_case_results( array $doc ): void {
 	);
 	?>
 	<section class="case-section" id="key" data-chapter>
+		<div class="container">
 		<h2><?php esc_html_e( 'Ключові результати', 'messcut' ); ?></h2>
 		<div class="result-grid<?php echo $list ? ' result-grid--list' : ''; ?>">
 			<?php foreach ( $items as $item ) : ?>
@@ -379,6 +382,7 @@ function messcut_render_case_results( array $doc ): void {
 				<a class="cta" href="#lead-form"><?php esc_html_e( 'Обговорити проєкт', 'messcut' ); ?> <b>→</b></a>
 			</div>
 		<?php endif; ?>
+		</div>
 	</section>
 	<?php
 }
@@ -407,6 +411,7 @@ function messcut_render_case_chapter( string $key, mixed $data, int $n, int $tot
 	}
 	?>
 	<section class="case-section case-section--split" id="<?php echo esc_attr( $key ); ?>" data-chapter>
+		<div class="container">
 		<div class="case-section__aside">
 			<div class="eyebrow"><?php echo esc_html( sprintf( '%02d / %02d', $n, $total ) ); ?></div>
 			<h2><?php echo esc_html( $title ); ?></h2>
@@ -537,6 +542,7 @@ function messcut_render_case_chapter( string $key, mixed $data, int $n, int $tot
 			}
 			?>
 		</div>
+		</div>
 	</section>
 	<?php
 }
@@ -551,6 +557,7 @@ function messcut_render_case_conclusion( array $doc ): void {
 	}
 	?>
 	<section class="case-section" id="conclusion" data-chapter>
+		<div class="container">
 		<div class="conclusion">
 			<span class="eyebrow"><?php echo esc_html( (string) ( $conclusion['label'] ?? __( 'Ключові висновки', 'messcut' ) ) ); ?></span>
 			<h2><?php echo esc_html( (string) ( $conclusion['headline'] ?? '' ) ); ?></h2>
@@ -563,6 +570,7 @@ function messcut_render_case_conclusion( array $doc ): void {
 				echo '<p>' . esc_html( $line ) . '</p>';
 			}
 			?>
+		</div>
 		</div>
 	</section>
 	<?php
@@ -610,6 +618,7 @@ function messcut_render_case_lead( array $doc ): void {
 	$photo  = messcut_media_url( (string) ( $expert['photo'] ?? '' ) );
 	?>
 	<section class="case-section case-lead" id="lead-form" data-chapter>
+		<div class="container">
 		<h2><?php echo esc_html( (string) ( $cta['title'] ?? __( 'Обговоримо ваш проєкт', 'messcut' ) ) ); ?></h2>
 		<?php echo messcut_case_paragraphs( $cta['text'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<?php get_template_part( 'template-parts/components/lead-form' ); ?>
@@ -621,6 +630,7 @@ function messcut_render_case_lead( array $doc ): void {
 				<span class="eyebrow"><?php esc_html_e( 'Експерт проєкту', 'messcut' ); ?></span>
 				<b><?php echo esc_html( (string) ( $expert['name'] ?? '' ) ); ?></b>
 			</div>
+		</div>
 		</div>
 	</section>
 	<?php
@@ -636,6 +646,7 @@ function messcut_render_case_related( int $post_id ): void {
 	}
 	?>
 	<section class="case-section case-more" id="more" data-chapter>
+		<div class="container">
 		<h2><?php esc_html_e( 'Інші кейси', 'messcut' ); ?></h2>
 		<div class="card-rail">
 			<?php
@@ -648,6 +659,7 @@ function messcut_render_case_related( int $post_id ): void {
 			?>
 		</div>
 		<div class="case-more__all"><a class="button button--ghost" href="<?php echo esc_url( messcut_cases_archive_url() ); ?>"><?php esc_html_e( 'Переглянути всі кейси →', 'messcut' ); ?></a></div>
+		</div>
 	</section>
 	<?php
 }
@@ -662,6 +674,7 @@ function messcut_render_case_materials(): void {
 	}
 	?>
 	<section class="case-section case-reading" id="reading" data-chapter>
+		<div class="container">
 		<h2><?php esc_html_e( 'Корисні матеріали', 'messcut' ); ?></h2>
 		<p class="case-copy"><?php esc_html_e( 'Статті, які логічно продовжують тему:', 'messcut' ); ?></p>
 		<div class="case-materials">
@@ -669,7 +682,7 @@ function messcut_render_case_materials(): void {
 				<?php if ( ! $article instanceof WP_Post ) { continue; } ?>
 				<a href="<?php echo esc_url( get_permalink( $article ) ); ?>">
 					<h3><?php echo esc_html( get_the_title( $article ) ); ?></h3>
-					<i>↗</i>
+					<?php messcut_render_link_arrow_icon(); ?>
 				</a>
 			<?php endforeach; ?>
 		</div>
@@ -677,6 +690,7 @@ function messcut_render_case_materials(): void {
 			<span><b><?php esc_html_e( 'Про наш підхід', 'messcut' ); ?></b><small><?php esc_html_e( 'Досвід та підхід Messcut', 'messcut' ); ?></small></span>
 			<i>→</i>
 		</a>
+		</div>
 	</section>
 	<?php
 }
@@ -694,6 +708,61 @@ function messcut_render_case_faq(): void {
 			'data_chapter'  => true,
 		)
 	);
+}
+
+/**
+ * Theme-relative hero / card photo path for a case.
+ *
+ * @param array<string, mixed> $doc Case document (may omit photo).
+ */
+function messcut_resolve_case_photo_path( int $post_id, array $doc = array() ): string {
+	$path = (string) ( $doc['photo'] ?? '' );
+	if ( '' !== $path ) {
+		return $path;
+	}
+
+	$slug = (string) get_post_field( 'post_name', $post_id );
+	if ( function_exists( 'pll_get_post' ) ) {
+		$uk_id = pll_get_post( $post_id, 'uk' );
+		if ( $uk_id ) {
+			$slug = (string) get_post_field( 'post_name', (int) $uk_id );
+		}
+	}
+
+	$seed = messcut_get_case_seed_data();
+	if ( isset( $seed[ $slug ]['photo'] ) && is_string( $seed[ $slug ]['photo'] ) && '' !== $seed[ $slug ]['photo'] ) {
+		return $seed[ $slug ]['photo'];
+	}
+
+	$bundled = messcut_bundled_case_document( $slug );
+	return (string) ( $bundled['photo'] ?? '' );
+}
+
+/**
+ * Public URL for case hero and card preview image.
+ *
+ * @param array<string, mixed> $doc Optional preloaded document.
+ */
+function messcut_get_case_photo_url( int $post_id, array $doc = array() ): string {
+	if ( ! $doc ) {
+		$doc = messcut_get_case_document( $post_id );
+		if ( ! $doc ) {
+			$doc = messcut_legacy_case_document( $post_id );
+		}
+	}
+	return messcut_media_url( messcut_resolve_case_photo_path( $post_id, $doc ) );
+}
+
+/**
+ * Preview image for case cards (home / approach rails, archives).
+ */
+function messcut_get_case_preview_url( int $post_id ): string {
+	$url = messcut_get_case_photo_url( $post_id );
+	if ( '' !== $url ) {
+		return $url;
+	}
+	$thumb = get_the_post_thumbnail_url( $post_id, 'large' );
+	return $thumb ? (string) $thumb : '';
 }
 
 /**

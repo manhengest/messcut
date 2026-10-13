@@ -8,6 +8,7 @@
 $photo = MESSCUT_URI . '/assets/img/valeria.webp';
 $telegram = messcut_telegram_url();
 ?>
+<div class="container">
 <section class="services-cta" id="lead-form">
 	<div class="services-cta__person">
 		<img src="<?php echo esc_url( $photo ); ?>" alt="<?php esc_attr_e( 'Валерія, засновниця Messcut', 'messcut' ); ?>">
@@ -21,3 +22,4 @@ $telegram = messcut_telegram_url();
 	<a class="services-cta__book" href="<?php echo esc_url( $telegram ); ?>"><?php esc_html_e( 'Забронювати діагностичну консультацію', 'messcut' ); ?> <b>→</b></a>
 	<a class="services-cta__tg" href="<?php echo esc_url( $telegram ); ?>"><?php esc_html_e( 'Або написати в Telegram', 'messcut' ); ?></a>
 </section>
+</div>

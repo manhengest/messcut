@@ -45,7 +45,9 @@
 
 .mobile-menu__nav a {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
+	gap: 16px;
 	padding: 18px 0;
 	border-bottom: 1px solid rgba(246, 244, 240, 0.14);
 	font-family: var(--font-display);
@@ -53,18 +55,19 @@
 	text-decoration: none;
 }
 
-.mobile-menu__phone {
-	margin-top: auto;
-	color: rgba(246, 244, 240, 0.6);
-	font-size: 14px;
+.mobile-menu__nav-icon {
+	width: 48px;
+	height: 48px;
+	color: var(--ivory);
 }
 
-.mobile-menu__phone b {
-	display: block;
-	margin-top: 4px;
-	color: var(--ivory);
-	font-weight: 500;
-	font-size: 16px;
+.mobile-menu__cta {
+	margin-top: auto;
+}
+
+.mobile-menu__telegram.button {
+	width: 100%;
+	justify-content: space-between;
 }
 
 body.has-menu {

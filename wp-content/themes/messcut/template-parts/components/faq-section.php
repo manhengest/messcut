@@ -19,6 +19,7 @@ $section_id    = isset( $args['section_id'] ) ? (string) $args['section_id'] : '
 $data_chapter  = ! empty( $args['data_chapter'] );
 ?>
 <section class="<?php echo esc_attr( $section_class ); ?>"<?php echo '' !== $section_id ? ' id="' . esc_attr( $section_id ) . '"' : ''; ?><?php echo $data_chapter ? ' data-chapter' : ''; ?>>
+	<div class="container">
 	<div class="home-faq__grid">
 		<div>
 			<h2><?php echo esc_html( messcut_get_faq_title() ); ?></h2>
@@ -33,5 +34,6 @@ $data_chapter  = ! empty( $args['data_chapter'] );
 			)
 		);
 		?>
+	</div>
 	</div>
 </section>

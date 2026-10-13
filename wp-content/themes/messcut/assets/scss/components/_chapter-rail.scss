@@ -1,11 +1,9 @@
-@use "../abstracts/mixins" as *;
-
 .chapter-rail {
 	position: fixed;
 	top: 50%;
 	right: 10px;
 	z-index: 12;
-	display: grid;
+	display: none;
 	gap: 8px;
 	padding: 8px 3px;
 	border-radius: 12px;
@@ -40,8 +38,11 @@
 	pointer-events: none;
 }
 
-@include bp(lg) {
-	.chapter-rail { right: 22px; }
+@media (min-width: 1280px) {
+	.chapter-rail {
+		display: grid;
+		right: calc((100vw - var(--container-max)) / 2 - 40px);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

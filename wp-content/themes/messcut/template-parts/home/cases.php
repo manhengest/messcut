@@ -8,6 +8,7 @@
 $query = messcut_get_cases_query( 6 );
 ?>
 <section class="section home-cases" id="cases-section">
+	<div class="container">
 	<?php
 	get_template_part( 'template-parts/components/section-head', null, array(
 		'title' => __( 'Кейси', 'messcut' ),
@@ -22,5 +23,6 @@ $query = messcut_get_cases_query( 6 );
 		}
 		wp_reset_postdata();
 		?>
+	</div>
 	</div>
 </section>
