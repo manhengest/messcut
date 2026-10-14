@@ -36,14 +36,13 @@ get_header();
 	</div>
 	</div>
 </section>
-<section class="insights-close">
-	<div class="container">
-	<div class="insights-close__band">
-		<span class="insights-close__eyebrow"><?php esc_html_e( 'Є що обговорити?', 'messcut' ); ?></span>
-		<h2><?php echo wp_kses( __( 'Розкажіть про свій бізнес — <em>розберемо разом</em>', 'messcut' ), array( 'em' => array() ) ); ?></h2>
-		<a class="cta" href="<?php echo esc_url( messcut_contact_url() ); ?>"><?php esc_html_e( 'Обговорити проєкт', 'messcut' ); ?> <b>→</b></a>
-	</div>
-	</div>
-</section>
 <?php
+get_template_part(
+	'template-parts/components/close-band',
+	null,
+	array(
+		'eyebrow' => __( 'Є що обговорити?', 'messcut' ),
+		'title'   => __( 'Розкажіть про свій бізнес — <em>розберемо разом</em>', 'messcut' ),
+	)
+);
 get_footer();

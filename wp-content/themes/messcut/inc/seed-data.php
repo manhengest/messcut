@@ -142,14 +142,14 @@ function messcut_get_case_seed_data(): array {
 		),
 		'antytezys' => array(
 			'title'   => 'Antytezys',
-			'excerpt' => 'Як ми створили бренд, який переосмислює жіночність через силу, а не через слабкість',
+			'excerpt' => 'Як ми створили бренд жіночого одягу, який переосмислює жіночність через силу, а не через слабкість',
 			'order'   => 4,
 			'tone'    => '#eadccf,#c9a891',
 			'photo'   => 'assets/img/cases/antytezys-photo.webp',
 		),
 		'payen' => array(
 			'title'   => 'Payen',
-			'excerpt' => 'Як ми запустили бренд доглядової косметики з нуля та побудували систему для його масштабування',
+			'excerpt' => 'Від бренд-стратегії до системного маркетингу та росту бізнесу',
 			'order'   => 5,
 			'tone'    => '#f1e6dc,#d7bca6',
 			'photo'   => 'assets/img/cases/payen-photo.webp',
@@ -252,13 +252,20 @@ function messcut_get_team_seed_data(): array {
 }
 
 /**
- * @return array<int, array<string, string>>
+ * @return array<string, array<string, mixed>>
  */
 function messcut_get_article_seed_data(): array {
 	return array(
 		'strong-brand-positioning' => array(
 			'title'   => 'Як створити сильне позиціонування бренду',
-			'excerpt' => 'Позиціонування — не про красиві слова, а про чітку роль бренду в житті людей і на ринку. Розбираємо, як сформувати позицію, яку аудиторія розуміє і обирає.',
+			'excerpt' => 'Позиціонування визначає роль бренду в житті людей і на ринку. Розбираємо, як сформувати позицію, яку аудиторія розуміє і обирає.',
+			'content' => messcut_load_article_body( 'strong-brand-positioning', 'uk' ),
+			'types'   => array( 'brand-strategy' ),
+			'fields'  => array(
+				'title_html'   => 'Як створити сильне <em>позиціонування</em> бренду',
+				'topic'        => 'Позиціонування',
+				'reading_time' => '6 хвилин',
+			),
 		),
 		'research-foundation' => array(
 			'title'   => 'Чому дослідження — основа бренд-стратегії',

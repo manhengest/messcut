@@ -163,7 +163,13 @@ function messcut_seed_en_articles(): void {
 	$translations = array(
 		'strong-brand-positioning' => array(
 			'title'   => 'How to create a strong brand position',
-			'excerpt' => 'Positioning is not about pretty words. It is a clear role for the brand in people’s lives and in the market. Here is how to form a position the audience understands and chooses.',
+			'excerpt' => 'Positioning defines the brand’s role in people’s lives and in the market. Here is how to form a position the audience understands and chooses.',
+			'content' => messcut_load_article_body( 'strong-brand-positioning', 'en' ),
+			'fields'  => array(
+				'title_html'   => 'How to create a strong brand <em>position</em>',
+				'topic'        => 'Positioning',
+				'reading_time' => '6 minutes',
+			),
 		),
 		'research-foundation'      => array(
 			'title'   => 'Why research is the foundation of brand strategy',
@@ -187,7 +193,8 @@ function messcut_seed_en_articles(): void {
 			array(
 				'post_title'   => $data['title'],
 				'post_excerpt' => $data['excerpt'],
-				'post_content' => (string) $uk_post->post_content,
+				'post_content' => $data['content'] ?? (string) $uk_post->post_content,
+				'fields'       => $data['fields'] ?? array(),
 			)
 		);
 	}
@@ -696,46 +703,46 @@ function messcut_get_en_case_translations(): array {
 		),
 		'payen'     => array(
 			'title'    => 'Payen',
-			'excerpt'  => 'Payen — strategic positioning and brand development',
+			'excerpt'  => 'From brand strategy to a marketing system and business growth',
 			'services' => array( 'brand-strategy', 'marketing-support' ),
 			'fields'   => array(
-				'hero_subtitle' => 'Strategic positioning for Payen',
-				'intro'         => '<p>Payen — a case of building a brand focused on long-term competitive advantage.</p>',
-				'cta_title'     => 'Facing a similar challenge?',
-				'cta_text'      => 'Fill out the form — we will discuss your project.',
+				'hero_subtitle' => 'From brand strategy to systemic marketing and business growth',
+				'intro'         => '<p>PAYEN is a Ukrainian scented body-care brand for people who value elegance without showiness. We supported the project from market research to brand launch and building a marketing system. After launch we worked as an external marketing director, owning promotion channels, analytics, and growth opportunities.</p>',
+				'cta_title'     => 'Planning a brand launch or building a marketing system?',
+				'cta_text'      => 'Let’s discuss your project.',
 			),
 		),
 		'hottier'   => array(
 			'title'    => 'Hottier',
-			'excerpt'  => 'Hottier — brand strategy and marketing system',
-			'services' => array( 'marketing-support' ),
+			'excerpt'  => 'How we found open space between the cult of the perfect body and body positivity — and turned it into a sportswear brand',
+			'services' => array( 'brand-strategy', 'marketing-support' ),
 			'fields'   => array(
-				'hero_subtitle' => 'Brand strategy and marketing system for Hottier',
-				'intro'         => '<p>Hottier — an example of a systematic approach to brand and marketing development.</p>',
-				'cta_title'     => 'Discuss your project',
-				'cta_text'      => 'Tell us about your business — we will find the best collaboration format.',
+				'hero_subtitle' => 'Open space between the cult of the perfect body and body positivity',
+				'intro'         => '<p>The women’s sports and athleisure market split into two camps: brands selling discipline and the chase for an ideal body, and brands built around unconditional self-acceptance. Most women live in neither extreme. HOTTIER occupies that open territory — from strategy and naming through product concept and launch plan.</p>',
+				'cta_title'     => 'Launching a brand or lost among similar competitors?',
+				'cta_text'      => 'Maybe the issue is not advertising. Let’s discuss your project.',
 			),
 		),
 		'antytezys' => array(
 			'title'    => 'Antytezys',
-			'excerpt'  => 'Antytezys — redefining the brand’s position in the market',
+			'excerpt'  => 'How we built a women’s fashion brand that redefines femininity through strength, not weakness',
 			'services' => array( 'brand-strategy' ),
 			'fields'   => array(
-				'hero_subtitle' => 'Redefining Antytezys’s position in the market',
-				'intro'         => '<p>Antytezys — a case of finding new territory in a competitive category.</p>',
-				'cta_title'     => 'Facing a similar challenge?',
-				'cta_text'      => 'We start by understanding what drives your customers’ choices.',
+				'hero_subtitle' => 'Femininity through strength, not weakness',
+				'intro'         => '<p>Most fashion brands show femininity through one of two extremes: tenderness or strength and protest. Modern women refuse to choose only one side of themselves. ANTYTEZYS was built on that tension — brand strategy, naming, and a communication platform around Built From Opposites.</p>',
+				'cta_title'     => 'Launching a brand and looking for a strong idea, not only identity?',
+				'cta_text'      => 'Let’s start with strategy.',
 			),
 		),
 		'boostera'  => array(
 			'title'    => 'Boostera',
-			'excerpt'  => 'Boostera — strategic growth and scaling',
-			'services' => array( 'marketing-support', 'consulting' ),
+			'excerpt'  => 'How we turned a language school into a brand for people who want more from life',
+			'services' => array( 'brand-strategy', 'marketing-support' ),
 			'fields'   => array(
-				'hero_subtitle' => 'Strategic growth and scaling for Boostera',
-				'intro'         => '<p>Boostera — a case of scaling a brand through systematic marketing.</p>',
-				'cta_title'     => 'Let’s discuss your project',
-				'cta_text'      => 'We will help find growth opportunities for the business.',
+				'hero_subtitle' => 'English as a tool for wanting more from life',
+				'intro'         => '<p>Most language schools sell English itself: teachers, methods, levels, certificates, fast results. For people, English is rarely the real goal — they need it for a new job, career, relocation, or business. We reframed Boostera from a place that teaches English into a space that helps people reach their goals, around the platform «Become more».</p>',
+				'cta_title'     => 'Business works, but growth needs a new brand role — not just new ads?',
+				'cta_text'      => 'Let’s start with strategy.',
 			),
 		),
 	);

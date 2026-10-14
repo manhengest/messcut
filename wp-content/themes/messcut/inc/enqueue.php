@@ -40,7 +40,7 @@ function messcut_enqueue_assets(): void {
 
 	wp_enqueue_style(
 		'messcut-fonts',
-		'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap',
+		'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap',
 		array(),
 		null
 	);
@@ -75,6 +75,9 @@ function messcut_enqueue_assets(): void {
 		$extra['messcut-case'] = '/assets/js/case.js';
 		$extra['messcut-rail'] = '/assets/js/rail.js';
 	}
+	if ( is_singular( 'article' ) ) {
+		$extra['messcut-article'] = '/assets/js/article.js';
+	}
 	foreach ( $extra as $handle => $relative ) {
 		$file = MESSCUT_DIR . $relative;
 		wp_enqueue_script(
@@ -94,6 +97,16 @@ function messcut_enqueue_assets(): void {
 				'stage' => __( 'Етап %1$d / %2$d', 'messcut' ),
 				'prev'  => __( 'Назад', 'messcut' ),
 				'next'  => __( 'Далі', 'messcut' ),
+			)
+		);
+	}
+
+	if ( isset( $extra['messcut-article'] ) ) {
+		wp_localize_script(
+			'messcut-article',
+			'messcutArticle',
+			array(
+				'copied' => __( 'Скопійовано', 'messcut' ),
 			)
 		);
 	}
@@ -118,6 +131,33 @@ function messcut_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'messcut_enqueue_assets' );
 
 /**
+ * Print favicon and app icon meta tags from theme assets.
+ */
+function messcut_print_favicons(): void {
+	$base = MESSCUT_URI . '/assets/img/fav';
+	?>
+<link rel="apple-touch-icon" sizes="57x57" href="<?php echo esc_url( $base . '/apple-icon-57x57.png' ); ?>">
+<link rel="apple-touch-icon" sizes="60x60" href="<?php echo esc_url( $base . '/apple-icon-60x60.png' ); ?>">
+<link rel="apple-touch-icon" sizes="72x72" href="<?php echo esc_url( $base . '/apple-icon-72x72.png' ); ?>">
+<link rel="apple-touch-icon" sizes="76x76" href="<?php echo esc_url( $base . '/apple-icon-76x76.png' ); ?>">
+<link rel="apple-touch-icon" sizes="114x114" href="<?php echo esc_url( $base . '/apple-icon-114x114.png' ); ?>">
+<link rel="apple-touch-icon" sizes="120x120" href="<?php echo esc_url( $base . '/apple-icon-120x120.png' ); ?>">
+<link rel="apple-touch-icon" sizes="144x144" href="<?php echo esc_url( $base . '/apple-icon-144x144.png' ); ?>">
+<link rel="apple-touch-icon" sizes="152x152" href="<?php echo esc_url( $base . '/apple-icon-152x152.png' ); ?>">
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url( $base . '/apple-icon-180x180.png' ); ?>">
+<link rel="icon" type="image/png" sizes="192x192" href="<?php echo esc_url( $base . '/android-icon-192x192.png' ); ?>">
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo esc_url( $base . '/favicon-32x32.png' ); ?>">
+<link rel="icon" type="image/png" sizes="96x96" href="<?php echo esc_url( $base . '/favicon-96x96.png' ); ?>">
+<link rel="icon" type="image/png" sizes="16x16" href="<?php echo esc_url( $base . '/favicon-16x16.png' ); ?>">
+<link rel="manifest" href="<?php echo esc_url( $base . '/manifest.json' ); ?>">
+<meta name="msapplication-TileColor" content="#C6F1E0">
+<meta name="msapplication-TileImage" content="<?php echo esc_url( $base . '/ms-icon-144x144.png' ); ?>">
+<meta name="theme-color" content="#C6F1E0">
+	<?php
+}
+add_action( 'wp_head', 'messcut_print_favicons', 1 );
+
+/**
  * Lock mobile viewport height before first paint so sections do not
  * shrink when the browser chrome (top/bottom bars) shows on scroll.
  */
@@ -136,7 +176,7 @@ function messcut_print_app_height_script(): void {
 </script>
 	<?php
 }
-add_action( 'wp_head', 'messcut_print_app_height_script', 1 );
+add_action( 'wp_head', 'messcut_print_app_height_script', 2 );
 
 /**
  * Whether the local BrowserSync server is reachable from this PHP process.

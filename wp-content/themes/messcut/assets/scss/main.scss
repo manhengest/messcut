@@ -12,6 +12,7 @@
 @use "components/tabs";
 @use "components/marquee";
 @use "components/link-arrow-icon";
+@use "components/close-band";
 @use "components/case-card";
 @use "components/insight-card";
 @use "components/chrome-bits";
@@ -20,4 +21,5 @@
 @use "pages/approach";
 @use "pages/services";
 @use "pages/case";
+@use "pages/article";
 @use "pages/listing";

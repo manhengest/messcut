@@ -27,14 +27,13 @@ get_header();
 	</div>
 	</div>
 </section>
-<section class="cases-close">
-	<div class="container">
-	<div class="cases-close__band">
-		<span class="cases-close__eyebrow"><?php esc_html_e( 'Наступний кейс — ваш', 'messcut' ); ?></span>
-		<h2><?php echo wp_kses( __( 'Розкажіть про свій бренд — <em>знайдемо точку росту</em>', 'messcut' ), array( 'em' => array() ) ); ?></h2>
-		<a class="cta" href="<?php echo esc_url( messcut_contact_url() ); ?>"><?php esc_html_e( 'Обговорити проєкт', 'messcut' ); ?> <b>→</b></a>
-	</div>
-	</div>
-</section>
 <?php
+get_template_part(
+	'template-parts/components/close-band',
+	null,
+	array(
+		'eyebrow' => __( 'Наступний кейс — ваш', 'messcut' ),
+		'title'   => __( 'Розкажіть про свій бренд — <em>знайдемо точку росту</em>', 'messcut' ),
+	)
+);
 get_footer();

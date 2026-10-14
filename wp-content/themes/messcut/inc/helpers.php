@@ -656,3 +656,70 @@ function messcut_render_logo( string $variant = 'black', array $args = array() )
 	}
 	printf( '<span class="%s">%s</span>', esc_attr( $class ), $img );
 }
+
+/**
+ * Allowed HTML for insight article bodies.
+ *
+ * @return array<string, array<string, bool>>
+ */
+function messcut_article_allowed_html(): array {
+	$attrs = array(
+		'class' => true,
+		'id'    => true,
+	);
+
+	return array(
+		'h2'         => $attrs,
+		'h3'         => $attrs,
+		'p'          => $attrs,
+		'ul'         => $attrs,
+		'ol'         => $attrs,
+		'li'         => $attrs,
+		'div'        => $attrs,
+		'span'       => $attrs,
+		'b'          => array(),
+		'strong'     => array(),
+		'em'         => array(),
+		'i'          => array(),
+		'blockquote' => $attrs,
+		'table'      => $attrs,
+		'thead'      => $attrs,
+		'tbody'      => $attrs,
+		'tr'         => $attrs,
+		'th'         => $attrs,
+		'td'         => $attrs,
+	);
+}
+
+/**
+ * Escaped article body HTML for the single template.
+ */
+function messcut_get_article_content_html( ?int $post_id = null ): string {
+	$id = $post_id ?? (int) get_the_ID();
+	if ( ! $id ) {
+		return '';
+	}
+
+	$content = (string) get_post_field( 'post_content', $id );
+
+	return wp_kses( $content, messcut_article_allowed_html() );
+}
+
+/**
+ * Load a seeded article HTML body from inc/data/articles/.
+ */
+function messcut_load_article_body( string $slug, string $lang = 'uk' ): string {
+	$slug = sanitize_title( $slug );
+	$lang = preg_replace( '/[^a-z]/', '', strtolower( $lang ) ) ?: 'uk';
+	if ( '' === $slug ) {
+		return '';
+	}
+
+	$path = MESSCUT_DIR . '/inc/data/articles/' . $slug . '-' . $lang . '.html';
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+
+	$html = file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local theme file.
+	return is_string( $html ) ? trim( $html ) : '';
+}
