@@ -24,6 +24,22 @@
 			"name": "reading_time",
 			"type": "text",
 			"instructions": "Наприклад «6 хвилин» / «6 minutes»."
+		},
+		{
+			"key": "field_article_hero_tone",
+			"label": "Колір банера",
+			"name": "hero_tone",
+			"type": "select",
+			"instructions": "Фон героблоку без зображення: м'ятний (за замовчуванням) або бежевий.",
+			"choices": {
+				"mint": "М'ятний",
+				"beige": "Бежевий"
+			},
+			"default_value": "mint",
+			"return_format": "value",
+			"allow_null": 0,
+			"multiple": 0,
+			"ui": 0
 		}
 	],
 	"location": [[{"param": "post_type", "operator": "==", "value": "article"}]],
@@ -36,5 +52,5 @@
 	"active": true,
 	"description": "",
 	"show_in_rest": 0,
-	"modified": 1792000000
+	"modified": 1792000100
 }

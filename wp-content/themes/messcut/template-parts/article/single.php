@@ -9,14 +9,20 @@ $post_id      = get_the_ID();
 $title_html   = (string) ( messcut_get_acf( 'title_html', $post_id ) ?: '' );
 $topic        = (string) ( messcut_get_acf( 'topic', $post_id ) ?: '' );
 $reading_time = (string) ( messcut_get_acf( 'reading_time', $post_id ) ?: '' );
+$hero_tone    = (string) ( messcut_get_acf( 'hero_tone', $post_id ) ?: 'mint' );
 $lead         = has_excerpt() ? get_the_excerpt() : '';
 $archive_url  = messcut_insights_archive_url();
+$hero_class   = 'article-hero';
+
+if ( 'beige' === $hero_tone ) {
+	$hero_class .= ' article-hero--beige';
+}
 
 if ( '' === $title_html ) {
 	$title_html = esc_html( get_the_title() );
 }
 ?>
-<section class="article-hero">
+<section class="<?php echo esc_attr( $hero_class ); ?>">
 	<div class="article-hero__inner">
 		<div class="article-hero__crumbs">
 			<a href="<?php echo esc_url( $archive_url ); ?>"><?php esc_html_e( 'Інсайти', 'messcut' ); ?></a>

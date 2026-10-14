@@ -174,6 +174,13 @@ function messcut_seed_en_articles(): void {
 		'research-foundation'      => array(
 			'title'   => 'Why research is the foundation of brand strategy',
 			'excerpt' => 'Strategy without data is a set of hypotheses. These are the research types that matter most at the start of a project, and how to avoid spending the budget on pretty presentations.',
+			'content' => messcut_load_article_body( 'research-foundation', 'en' ),
+			'fields'  => array(
+				'title_html'   => 'Why research is the <em>foundation</em> of brand strategy',
+				'topic'        => 'Research',
+				'reading_time' => '5 minutes',
+				'hero_tone'    => 'beige',
+			),
 		),
 		'fractional-cmo'           => array(
 			'title'   => 'What a fractional CMO is, and when a business needs one',

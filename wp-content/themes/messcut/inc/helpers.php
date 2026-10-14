@@ -687,7 +687,12 @@ function messcut_article_allowed_html(): array {
 		'tbody'      => $attrs,
 		'tr'         => $attrs,
 		'th'         => $attrs,
-		'td'         => $attrs,
+		'td'         => array_merge(
+			$attrs,
+			array(
+				'data-label' => true,
+			)
+		),
 	);
 }
 
