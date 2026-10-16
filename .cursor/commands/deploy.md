@@ -37,7 +37,7 @@ If a secret or trash file is already staged, unstage it and warn before continui
 | **Should fix** | Clear correctness/quality issues that should not ship (a11y breakage, broken i18n, obvious regressions, missing escaping on new output) | **STOP — do not build, push, or deploy** |
 | Nice to have | Nits, optional polish, non-blocking suggestions | Report only; continue |
 
-Map Bugbot/security severities: Critical / High / Medium → **Must fix** or **Should fix** (both block). Low / Note / Nit → Nice to have (do not block). If a finding is labeled must-fix or should-fix, it blocks regardless of tool wording.
+Classify every finding as **Must fix**, **Should fix**, or **Nice to have** using the table above. If unsure between Must and Should, prefer Should (still blocks). Nits and optional polish are Nice to have only.
 
 **On any Must fix or Should fix → STOP.** Print the blocked report. Do not continue to build, commit, push, `./scripts/deploy.sh`, or `./scripts/sync-wp-content.sh`.
 
@@ -72,25 +72,29 @@ Note: branch, uncommitted/untracked files, whether HEAD is ahead of upstream.
 
 If not a git repo or detached HEAD with no clear branch — **stop** and report.
 
-### 2. Code review
+### 2. Code review (inline — no Bugbot / no subagent)
 
-Review the **local diff** that will ship (working tree + index; if the tree is clean, review unpushed commits / `branch changes`).
+You (the agent running `/deploy`) review the **local diff** that will ship. Do **not** launch Bugbot, Security Review, or any other review subagent.
 
-Launch **exactly one** `bugbot` subagent (`run_in_background: false`, `description: "Bugbot"`) with this prompt shape (do not compute the diff yourself first):
+**Diff scope**
 
-```text
-Full Repository Path: <absolute repository path>
-Diff: uncommitted changes
-Custom Instructions: Blockers are must-fix and should-fix only. Flag WordPress escaping gaps (esc_html/esc_url/esc_attr), secret leaks, XSS, broken templates, and theme regressions. Ignore nits unless they are should-fix.
-```
+- Prefer the working tree + index from step 1 (`git diff` and `git diff --cached`).
+- If the working tree is clean but there are unpushed commits, review `git diff @{u}...HEAD` (or `main...HEAD` if no upstream).
+- Read changed files as needed; do not skip hunks you do not understand.
 
-If the working tree is clean (nothing uncommitted) but there are unpushed commits, use `Diff: branch changes` instead of `uncommitted changes`.
+**Checklist** (against `CLAUDE.md` + this command's hard rules)
 
-If Bugbot cannot complete after one retry, do an inline review of the same local diff against `CLAUDE.md` (escaping, enqueue, i18n, no seed-on-prod, theme-only deploy). Do **not** fail open.
+- Escaping / XSS: new or changed PHP output uses `esc_html`, `esc_url`, `esc_attr`, or equivalent; REST/form input sanitized
+- Secrets: no `.env.deploy`, credentials, keys, or passwords in the diff
+- Templates: no broken includes, empty required sections, or obvious HTML/PHP syntax breaks
+- Enqueue: assets via `wp_enqueue_*` + `filemtime()`; no hand-edited `assets/css/main.css` that bypasses SCSS
+- i18n: user-facing strings use the `messcut` text domain patterns already in the theme
+- Deploy safety: no `inc/seed*.php` on prod paths; theme-only ship; no WordPress core/plugins/uploads in the commit
+- Regressions: broken links, missing enqueues, a11y breakage (focus, labels), or clear functional mistakes in the changed surface
 
 Also reject the diff if it stages `.env.deploy` or other secrets.
 
-Print a compact table of findings (Severity, Location, Finding). Then apply the severity gate above.
+Print a compact table of findings (Severity, Location, Finding). Then apply the severity gate above. Do **not** fail open — if the diff is large, still review it; if you cannot finish the review, **STOP** as blocked.
 
 ### 3. Build
 

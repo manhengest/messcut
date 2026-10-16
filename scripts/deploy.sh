@@ -167,6 +167,9 @@ deploy() {
     rm -rf messcut.deploy-new messcut.deploy-old
     mkdir messcut.deploy-new
     tar -xf - -C messcut.deploy-new
+    # macOS can ship dirs as 700; nginx needs execute on every path segment.
+    find messcut.deploy-new -type d -exec chmod 755 {} +
+    find messcut.deploy-new -type f -exec chmod 644 {} +
     if [ -d messcut ]; then mv messcut messcut.deploy-old; fi
     mv messcut.deploy-new messcut
     rm -rf messcut.deploy-old

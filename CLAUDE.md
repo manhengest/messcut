@@ -123,7 +123,7 @@ Current production path: `/home/ur624933/messcut.com/www`. Host/user live in `.e
 
 **Each release**
 
-In Cursor, run **`/deploy`**: reviews the local diff (Bugbot), **stops** on must-fix or should-fix, then `npm run build`, commits/pushes, and `./scripts/deploy.sh`. Command lives at `.cursor/commands/deploy.md`.
+In Cursor, run **`/deploy`**: inline-reviews the local diff, **stops** on must-fix or should-fix, then `npm run build`, commits/pushes, and `./scripts/deploy.sh`. Command lives at `.cursor/commands/deploy.md`.
 
 Or by hand:
 

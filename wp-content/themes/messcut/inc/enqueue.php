@@ -77,6 +77,7 @@ function messcut_enqueue_assets(): void {
 	}
 	if ( is_singular( 'article' ) ) {
 		$extra['messcut-article'] = '/assets/js/article.js';
+		$extra['messcut-rail']    = '/assets/js/rail.js';
 	}
 	foreach ( $extra as $handle => $relative ) {
 		$file = MESSCUT_DIR . $relative;

@@ -1,6 +1,7 @@
 /**
  * Chapter rail: the bead stays a dot. When the next section is reached it
  * stretches into a line, then springs back into a dot on that section.
+ * Each dot shows that section's title on hover and keyboard focus.
  */
 (function () {
 	var rail = document.querySelector("[data-rail]");
@@ -10,14 +11,24 @@
 	var sections = Array.prototype.slice.call(document.querySelectorAll(selector));
 	if (!sections.length) return;
 
+	function sectionTitle(section) {
+		var heading = /^H[1-3]$/.test(section.tagName) ? section : section.querySelector("h1, h2, h3");
+		if (!heading) return "";
+		return heading.textContent.replace(/\s+/g, " ").trim();
+	}
+
 	var links = [];
 	sections.forEach(function (section, index) {
 		if (!section.id) section.id = "section-" + index;
 		var link = document.createElement("a");
-		var heading = section.querySelector("h1, h2, h3");
-		var text = heading ? heading.textContent.replace(/\s+/g, " ").trim() : "";
+		var text = sectionTitle(section) || ("Розділ " + (index + 1));
+		var tip = document.createElement("span");
+		tip.className = "chapter-rail__tip";
+		tip.setAttribute("aria-hidden", "true");
+		tip.textContent = text;
 		link.href = "#" + section.id;
-		link.setAttribute("aria-label", text || ("Розділ " + (index + 1)));
+		link.setAttribute("aria-label", text);
+		link.appendChild(tip);
 		link.addEventListener("click", function (event) {
 			if (event.defaultPrevented || event.button !== 0) return;
 			if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

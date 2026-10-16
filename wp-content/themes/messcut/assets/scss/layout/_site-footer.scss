@@ -63,10 +63,6 @@
 	text-decoration: none;
 }
 
-.site-footer__col a:hover {
-	color: #ffffff;
-}
-
 .site-footer__bar {
 	display: flex;
 	flex-direction: row;
@@ -84,10 +80,6 @@
 .site-footer__bar a {
 	color: inherit;
 	text-decoration: none;
-}
-
-.site-footer__bar a:hover {
-	color: var(--footer);
 }
 
 @include bp(lg) {

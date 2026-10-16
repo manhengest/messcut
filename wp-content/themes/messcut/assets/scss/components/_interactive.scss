@@ -1,0 +1,123 @@
+@use "../abstracts/mixins" as *;
+
+// Shared transitions for interactive controls (hover rules are desktop-only below).
+.service-card__cta,
+.services-cta__book,
+.case-approach,
+.channel-list a,
+.consult-link,
+.case-materials a,
+.request-funnel button,
+.stepper__nav button,
+.stepper__track button,
+.service-card__proof,
+.bottom-sheet__close {
+	transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.2s ease;
+}
+
+.site-header__nav a,
+.language-switcher__link,
+.crumb a,
+.path-service a,
+.approach-services a,
+.services-cta__tg,
+.site-footer__col a,
+.site-footer__bar a,
+.case-copy a,
+.article-hero__crumbs a,
+.service-card__more,
+.accordion summary,
+.case-acc summary,
+.service-group__toggle {
+	transition: color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+@include hover-desktop {
+	// —— Buttons / button-shaped controls: lift + shadow ——
+	.service-card__cta:not(.is-disabled):hover,
+	.services-cta__book:hover,
+	.case-approach:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 26px 42px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+	}
+
+	.case-cta-band .cta:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 18px 34px -14px rgba(0, 0, 0, 0.35);
+	}
+
+	.channel-list a:hover,
+	.consult-link:hover,
+	.case-materials a:hover,
+	.request-funnel button:not(.is-on):hover,
+	.stepper__nav button:not(:disabled):hover,
+	.service-card__proof:hover,
+	.bottom-sheet__close:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 16px 32px -14px rgba(0, 0, 0, 0.28);
+	}
+
+	.stepper__track button:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.35);
+	}
+
+	.request-funnel button.is-on:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 16px 32px -14px rgba(0, 0, 0, 0.45);
+	}
+
+	// —— Text links / text-like controls: color change ——
+	.site-header__nav a:hover {
+		color: var(--brown);
+		opacity: 1;
+	}
+
+	.language-switcher__link:hover {
+		color: var(--fg);
+	}
+
+	.crumb a:hover,
+	.article-hero__crumbs a:hover {
+		color: var(--brown);
+		opacity: 1;
+	}
+
+	.path-service a:hover {
+		color: var(--mint);
+	}
+
+	.path-service.is-hot a:hover {
+		color: var(--brown);
+	}
+
+	.approach-services a:hover {
+		color: var(--brown);
+	}
+
+	.services-cta__tg:hover {
+		color: #fff;
+		border-bottom-color: rgba(246, 244, 240, 0.8);
+	}
+
+	.site-footer__col a:hover,
+	.site-footer__bar a:hover {
+		color: var(--mint);
+	}
+
+	.case-copy a:hover {
+		color: var(--brown);
+		background: var(--mint-strong);
+	}
+
+	.service-card__more:hover {
+		color: var(--brown);
+		border-bottom-color: var(--brown);
+	}
+
+	.accordion summary:hover,
+	.case-acc summary:hover,
+	.service-group__toggle:hover {
+		color: var(--brown);
+	}
+}

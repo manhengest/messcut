@@ -7,23 +7,83 @@
 	gap: 8px;
 	padding: 8px 3px;
 	border-radius: 12px;
-	background: rgba(255, 255, 255, 0.55);
 	transform: translateY(-50%);
 	opacity: 0;
-	backdrop-filter: blur(8px);
 	transition: opacity 0.35s ease;
+}
+
+// Blur lives on a pseudo so tooltips can paint outside the pill.
+// backdrop-filter on the rail itself clips overflowing children.
+.chapter-rail::before {
+	content: "";
+	position: absolute;
+	z-index: 0;
+	inset: 0;
+	border-radius: inherit;
+	background: rgba(255, 255, 255, 0.55);
+	backdrop-filter: blur(8px);
+	pointer-events: none;
 }
 
 .chapter-rail.is-on { opacity: 1; }
 
 .chapter-rail a {
+	position: relative;
+	z-index: 1;
 	width: 6px;
 	height: 6px;
 	border-radius: 99px;
 	background: rgba(58, 38, 31, 0.25);
+	text-decoration: none;
+}
+
+.chapter-rail a::before {
+	content: "";
+	position: absolute;
+	inset: -4px -10px;
+}
+
+.chapter-rail a:hover,
+.chapter-rail a:focus-visible {
+	background: var(--brown);
 }
 
 .chapter-rail a.is-done { background: var(--mint-strong); }
+
+.chapter-rail a.is-done:hover,
+.chapter-rail a.is-done:focus-visible {
+	background: #1f8f68;
+}
+
+.chapter-rail__tip {
+	position: absolute;
+	z-index: 2;
+	top: 50%;
+	right: calc(100% + 14px);
+	width: max-content;
+	max-width: 240px;
+	padding: 6px 10px;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 8px 22px -10px rgba(58, 38, 31, 0.45);
+	color: var(--brown);
+	font-family: var(--font-body);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.35;
+	text-align: left;
+	white-space: normal;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateY(-50%) translateX(4px);
+	transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.chapter-rail a:hover .chapter-rail__tip,
+.chapter-rail a:focus-visible .chapter-rail__tip {
+	opacity: 1;
+	transform: translateY(-50%);
+}
 
 .chapter-rail__bead {
 	position: absolute;
@@ -46,5 +106,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.chapter-rail { transition: none; }
+	.chapter-rail,
+	.chapter-rail__tip { transition: none; }
 }

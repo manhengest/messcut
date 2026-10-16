@@ -281,7 +281,14 @@ function messcut_get_article_seed_data(): array {
 		),
 		'fractional-cmo' => array(
 			'title'   => 'Що таке Fractional CMO і коли бізнесу потрібен директор з маркетингу на аутсорсі',
-			'excerpt' => 'Fractional CMO — формат, коли зовнішній стратегічний маркетолог відповідає за систему, команду та результати без найму штатного CMO. Коли це працює і що очікувати від партнерства.',
+			'excerpt' => 'Стратег з маркетингу на частину часу. Розбираємо, чим Fractional CMO відрізняється від агенції та штатного директора і за якими ознаками зрозуміти, що він потрібен вашому бізнесу.',
+			'content' => messcut_load_article_body( 'fractional-cmo', 'uk' ),
+			'types'   => array( 'marketing' ),
+			'fields'  => array(
+				'title_html'   => 'Що таке <em>Fractional CMO</em> і коли бізнесу потрібен директор з маркетингу на аутсорсі',
+				'topic'        => 'Fractional CMO',
+				'reading_time' => '3 хвилини',
+			),
 		),
 	);
 }
