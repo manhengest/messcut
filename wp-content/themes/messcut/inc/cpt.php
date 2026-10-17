@@ -83,6 +83,19 @@ function messcut_register_post_types(): void {
 add_action( 'init', 'messcut_register_post_types' );
 
 /**
+ * Case archive uses the same menu_order as home/approach rails.
+ *
+ * @param WP_Query $query Main query.
+ */
+function messcut_order_case_archive( WP_Query $query ): void {
+	if ( is_admin() || ! $query->is_main_query() || ! $query->is_post_type_archive( 'case_study' ) ) {
+		return;
+	}
+	$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
+}
+add_action( 'pre_get_posts', 'messcut_order_case_archive' );
+
+/**
  * Old service URLs land on the services hub anchor.
  */
 function messcut_redirect_service_urls(): void {
