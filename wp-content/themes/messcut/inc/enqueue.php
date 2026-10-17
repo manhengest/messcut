@@ -72,6 +72,21 @@ function messcut_enqueue_assets(): void {
 		$extra['messcut-rail'] = '/assets/js/rail.js';
 	}
 	if ( is_singular( 'case_study' ) ) {
+		$fancybox_css = MESSCUT_DIR . '/assets/vendor/fancybox/fancybox.css';
+		$fancybox_js  = MESSCUT_DIR . '/assets/vendor/fancybox/fancybox.umd.js';
+		wp_enqueue_style(
+			'messcut-fancybox',
+			MESSCUT_URI . '/assets/vendor/fancybox/fancybox.css',
+			array(),
+			file_exists( $fancybox_css ) ? (string) filemtime( $fancybox_css ) : MESSCUT_VERSION
+		);
+		wp_enqueue_script(
+			'messcut-fancybox',
+			MESSCUT_URI . '/assets/vendor/fancybox/fancybox.umd.js',
+			array(),
+			file_exists( $fancybox_js ) ? (string) filemtime( $fancybox_js ) : MESSCUT_VERSION,
+			true
+		);
 		$extra['messcut-case'] = '/assets/js/case.js';
 		$extra['messcut-rail'] = '/assets/js/rail.js';
 	}
@@ -81,10 +96,14 @@ function messcut_enqueue_assets(): void {
 	}
 	foreach ( $extra as $handle => $relative ) {
 		$file = MESSCUT_DIR . $relative;
+		$deps = array( 'messcut-main' );
+		if ( 'messcut-case' === $handle ) {
+			$deps[] = 'messcut-fancybox';
+		}
 		wp_enqueue_script(
 			$handle,
 			MESSCUT_URI . $relative,
-			array( 'messcut-main' ),
+			$deps,
 			file_exists( $file ) ? (string) filemtime( $file ) : MESSCUT_VERSION,
 			true
 		);

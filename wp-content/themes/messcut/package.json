@@ -12,5 +12,8 @@
     "browser-sync": "^3.0.3",
     "npm-run-all2": "^7.0.2",
     "sass": "^1.83.0"
+  },
+  "dependencies": {
+    "@fancyapps/ui": "^6.1.15"
   }
 }

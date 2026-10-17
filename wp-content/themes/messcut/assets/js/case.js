@@ -102,4 +102,8 @@
 		});
 		show(0);
 	});
+
+	if (window.Fancybox && typeof window.Fancybox.bind === "function") {
+		window.Fancybox.bind(".case-gallery [data-fancybox]");
+	}
 })();

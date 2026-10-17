@@ -55,6 +55,20 @@ function messcut_get_case_document( int $post_id ): array {
 }
 
 /**
+ * Sentence-case the first character (UTF-8 safe).
+ */
+function messcut_case_ucfirst( string $text ): string {
+	$text = trim( $text );
+	if ( '' === $text ) {
+		return '';
+	}
+	if ( function_exists( 'mb_substr' ) && function_exists( 'mb_strtoupper' ) ) {
+		return mb_strtoupper( mb_substr( $text, 0, 1, 'UTF-8' ), 'UTF-8' ) . mb_substr( $text, 1, null, 'UTF-8' );
+	}
+	return ucfirst( $text );
+}
+
+/**
  * @param mixed $value Paragraphs.
  */
 function messcut_case_paragraphs( mixed $value ): string {
@@ -427,7 +441,15 @@ function messcut_render_case_chapter( string $key, mixed $data, int $n, int $tot
 						if ( ! is_array( $item ) ) {
 							continue;
 						}
-						echo '<details><summary><span class="task-list__n">' . esc_html( sprintf( '%02d', $i + 1 ) ) . '</span><span class="task-list__title">' . esc_html( (string) ( $item['title'] ?? '' ) ) . '<i>+</i></span></summary><div class="task-list__body">' . esc_html( (string) ( $item['text'] ?? '' ) ) . '</div></details>';
+						$item_n     = esc_html( sprintf( '%02d', $i + 1 ) );
+						$item_title = esc_html( (string) ( $item['title'] ?? '' ) );
+						$text       = trim( (string) ( $item['text'] ?? '' ) );
+						$head       = '<span class="task-list__n">' . $item_n . '</span><span class="task-list__title">' . $item_title;
+						if ( '' === $text ) {
+							echo '<div class="task-list__item">' . $head . '</span></div>';
+							continue;
+						}
+						echo '<details><summary>' . $head . '<i>+</i></span></summary><div class="task-list__body">' . esc_html( $text ) . '</div></details>';
 					}
 					echo '</div>';
 				}
@@ -488,34 +510,40 @@ function messcut_render_case_chapter( string $key, mixed $data, int $n, int $tot
 				}
 			} elseif ( 'visual' === $key ) {
 				echo messcut_case_paragraphs( $data['lead'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				$cards = $data['items'] ?? array();
-				if ( is_array( $cards ) && $cards ) {
+				$cards    = $data['items'] ?? array();
+				$list     = $data['list'] ?? array();
+				$has_cards = is_array( $cards ) && $cards;
+				$has_list  = is_array( $list ) && $list;
+				if ( $has_cards || $has_list ) {
 					echo '<div class="visual-cards">';
-					foreach ( array_values( $cards ) as $i => $item ) {
-						if ( ! is_array( $item ) ) {
-							continue;
+					$card_n = 0;
+					if ( $has_cards ) {
+						foreach ( array_values( $cards ) as $item ) {
+							if ( ! is_array( $item ) ) {
+								continue;
+							}
+							++$card_n;
+							echo '<div><span>' . esc_html( sprintf( '%02d', $card_n ) ) . '</span><b>' . esc_html( messcut_case_ucfirst( (string) ( $item['title'] ?? '' ) ) ) . '</b>';
+							$text = trim( (string) ( $item['text'] ?? '' ) );
+							if ( '' !== $text ) {
+								echo '<p>' . esc_html( $text ) . '</p>';
+							}
+							echo '</div>';
 						}
-						echo '<div><span>' . esc_html( sprintf( '%02d', $i + 1 ) ) . '</span><b>' . esc_html( (string) ( $item['title'] ?? '' ) ) . '</b><p>' . esc_html( (string) ( $item['text'] ?? '' ) ) . '</p></div>';
+					}
+					if ( $has_list ) {
+						foreach ( $list as $line ) {
+							$line = messcut_case_ucfirst( (string) $line );
+							if ( '' === $line ) {
+								continue;
+							}
+							++$card_n;
+							echo '<div><span>' . esc_html( sprintf( '%02d', $card_n ) ) . '</span><b>' . esc_html( $line ) . '</b></div>';
+						}
 					}
 					echo '</div>';
 				}
-				if ( ! empty( $data['list'] ) && is_array( $data['list'] ) ) {
-					messcut_render_case_block( array( 't' => 'list', 'v' => $data['list'] ) );
-				}
-				if ( ! empty( $data['gallery'] ) && is_array( $data['gallery'] ) ) {
-					echo '<div class="case-gallery">';
-					foreach ( $data['gallery'] as $figure ) {
-						if ( ! is_array( $figure ) ) {
-							continue;
-						}
-						$url = messcut_media_url( (string) ( $figure['src'] ?? '' ) );
-						if ( ! $url ) {
-							continue;
-						}
-						echo '<figure' . ( ! empty( $figure['tall'] ) ? ' class="is-tall"' : '' ) . '><img src="' . esc_url( $url ) . '" alt="' . esc_attr( (string) ( $figure['alt'] ?? '' ) ) . '"></figure>';
-					}
-					echo '</div>';
-				}
+				messcut_render_case_gallery( $data['gallery'] ?? null, 'case-gallery-visual' );
 			} elseif ( 'support' === $key ) {
 				echo messcut_case_paragraphs( $data['lead'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				if ( ! empty( $data['tags'] ) && is_array( $data['tags'] ) ) {
@@ -536,9 +564,20 @@ function messcut_render_case_chapter( string $key, mixed $data, int $n, int $tot
 				} else {
 					echo messcut_case_paragraphs( $data['lead'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					if ( ! empty( $data['list'] ) && is_array( $data['list'] ) ) {
-						messcut_render_case_block( array( 't' => 'list', 'v' => $data['list'] ) );
+						echo '<div class="visual-cards">';
+						$card_n = 0;
+						foreach ( $data['list'] as $line ) {
+							$line = messcut_case_ucfirst( (string) $line );
+							if ( '' === $line ) {
+								continue;
+							}
+							++$card_n;
+							echo '<div><span>' . esc_html( sprintf( '%02d', $card_n ) ) . '</span><b>' . esc_html( $line ) . '</b></div>';
+						}
+						echo '</div>';
 					}
 				}
+				messcut_render_case_gallery( $data['gallery'] ?? null, 'case-gallery-outcome' );
 			}
 			?>
 		</div>
@@ -574,6 +613,34 @@ function messcut_render_case_conclusion( array $doc ): void {
 		</div>
 	</section>
 	<?php
+}
+
+/**
+ * Case image gallery (Fancybox).
+ *
+ * @param mixed  $gallery Gallery items.
+ * @param string $group   Fancybox group name.
+ */
+function messcut_render_case_gallery( mixed $gallery, string $group = 'case-gallery' ): void {
+	if ( ! is_array( $gallery ) || ! $gallery ) {
+		return;
+	}
+	echo '<div class="case-gallery">';
+	foreach ( $gallery as $figure ) {
+		if ( ! is_array( $figure ) ) {
+			continue;
+		}
+		$url = messcut_media_url( (string) ( $figure['src'] ?? '' ) );
+		if ( ! $url ) {
+			continue;
+		}
+		$alt = (string) ( $figure['alt'] ?? '' );
+		echo '<figure' . ( ! empty( $figure['tall'] ) ? ' class="is-tall"' : '' ) . '>';
+		echo '<a href="' . esc_url( $url ) . '" data-fancybox="' . esc_attr( $group ) . '"' . ( '' !== $alt ? ' data-caption="' . esc_attr( $alt ) . '"' : '' ) . '>';
+		echo '<img src="' . esc_url( $url ) . '" alt="' . esc_attr( $alt ) . '">';
+		echo '</a></figure>';
+	}
+	echo '</div>';
 }
 
 /**

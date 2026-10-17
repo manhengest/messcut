@@ -31,7 +31,7 @@
 	max-width: 26em;
 	margin-top: 16px;
 	color: var(--muted);
-	font-size: 17px;
+	font-size: 16px;
 	line-height: 1.5;
 }
 
@@ -292,37 +292,58 @@
 	margin-top: 22px;
 }
 
-.task-list details {
+.task-list details,
+.task-list__item {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	overflow: hidden;
 	border: 1px solid var(--line);
 	border-radius: 24px;
-	background: #fff;
+	background: #eef3ee;
 	box-shadow: 0 26px 40px -34px rgba(58, 38, 31, 0.45);
 }
 
-.task-list summary {
+.task-list summary,
+.task-list__item {
 	position: relative;
 	display: flex;
+	flex: 1 1 auto;
 	flex-direction: column;
 	justify-content: space-between;
 	gap: 26px;
 	min-height: 130px;
+	height: 100%;
 	padding: 18px;
 	background: #eef3ee;
-	cursor: pointer;
 	list-style: none;
+}
+
+.task-list summary {
+	cursor: pointer;
+}
+
+.task-list__item {
+	cursor: default;
+}
+
+.task-list details[open] summary {
+	flex: 0 0 auto;
+	height: auto;
 }
 
 .task-list summary::-webkit-details-marker { display: none; }
 
-.task-list summary::before {
+.task-list summary::before,
+.task-list__item::before {
 	content: "";
 	position: absolute;
 	inset: 0;
 	background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.04) 0 1px, transparent 1px 14px);
 }
 
-.task-list summary > * { position: relative; }
+.task-list summary > *,
+.task-list__item > * { position: relative; }
 
 .task-list__n {
 	align-self: flex-start;
@@ -361,6 +382,7 @@
 
 .task-list__body {
 	padding: 18px;
+	background: #fff;
 	color: var(--muted);
 	font-size: 15px;
 }
@@ -482,13 +504,14 @@
 }
 
 .callout {
-	margin-top: 18px;
+	margin-top: 38px;
 	padding: 20px;
 	border-radius: 24px;
 	background: var(--mint);
+	font-family: var(--font-display);
 	font-size: 17px;
-	font-weight: 500;
-	line-height: 1.4;
+	font-weight: 400;
+	line-height: 1.55;
 }
 
 .case-acc { margin-top: 22px; }
@@ -522,7 +545,7 @@
 	border-radius: 50%;
 	font-family: var(--font-body);
 	font-style: normal;
-	transition: transform 0.25s, background 0.25s;
+	transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .case-acc details[open] summary i {
@@ -530,10 +553,22 @@
 	transform: rotate(45deg);
 }
 
+@include hover-desktop {
+	.case-acc summary:hover i {
+		background: var(--mint);
+		box-shadow: 0 8px 18px -10px rgba(0, 0, 0, 0.35);
+	}
+
+	.case-acc details[open] summary:hover i {
+		background: var(--mint-strong);
+	}
+}
+
 .case-acc__body {
 	padding: 0 0 22px;
 	color: var(--muted);
-	font-size: 15px;
+	font-size: 16px;
+	line-height: 1.55;
 }
 
 .case-acc__body p + p,
@@ -543,6 +578,8 @@
 .case-bullets {
 	margin: 14px 0 0;
 	padding-left: 20px;
+	font-size: inherit;
+	line-height: inherit;
 }
 
 .case-bullets li { margin: 4px 0; }
@@ -644,6 +681,19 @@
 	overflow: hidden;
 	border-radius: 24px;
 	background: #eef3ee;
+}
+
+.case-gallery a {
+	display: block;
+	height: 100%;
+	cursor: zoom-in;
+	color: inherit;
+	text-decoration: none;
+}
+
+.case-gallery a:focus-visible {
+	outline: 2px solid var(--color-black, #000);
+	outline-offset: 3px;
 }
 
 .case-gallery img {
@@ -890,8 +940,6 @@
 		font-size: 18px;
 	}
 
-	.case-hero__sub { font-size: 21px; }
-
 	.case-hero__photo {
 		grid-column: 2;
 		grid-row: 2 / span 8;
@@ -949,6 +997,9 @@
 		margin-top: 0;
 		font-size: 19px;
 	}
+
+	.case-section--split .case-acc__body,
+	.case-section--split .case-bullets { font-size: 19px; }
 
 	.case-section--split .case-copy + .case-copy { margin-top: 16px; }
 
@@ -1009,8 +1060,6 @@
 
 	.task-list { grid-template-columns: 1fr 1fr; gap: 14px; }
 
-	.stepper__track { max-width: 640px; }
-
 	.stepper__panel {
 		min-height: 300px;
 		padding: 36px;
@@ -1041,7 +1090,9 @@
 	}
 
 	.case-gallery .is-tall { grid-row: 1 / span 2; }
-	.case-gallery img { height: 100%; object-fit: cover; }
+	.case-gallery a,
+	.case-gallery img { height: 100%; }
+	.case-gallery img { object-fit: cover; }
 
 	.tag-list { grid-template-columns: repeat(3, 1fr); }
 
